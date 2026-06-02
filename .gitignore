@@ -4,6 +4,14 @@ dist/
 # generated types
 .astro/
 
+# EmDash CMS — local database, uploads, and generated types
+*.db
+*.db-shm
+*.db-wal
+.emdash/uploads/
+.emdash/types.ts
+emdash-env.d.ts
+
 # dependencies
 node_modules/
 

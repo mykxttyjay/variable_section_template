@@ -8,6 +8,8 @@ import configIntegration from "./vendor/integration/index";
 import icon from "astro-icon";
 import { EnumChangefreq } from "sitemap";
 import vercel from "@astrojs/vercel";
+import emdash from "emdash/astro";
+import { emdashDatabase, emdashStorage } from "./src/lib/emdash.config.mjs";
 import { readFileSync, writeFileSync, readdirSync, statSync } from "fs";
 import { resolve, join } from "path";
 import { fileURLToPath } from "url";
@@ -198,6 +200,10 @@ export default defineConfig({
       },
     }),
     configIntegration(),
+    emdash({
+      database: emdashDatabase(),
+      storage: emdashStorage(),
+    }),
     stripCspStyleHashes(),
   ],
   image: {
@@ -214,7 +220,16 @@ export default defineConfig({
   },
   scopedStyleStrategy: "where",
   compressHTML: true,
-  output: "static",
+  // EmDash (admin panel, REST API, live content) requires on-demand rendering.
+  // Individual marketing pages can still opt back into prerendering with
+  // `export const prerender = true` once their content is sourced statically.
+  output: "server",
+  // EmDash auth uses Astro sessions. The Vercel adapter does not provide a
+  // default session driver, so we store sessions in the same Turso/libSQL DB.
+  // An absolute path is required so Vite resolves the driver from project root.
+  session: {
+    driver: fileURLToPath(new URL("./src/lib/session-driver.mjs", import.meta.url)),
+  },
   vite: {
     plugins: [themeColorsPlugin(), tailwindcss()],
     resolve: {

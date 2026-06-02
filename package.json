@@ -9,7 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "cms:secret": "emdash secrets generate",
+    "cms:init": "emdash init",
+    "cms:types": "emdash types",
+    "cms:seed": "emdash seed",
+    "cms:export-seed": "emdash export-seed",
+    "cms:doctor": "emdash doctor"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -17,9 +23,11 @@
     "@astrojs/sitemap": "^3.7.1",
     "@astrojs/vercel": "^10.0.3",
     "@iconify-json/tabler": "^1.2.23",
+    "@libsql/client": "^0.15.0",
     "@tailwindcss/vite": "^4.1.16",
     "astro": "^6.0.8",
     "astro-icon": "^1.1.5",
+    "emdash": "0.16.1",
     "js-yaml": "^4.1.0",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
@@ -30,5 +38,9 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9"
-  }
+  },
+  "trustedDependencies": [
+    "sharp",
+    "esbuild"
+  ]
 }
