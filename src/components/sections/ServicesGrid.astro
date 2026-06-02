@@ -19,7 +19,7 @@ interface Props {
 const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
 ---
 
-<section class="py-16 md:py-24 bg-primary-dark text-white relative overflow-hidden">
+<section class="py-16 md:py-24 relative overflow-hidden" style="background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.07) 0%, transparent 50%), radial-gradient(ellipse at 80% 10%, rgba(0,107,114,0.05) 0%, transparent 40%);">
   <!-- Decorative Glow Blobs -->
   <div class="glow-orb glow-orb-green w-[600px] h-[600px] -top-[10%] -left-[10%] opacity-15"></div>
   <div class="glow-orb glow-orb-mint w-[500px] h-[500px] -bottom-[10%] -right-[10%] opacity-15"></div>
@@ -30,13 +30,13 @@ const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
         <div class="mb-12" data-animate="fade-up">
           {title && (
             <div class="mb-4">
-              <h2 class="text-3xl md:text-4xl font-bold mb-2">{title}</h2>
-              <div class="h-1.5 w-24 bg-gradient-to-r from-primary-light to-secondary rounded-full" />
+              <h2 class="text-3xl md:text-4xl font-bold mb-2 text-primary-dark">{title}</h2>
+              <div class="h-1.5 w-24 bg-gradient-to-r from-primary-light to-secondary rounded-full mb-6" />
             </div>
           )}
           {description && (
             <p
-              class="text-lg text-gray-200 max-w-2xl [&_strong]:text-white [&_strong]:font-semibold"
+              class="text-lg text-gray-700 [&_strong]:text-primary-dark [&_strong]:font-semibold [&_a]:text-primary-light [&_a]:underline [&_a]:font-semibold [&_a]:hover:text-primary"
               set:html={description}
             />
           )}
@@ -44,7 +44,7 @@ const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
             <div class="mt-6">
               <a
                 href={ctaLink}
-                class="btn-clipped btn-premium inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary-light to-secondary text-white text-xs font-bold uppercase tracking-wider transition-all duration-300"
+                class="btn-clipped inline-flex items-center gap-2 px-8 py-3 bg-primary-light text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:bg-primary-lighter"
               >
                 {ctaText}
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
@@ -69,17 +69,26 @@ const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
           return (
             <CardWrapper
               {...wrapperProps}
-              class={`group p-8 glass-panel-dark rounded-2xl border border-white/5 hover:border-white/20 transition-all duration-300 hover-lift-deluxe ${card.link ? "cursor-pointer" : ""}`}
+              class={`group relative p-8 bg-white border border-gray-100 hover:shadow-lg hover:border-primary-light/30 transition-all duration-300 ${card.link ? "cursor-pointer" : ""}`}
+              style="clip-path: polygon(0% 0%, calc(100% - 20px) 0%, 100% 20px, 100% 100%, 0% 100%);"
             >
+              {/* Fold triangle in top-right corner */}
+              <div class="absolute top-0 right-0 w-0 h-0 pointer-events-none"
+                style="border-style: solid; border-width: 0 20px 20px 0; border-color: transparent #e5e7eb transparent transparent;">
+              </div>
+              <div class="absolute top-0 right-0 w-0 h-0 pointer-events-none group-hover:border-r-primary-light/30 transition-colors duration-300"
+                style="border-style: solid; border-width: 0 20px 20px 0; border-color: transparent #f9f9f7 transparent transparent;">
+              </div>
+
               {card.icon && (
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-primary-light to-secondary text-white flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
+                <div class="w-12 h-12 bg-primary-light text-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Icon name={card.icon} class="w-6 h-6" />
                 </div>
               )}
-              <h3 class="text-lg font-bold mb-2 text-white group-hover:text-gray-300 transition-colors">
+              <h3 class="text-base font-bold mb-3 text-primary-dark group-hover:text-primary-light transition-colors duration-300">
                 {card.title}
               </h3>
-              <p class="text-sm text-gray-300" set:html={card.description} />
+              <p class="text-sm text-gray-600 leading-relaxed" set:html={card.description} />
             </CardWrapper>
           );
         })

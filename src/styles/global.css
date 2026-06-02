@@ -79,6 +79,7 @@ h4 {
   clip-path: polygon(0% 0%, calc(100% - 14px) 0%, 100% 14px, 100% 100%, 0% 100%);
   position: relative;
   overflow: hidden;
+  font-size: 15px;
 }
 
 /* Diagonal sheen sweep on hover */
@@ -449,3 +450,93 @@ main {
   height: 300%;
 }
 
+
+/* ============================================
+   GLASSMORPHISM — SITE-WIDE
+   Applied globally so all cards, panels, header,
+   dropdowns & modal get the frosted-glass treatment
+   ============================================ */
+
+/* ── Header ── */
+#main-header {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 1px 24px -4px rgba(0, 107, 114, 0.08);
+}
+
+/* ── Nav dropdown panels ── */
+.dropdown-menu > div {
+  background: rgba(255, 255, 255, 0.80) !important;
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.50) !important;
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Generic white-background cards & bordered panels ── */
+.border.border-gray-200,
+[class*="border border-gray"],
+[class*="bg-white border"],
+[class*="bg-gray-50"] {
+  background: rgba(255, 255, 255, 0.62) !important;
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* ── FAQ details/accordion cards ── */
+details.group {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* ── CTA / CallToAction card box ── */
+[class*="border-t-4"][class*="border-primary"] {
+  background: rgba(255, 255, 255, 0.68) !important;
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 8px 32px -8px rgba(0, 107, 114, 0.10);
+}
+
+/* ── ServicesGrid & dark panels ── */
+[class*="bg-white/40"],
+[class*="bg-white/60"] {
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* ── Popup modal ── */
+#popup-modal > div,
+[id*="modal"] > div,
+[class*="modal"] > div {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Footer top section ── */
+footer {
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+
+/* ── Hero white panel ── */
+#hero-glass-panel {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+/* Ensure sections maintain their background colors */
+section.bg-white {
+  background: #ffffff !important;
+}
+
+section.bg-gray-50 {
+  background: #f9fafb !important;
+}
