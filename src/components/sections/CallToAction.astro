@@ -16,9 +16,12 @@ const {
 } = Astro.props;
 ---
 
-<section class="py-20 md:py-28 bg-primary-dark text-white">
+<section class="py-20 md:py-28 bg-gradient-to-br from-primary-darker via-primary-dark to-slate-900 text-white relative overflow-hidden">
+  <!-- Decorative Glow Blobs -->
+  <div class="glow-orb glow-orb-green w-[600px] h-[600px] -top-40 -right-40 opacity-20"></div>
+  <div class="glow-orb glow-orb-mint w-[500px] h-[500px] -bottom-40 -left-40 opacity-15"></div>
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="border-l-4 border-primary-light pl-8" data-animate="fade-right">
+    <div class="border-l-4 border-primary-light pl-8 relative z-10" data-animate="fade-right">
       <h2 class="text-3xl md:text-5xl font-bold mb-4">
         {title}
       </h2>
@@ -34,12 +37,15 @@ const {
               <a
                 href={action.href}
                 class={
-                  action.variant === "secondary"
-                    ? "px-8 py-3 text-base font-semibold border-2 border-primary-light text-primary-light hover:bg-primary-light hover:text-white transition-all duration-300"
-                    : "px-8 py-3 text-base font-semibold bg-primary-light text-white hover:bg-primary-lighter transition-all duration-300 shadow-lg shadow-primary-light/30"
+                    action.variant === "secondary"
+                      ? "btn-clipped inline-flex items-center gap-2 px-8 py-3.5 text-xs font-bold uppercase tracking-wider border border-slate-700 bg-white/5 backdrop-blur-sm text-white hover:bg-white hover:text-slate-900 transition-all duration-300"
+                      : "btn-clipped btn-premium inline-flex items-center gap-2 px-8 py-3.5 text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-primary-light to-secondary text-white transition-all duration-300"
                 }
               >
                 {action.text}
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
               </a>
             ))}
           </div>

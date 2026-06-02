@@ -110,12 +110,12 @@ const getLayoutClasses = (variant: string, hasImage: boolean) => {
           <div class="text-center mt-8 lg:mt-12">
             <a
               href={ctaLink}
-              class="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-primary text-white font-medium hover:bg-primary-dark focus:ring-4 focus:ring-primary-lighter transition-all duration-200 text-sm md:text-base"
+              class="btn-clipped inline-flex items-center gap-2 justify-center px-6 py-3 md:px-8 md:py-4 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary-dark focus:ring-4 focus:ring-primary-lighter transition-all duration-200"
               aria-label={`${ctaText} - ${title}`}
             >
               {ctaText}
-              <svg class="ml-2 w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
             </a>
           </div>
@@ -147,12 +147,12 @@ const getLayoutClasses = (variant: string, hasImage: boolean) => {
             <div class={image ? 'text-left' : 'text-center'}>
               <a 
                 href={ctaLink}
-                class="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-primary text-white font-medium hover:bg-primary-dark focus:ring-4 focus:ring-primary-lighter transition-all duration-200 text-sm md:text-base"
+                class="btn-clipped inline-flex items-center gap-2 justify-center px-6 py-3 md:px-8 md:py-4 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary-dark focus:ring-4 focus:ring-primary-lighter transition-all duration-200"
                 aria-label={`${ctaText} - ${title}`}
               >
                 {ctaText}
-                <svg class="ml-2 w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </a>
             </div>

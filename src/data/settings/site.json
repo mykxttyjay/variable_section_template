@@ -17,17 +17,17 @@
     "phoneFormatted": "(909) 325-7576"
   },
   "colors": {
-    "primary": "#393e46",
-    "secondary": "#00adb5",
-    "tertiary": "#006b72",
-    "quaternary": "#eeeeee",
-    "primaryDark": "#222831",
-    "primaryDarker": "#1a1f24",
-    "primaryLight": "#006b72",
-    "primaryLighter": "#00adb5",
-    "neutralDark": "#d9d9d9",
-    "neutralDarker": "#c4c4c4",
-    "eyebrow": "#006b72"
+    "primary": "#0b130e",
+    "secondary": "#10b981",
+    "tertiary": "#34d399",
+    "quaternary": "#f4fbf7",
+    "primaryDark": "#0b130e",
+    "primaryDarker": "#050806",
+    "primaryLight": "#059669",
+    "primaryLighter": "#34d399",
+    "neutralDark": "#cbd5e1",
+    "neutralDarker": "#94a3b8",
+    "eyebrow": "#10b981"
   },
   "logo": {
     "src": "/images/logo/dealer-logo.svg",

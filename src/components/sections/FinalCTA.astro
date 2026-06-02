@@ -46,11 +46,14 @@ const {
                 href={action.href}
                 class={
                   action.variant === "secondary"
-                    ? "px-8 py-3 text-base font-semibold border-2 border-primary-light text-primary-light hover:bg-primary-light hover:text-white transition-all duration-300"
-                    : "px-8 py-3 text-base font-semibold bg-primary-light text-white hover:bg-primary-lighter transition-all duration-300 shadow-lg shadow-primary-light/30"
+                    ? "btn-clipped inline-flex items-center gap-2 px-8 py-3 text-xs font-bold uppercase tracking-wider border-2 border-primary-light text-primary-light hover:bg-primary-light hover:text-white transition-all duration-300"
+                    : "btn-clipped inline-flex items-center gap-2 px-8 py-3 text-xs font-bold uppercase tracking-wider bg-primary-light text-white hover:bg-primary-lighter transition-all duration-300"
                 }
               >
                 {action.text}
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
               </a>
             ))}
           </div>

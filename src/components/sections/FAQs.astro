@@ -33,7 +33,9 @@ const faqSchema = {
   set:html={JSON.stringify(faqSchema)}
 />
 
-<section class="py-16 md:py-24 bg-gray-50">
+<section class="py-16 md:py-24 bg-gradient-to-b from-white via-slate-50 to-slate-50 relative overflow-hidden">
+  <!-- Decorative Glow Blob -->
+  <div class="glow-orb glow-orb-mint w-[400px] h-[400px] -bottom-20 -right-20 opacity-10"></div>
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     {
       title && (
@@ -41,7 +43,7 @@ const faqSchema = {
           <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">
             {title}
           </h2>
-          <div class="h-1 w-24 bg-primary" />
+          <div class="h-1.5 w-20 bg-gradient-to-r from-primary-light to-secondary rounded-full" />
         </div>
       )
     }
@@ -49,16 +51,16 @@ const faqSchema = {
     <div class="space-y-3" data-animate-stagger>
       {
         faqs.map((faq) => (
-          <details class="group bg-white border-l-4 border-primary-light overflow-hidden">
+          <details class="group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_25px_-5px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_30px_-5px_rgba(99,102,241,0.08)] hover:border-primary-light/35 transition-all duration-300 overflow-hidden">
             <summary
-              class="flex justify-between items-center cursor-pointer p-6 hover:bg-gray-50 transition"
+              class="flex justify-between items-center cursor-pointer p-6 hover:bg-slate-50/50 transition-colors duration-300"
               aria-label={`Toggle answer for: ${faq.question}`}
             >
-              <h3 class="text-base md:text-lg font-bold text-primary-dark pr-8">
+              <h3 class="text-base md:text-lg font-bold text-primary-dark pr-8 group-hover:text-primary transition-colors duration-200">
                 {faq.question}
               </h3>
               <div
-                class="flex-shrink-0 w-8 h-8 bg-primary text-white flex items-center justify-center transition-transform group-open:rotate-45"
+                class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center transition-all duration-300 group-open:bg-primary-light group-open:text-white group-open:rotate-45 shadow-sm"
                 aria-hidden="true"
               >
                 <svg
@@ -76,8 +78,8 @@ const faqSchema = {
                 </svg>
               </div>
             </summary>
-            <div class="px-6 pb-6 text-gray-600 bg-gray-50">
-              <p set:html={faq.answer} class="leading-relaxed" />
+            <div class="px-6 pb-6 text-slate-600 bg-slate-50/30 border-t border-slate-50">
+              <p set:html={faq.answer} class="leading-relaxed text-sm md:text-base pt-4" />
             </div>
           </details>
         ))

@@ -104,9 +104,12 @@ const {
         <div class="mt-12 flex justify-center">
           <a
             href={ctaLink}
-            class="px-8 py-3 bg-primary text-white font-semibold hover:bg-primary-dark transition-colors duration-300"
+            class="btn-clipped inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-primary-dark transition-colors duration-300"
           >
             {ctaText}
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
           </a>
         </div>
       )

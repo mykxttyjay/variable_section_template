@@ -99,9 +99,9 @@ const actions = ctaButton ? [ctaButton] : [];
 
 <header
   id="main-header"
-  class="sticky top-0 z-40 flex-none mx-auto w-full bg-white border-b border-gray-200 transition-all duration-300"
+  class="fixed top-0 z-40 flex-none mx-auto w-full bg-white/80 backdrop-blur-md border-b border-slate-100 transition-all duration-300 shadow-sm"
 >
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div
       class="flex justify-between items-center h-20 transition-all duration-300"
       id="header-content"
@@ -183,7 +183,7 @@ const actions = ctaButton ? [ctaButton] : [];
                     {/* Mega Menu for Solutions */}
                     {link.text === "Solutions" ? (
                       <div class="dropdown-menu absolute left-1/2 -translate-x-1/2 mt-2 2xl:w-[1000px] xl:w-[550px] lg:w-[450px] w-[400px] max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
-                        <div class="shadow-2xl bg-white ring-1 ring-gray-200 overflow-hidden">
+                        <div class="shadow-2xl glass-panel rounded-2xl border border-slate-200/40 overflow-hidden">
                           <div class="grid 2xl:grid-cols-[1fr_280px] grid-cols-1 2xl:divide-x divide-gray-100">
                             {/* Categories Column - Scrollable */}
                             <div class="relative">
@@ -238,13 +238,13 @@ const actions = ctaButton ? [ctaButton] : [];
                                             {sublink.links.map((nestedLink) => (
                                               <a
                                                 href={nestedLink.href}
-                                                class="group/item flex items-start gap-3 p-3 hover:bg-neutral transition-all"
+                                                class="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-all"
                                               >
                                                 {nestedLink.icon && (
-                                                  <div class="flex-shrink-0 w-10 h-10 bg-neutral flex items-center justify-center group-hover/item:bg-primary transition-colors">
+                                                  <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover/item:bg-primary-light transition-colors">
                                                     <Icon
                                                       name={nestedLink.icon}
-                                                      class="w-5 h-5 text-primary group-hover/item:text-white transition-colors"
+                                                      class="w-5 h-5 text-slate-700 group-hover/item:text-white transition-colors"
                                                     />
                                                   </div>
                                                 )}
@@ -320,7 +320,7 @@ const actions = ctaButton ? [ctaButton] : [];
                     ) : (
                       /* Modern dropdown for other menus - auto-adjust position */
                       <div class="dropdown-menu absolute left-0 lg:left-auto lg:right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
-                        <div class="shadow-2xl bg-white ring-1 ring-gray-200 overflow-hidden">
+                        <div class="shadow-2xl glass-panel rounded-2xl border border-slate-200/40 overflow-hidden">
                           <div class="p-6">
                             {link.href && (
                               <a
@@ -347,13 +347,13 @@ const actions = ctaButton ? [ctaButton] : [];
                               {link.links.map((sublink) => (
                                 <a
                                   href={sublink.href}
-                                  class="group/item flex items-start gap-3 p-3 hover:bg-neutral transition-all"
+                                  class="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-all"
                                 >
                                   {sublink.icon && (
-                                    <div class="flex-shrink-0 w-10 h-10 bg-neutral flex items-center justify-center group-hover/item:bg-primary transition-colors">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover/item:bg-primary-light transition-colors">
                                       <Icon
                                         name={sublink.icon}
-                                        class="w-5 h-5 text-primary group-hover/item:text-white transition-colors"
+                                        class="w-5 h-5 text-slate-700 group-hover/item:text-white transition-colors"
                                       />
                                     </div>
                                   )}
@@ -395,9 +395,12 @@ const actions = ctaButton ? [ctaButton] : [];
               {actions.map((action) => (
                 <a
                   href={action.href}
-                  class="px-6 py-2.5 text-sm font-semibold bg-primary text-white hover:bg-primary-dark transition-all duration-300"
+                  class="btn-clipped px-6 py-2.5 text-xs font-bold uppercase tracking-wider bg-primary-light text-white transition-all duration-300 hover:bg-primary-lighter inline-flex items-center gap-2"
                 >
                   {action.text}
+                  <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
                 </a>
               ))}
             </div>

@@ -17,20 +17,20 @@ const {
 
 const variants = {
   primary:
-    "bg-primary-light text-white hover:bg-primary-lighter shadow-lg shadow-primary-light/30",
+    "bg-primary-light text-white hover:bg-primary-lighter",
   secondary:
     "bg-white text-primary-dark border-2 border-primary-light hover:bg-primary-light hover:text-white",
   dark: "bg-primary text-white hover:bg-primary-dark",
 };
 
 const sizes = {
-  sm: "px-6 py-2.5 text-sm",
-  default: "px-8 py-3 text-base",
-  lg: "px-8 py-4 text-base",
+  sm: "px-6 py-2.5 text-xs",
+  default: "px-8 py-3 text-sm",
+  lg: "px-10 py-4 text-sm",
 };
 
 const classes = [
-  "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-300 whitespace-nowrap",
+  "btn-clipped inline-flex items-center gap-2 font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap",
   variants[variant],
   sizes[size],
   className,
@@ -41,4 +41,17 @@ const classes = [
 
 <a href={href} class={classes} {...rest}>
   <slot />
+  <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+  </svg>
 </a>
+
+<style>
+  .btn-clipped {
+    clip-path: polygon(0% 0%, calc(100% - 14px) 0%, 100% 14px, 100% 100%, 0% 100%);
+    position: relative;
+  }
+  .btn-clipped:hover {
+    clip-path: polygon(0% 0%, calc(100% - 14px) 0%, 100% 14px, 100% 100%, 0% 100%);
+  }
+</style>

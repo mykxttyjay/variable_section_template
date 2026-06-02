@@ -51,9 +51,10 @@ const canonicalURL = canonical || getCanonical(Astro.url.pathname);
     <meta name="generator" content={Astro.generator} />
 
     <Font
-      cssVariable="--font-dm-sans"
+      cssVariable="--font-poppins"
       preload={[
         { weight: 400, style: "normal" },
+        { weight: 600, style: "normal" },
         { weight: 700, style: "normal" },
       ]}
     />
@@ -64,7 +65,7 @@ const canonicalURL = canonical || getCanonical(Astro.url.pathname);
       body {
         margin: 0;
         font-family:
-          var(--font-dm-sans),
+          var(--font-poppins),
           system-ui,
           -apple-system,
           sans-serif;
@@ -171,7 +172,7 @@ const canonicalURL = canonical || getCanonical(Astro.url.pathname);
   <body class="antialiased text-gray-900 bg-white">
     <SkipToContent />
     <Header />
-    <main id="main-content">
+    <main id="main-content" class="pt-20">
       <slot />
     </main>
     {!hideMapSection && globalMapSection && (

@@ -153,29 +153,14 @@ export default defineConfig({
   // (auto-hashes cause 'unsafe-inline' to be ignored per CSP spec)
   fonts: [
     {
-      provider: fontProviders.local(),
-      name: "DM Sans",
-      cssVariable: "--font-dm-sans",
+      provider: fontProviders.google(),
+      name: "Poppins",
+      cssVariable: "--font-poppins",
       fallbacks: ["system-ui", "sans-serif"],
       optimizedFallbacks: true,
       display: "swap",
-      weights: ["100 1000"],
+      weights: ["300", "400", "500", "600", "700", "800"],
       styles: ["normal", "italic"],
-      formats: ["ttf"],
-      options: {
-        variants: [
-          {
-            src: ["./public/fonts/DMSans-VariableFont_opsz,wght.ttf"],
-            weight: "100 1000",
-            style: "normal",
-          },
-          {
-            src: ["./public/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf"],
-            weight: "100 1000",
-            style: "italic",
-          },
-        ],
-      },
     },
   ],
   integrations: [
