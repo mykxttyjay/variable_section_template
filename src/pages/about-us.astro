@@ -1,0 +1,171 @@
+---
+import PageLayout from "~/layouts/PageLayout.astro";
+import Hero from "~/components/sections/Hero.astro";
+import ContentWithImage from "~/components/sections/ContentWithImage.astro";
+import ClientShowcase from "~/components/sections/ClientShowcase.astro";
+import FeaturesSection from "~/components/sections/FeaturesSection.astro";
+import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
+import ContentWithKeypoints from "~/components/sections/ContentWithKeypoints.astro";
+import CTALight from "~/components/sections/CTALight.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { getPageTitle } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+// Get about-us content from JSON data
+import aboutDataRaw from "~/data/pages/about-us.json";
+import { localizeData } from "~/config/site";
+const aboutData = localizeData(aboutDataRaw);
+const { sections } = aboutData;
+
+// Sort sections by order
+const sortedSections = sections.sort(
+  (a: any, b: any) => (a.order || 0) - (b.order || 0)
+);
+
+const metadata = {
+  title:
+    aboutData.metadata?.title || getPageTitle(aboutData.title),
+  description:
+    aboutData.metadata?.description || aboutData.description,
+  keywords: aboutData.metadata?.keywords,
+};
+
+// Schema markup data
+const siteUrl = siteConfig.seo.siteUrl;
+const aboutPageData = {
+  name: metadata.title,
+  description: metadata.description,
+  url: `${siteUrl}/about-us`,
+};
+const breadcrumbData = {
+  items: [
+    { name: "Home", url: "/" },
+    { name: "About Us", url: "/about-us" },
+  ],
+};
+---
+
+<PageLayout metadata={metadata}>
+  <StructuredData type="AboutPage" data={aboutPageData} />
+  <StructuredData type="BreadcrumbList" data={breadcrumbData} />
+  {
+    sortedSections.map((section: any) => {
+      // Hero Section
+      if (section.section === "Hero") {
+        return (
+          <Hero
+            tagline={section.eyebrow}
+            title={section.title}
+            subtitle={section.description}
+            image={section.image}
+            imageCredit={section.imageCredit}
+            actions={
+              section.ctaText && section.ctaLink
+                ? [
+                    {
+                      text: section.ctaText,
+                      href: section.ctaLink,
+                      variant: "primary",
+                    },
+                  ]
+                : []
+            }
+          />
+        );
+      }
+
+      // ContentWithImage Section
+      if (section.section === "ContentWithImage") {
+        return (
+          <ContentWithImage
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            image={section.image}
+            imagePosition={section.imagePosition}
+            background={section.background}
+          />
+        );
+      }
+
+      // FeaturesSection
+      if (section.section === "FeaturesSection" && section.features) {
+        return (
+          <FeaturesSection
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            features={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      // FeaturesWithImage Section
+      if (section.section === "FeaturesWithImage" && section.features) {
+        return (
+          <FeaturesWithImage
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            cards={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            isCarousel={section.isCarousel}
+            itemsPerSlide={section.itemsPerSlide}
+            carouselAutoplay={section.carouselAutoplay}
+            carouselAutoplayDelay={section.carouselAutoplayDelay}
+          />
+        );
+      }
+
+      // ClientShowcase Section
+      if (section.section === "ClientShowcase") {
+        return (
+          <ClientShowcase
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            image={section.image}
+            imagePosition={section.imagePosition}
+            background={section.background}
+          />
+        );
+      }
+
+      // ContentWithKeypoints Section
+      if (section.section === "ContentWithKeypoints") {
+        return (
+          <ContentWithKeypoints
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            keyPoints={section.keyPoints}
+            image={section.image}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      // CTALight Section
+      if (section.section === "CTALight") {
+        return (
+          <CTALight
+            title={section.title}
+            description={section.description}
+            ctaText={section.ctaText || "Get In Touch"}
+            ctaLink={section.ctaLink || "/contact-us"}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
+</PageLayout>

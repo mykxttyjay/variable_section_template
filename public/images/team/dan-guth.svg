@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#E8EDF4"/>
+  <circle cx="200" cy="150" r="65" fill="#B8C5D9"/>
+  <ellipse cx="200" cy="340" rx="100" ry="90" fill="#B8C5D9"/>
+  <text x="200" y="395" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#6B7B95">DG</text>
+</svg>

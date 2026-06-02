@@ -1,0 +1,110 @@
+{
+  "pages": [
+    {
+      "path": "indoor-billboards\\become-a-venue-partner.mdx",
+      "keywords": "become venue partner Denver, indoor billboard venue partner, digital signage venue partner, monetize venue space Denver, venue advertising partnership, host digital billboard Denver",
+      "keywordCount": 6
+    },
+    {
+      "path": "indoor-billboards\\locations.mdx",
+      "keywords": "indoor billboard locations Denver, digital signage locations Denver, screen advertising venues Denver, billboard network locations, Denver advertising venues, high traffic advertising locations",
+      "keywordCount": 6
+    },
+    {
+      "path": "indoor-billboards\\screen-advertising.mdx",
+      "keywords": "indoor digital billboard advertising Denver, screen advertising Denver, digital signage advertising, indoor billboard network, local screen advertising Denver, venue advertising Denver",
+      "keywordCount": 6
+    },
+    {
+      "path": "locations\\arvada.mdx",
+      "keywords": "marketing agency Arvada CO, digital marketing Arvada, Arvada marketing services, social media management Arvada, website design Arvada, SEO Arvada, PPC advertising Arvada, local marketing Arvada Colorado",
+      "keywordCount": 8
+    },
+    {
+      "path": "locations\\aurora.mdx",
+      "keywords": "marketing agency Aurora CO, digital marketing Aurora, Aurora marketing services, social media management Aurora, website design Aurora, SEO Aurora Colorado, PPC advertising Aurora, local marketing Aurora",
+      "keywordCount": 8
+    },
+    {
+      "path": "locations\\centennial.mdx",
+      "keywords": "marketing agency Centennial CO, digital marketing Centennial, Centennial marketing services, social media management Centennial, website design Centennial Colorado, SEO Centennial, PPC advertising Centennial, local marketing Centennial",
+      "keywordCount": 8
+    },
+    {
+      "path": "locations\\lakewood.mdx",
+      "keywords": "marketing agency Lakewood CO, digital marketing Lakewood, Lakewood marketing services, social media management Lakewood, website design Lakewood, SEO Lakewood, PPC advertising Lakewood Colorado, local marketing Lakewood",
+      "keywordCount": 8
+    },
+    {
+      "path": "pages\\about-us.mdx",
+      "keywords": "Denver marketing agency about, marketing company Denver, digital marketing team Denver, Denver advertising agency team, marketing agency story",
+      "keywordCount": 5
+    },
+    {
+      "path": "pages\\contact-us.mdx",
+      "keywords": "contact Denver marketing agency, marketing agency Denver contact, get in touch marketing services, free marketing consultation Denver, Denver marketing agency phone",
+      "keywordCount": 5
+    },
+    {
+      "path": "pages\\home.mdx",
+      "keywords": "Denver marketing agency, digital marketing Denver, indoor billboard advertising, marketing services Denver CO, best marketing agency Denver, top Denver marketing agency, social media management Denver, website design Denver, PPC advertising Denver, local marketing Denver, Denver advertising agency",
+      "keywordCount": 11
+    },
+    {
+      "path": "pages\\solutions.mdx",
+      "keywords": "marketing solutions Denver, digital marketing services Denver, full service marketing Denver, marketing services overview, Denver advertising solutions, comprehensive marketing Denver",
+      "keywordCount": 6
+    },
+    {
+      "path": "solutions\\branding-awareness\\connected-tv.mdx",
+      "keywords": "connected TV advertising Denver, CTV ads Denver, OTT advertising Denver, streaming TV ads, Roku advertising, Hulu ads Denver, streaming platform advertising",
+      "keywordCount": 7
+    },
+    {
+      "path": "solutions\\branding-awareness\\display-geofencing.mdx",
+      "keywords": "display advertising Denver, geofencing advertising Denver, location-based advertising, geofencing marketing Denver, targeted display ads, programmatic advertising Denver, geotargeting ads",
+      "keywordCount": 7
+    },
+    {
+      "path": "solutions\\branding-awareness\\streaming-audio.mdx",
+      "keywords": "streaming audio advertising Denver, podcast advertising Denver, Spotify ads Denver, audio ads Denver, streaming music advertising, podcast ad campaigns, digital audio advertising",
+      "keywordCount": 7
+    },
+    {
+      "path": "solutions\\foundational\\design-services.mdx",
+      "keywords": "graphic design Denver, logo design Denver, brand design services, flyer design Denver, marketing materials design, professional graphic designer Denver, branding services Denver",
+      "keywordCount": 7
+    },
+    {
+      "path": "solutions\\foundational\\google-business-profile.mdx",
+      "keywords": "Google Business Profile optimization Denver, Google My Business management, local SEO Denver, Google Maps optimization, GBP management Denver, local search optimization, Google listing optimization",
+      "keywordCount": 7
+    },
+    {
+      "path": "solutions\\foundational\\social-media-management.mdx",
+      "keywords": "social media management Denver, SMM services Denver, social media marketing Denver, best social media management Denver, top SMM agency Denver, Facebook management, Instagram management, social media content creation Denver, social media strategy",
+      "keywordCount": 9
+    },
+    {
+      "path": "solutions\\foundational\\website-design.mdx",
+      "keywords": "website design Denver, web design Denver CO, custom website design, web development Denver, best website design Denver, top web design Denver, professional web design, responsive website design, mobile-friendly websites Denver, Denver web designers",
+      "keywordCount": 10
+    },
+    {
+      "path": "solutions\\lead-gen\\pay-per-click.mdx",
+      "keywords": "pay per click Denver, PPC advertising Denver, Google Ads Denver, PPC management Denver, best PPC agency Denver, top PPC services Denver, paid search advertising, PPC campaign management, Denver PPC services",
+      "keywordCount": 9
+    },
+    {
+      "path": "solutions\\lead-gen\\social-media-advertising.mdx",
+      "keywords": "social media advertising Denver, Facebook ads Denver, Instagram ads Denver, social media ads management, paid social advertising, social media ad campaigns Denver, Meta ads Denver",
+      "keywordCount": 7
+    }
+  ],
+  "duplicates": {},
+  "summary": {
+    "totalPages": 20,
+    "uniqueKeywordSets": 20,
+    "cannibalizationIssues": 0
+  }
+}

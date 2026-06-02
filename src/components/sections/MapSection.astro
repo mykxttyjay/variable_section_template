@@ -1,0 +1,317 @@
+---
+import { siteConfig } from "~/config/site";
+
+interface Location {
+  name: string;
+  url?: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  locations?: (string | Location)[];
+  mapUrl?: string;
+  viewMode?: "half" | "full"; // half = map + locations side by side, full = full width map
+  listTitle?: string;
+}
+
+const {
+  title,
+  description,
+  locations = [],
+  mapUrl = "https://www.google.com/maps/d/embed?mid=1Du4Ri3H-5dYTnwxgl-Cutssuy9yJYZWT&ehbc=2E312F",
+  viewMode = "half",
+  listTitle = `${siteConfig.location.city} Service Areas`
+} = Astro.props;
+
+// Normalize locations to always have name and url
+const normalizedLocations = locations.map(loc => 
+  typeof loc === 'string' ? { name: loc, url: undefined } : loc
+);
+
+const getLocationHref = (location: Location) =>
+  location.url?.trim() ||
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.name)}`;
+
+const isExternalLocationHref = (href: string) =>
+  /^https?:\/\//.test(href);
+---
+
+<section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-8 sm:mb-12" data-animate="fade-up">
+      {
+        title && (
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark mb-4">
+            {title}
+          </h2>
+        )
+      }
+      {
+        description && (
+          <p class="text-base sm:text-lg md:text-xl text-gray-600 [&_a]:font-bold [&_a]:text-primary [&_a]:underline [&_a]:hover:text-accent [&_a]:transition" set:html={description} />
+        )
+      }
+    </div>
+
+    {
+      viewMode === "full" ? (
+        /* Full Width Map View with overlay list */
+        <div class="w-full">
+          <div
+            class="relative w-full h-full overflow-hidden border border-gray-200 bg-white shadow-lg sm:h-[500px] lg:h-[600px]"
+            data-map-shell
+            data-map-src={mapUrl}
+            data-map-mode="full"
+          >
+            <div
+              class="relative h-full w-full"
+              data-map-frame
+            >
+              <div class="h-full w-full bg-gray-100"></div>
+            </div>
+
+            {
+              normalizedLocations && normalizedLocations.length > 0 && (
+                <>
+                  <div class="hidden lg:flex z-20 flex-col gap-4 absolute top-24 right-6 w-80 max-h-[65%] bg-white text-primary-dark p-6 shadow-2xl border-l-4 border-primary-light">
+                    <div>
+                      <h3 class="text-xl font-bold mb-2 text-primary-dark">Browse Our Network</h3>
+                      <p class="text-sm text-gray-600">
+                        Browse the venues in our network while exploring the map.
+                      </p>
+                    </div>
+                    <div class="overflow-y-auto pr-2 custom-scrollbar">
+                      <ul class="space-y-2">
+                        {normalizedLocations.map((location) => {
+                          const href = getLocationHref(location);
+                          const isExternal = isExternalLocationHref(href);
+                          return (
+                            <li>
+                              <a
+                                href={href}
+                                {...(isExternal
+                                  ? {
+                                      target: "_blank",
+                                      rel: "noopener noreferrer",
+                                    }
+                                  : {})}
+                                class="group flex w-full items-center gap-3 border-l-2 border-neutral-dark bg-neutral px-4 py-3 text-left transition hover:border-primary-light hover:bg-primary-light/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter"
+                              >
+                                <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center bg-primary-light text-white transition group-hover:bg-primary-light/80">
+                                  <svg
+                                    class="h-4 w-4"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                      clip-rule="evenodd"
+                                    />
+                                  </svg>
+                                </span>
+                                <span class="flex-1 text-sm leading-snug font-medium text-primary-dark">{location.name}</span>
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+          </div>
+
+          {
+            normalizedLocations && normalizedLocations.length > 0 && (
+              <div class="mt-6 lg:hidden bg-white text-primary-dark p-6 shadow-lg border-l-4 border-primary-light">
+                <h3 class="text-xl font-bold mb-4 text-primary-dark">Service Areas</h3>
+                <ul class="space-y-2">
+                  {normalizedLocations.map((location) => {
+                    const href = getLocationHref(location);
+                    const isExternal = isExternalLocationHref(href);
+                    return (
+                      <li>
+                        <a
+                          href={href}
+                          {...(isExternal
+                            ? {
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                              }
+                            : {})}
+                          class="group flex w-full items-center gap-3 border-l-2 border-neutral-dark bg-neutral px-4 py-3 text-left transition hover:border-primary-light hover:bg-primary-light/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter"
+                        >
+                          <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center bg-primary-light text-white transition group-hover:bg-primary-light/80">
+                            <svg
+                              class="h-4 w-4"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                          <span class="flex-1 text-sm font-medium text-primary-dark">{location.name}</span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )
+          }
+        </div>
+      ) : (
+        /* Half View - Map + Locations Side by Side */
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+          {/* Deferred Map Embed */}
+          <div
+            class="flex w-full min-h-[14rem] overflow-hidden border border-gray-200 bg-white shadow-lg sm:min-h-[18rem] lg:min-h-[24rem]"
+            data-map-shell
+            data-map-src={mapUrl}
+            data-map-mode="half"
+          >
+            <div
+              class="relative min-h-[inherit] w-full"
+              data-map-frame
+            >
+              <div class="min-h-[inherit] w-full bg-gray-100"></div>
+            </div>
+          </div>
+
+          {/* Locations List */}
+          {normalizedLocations && normalizedLocations.length > 0 && (
+            <div class="bg-white text-primary-dark p-6 sm:p-8 shadow-lg border-l-4 border-primary-light h-full flex flex-col">
+              <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary-dark">
+                {listTitle}
+              </h3>
+              <div class="flex-1 min-h-0 overflow-y-auto pr-2 custom-scrollbar">
+                <ul class="space-y-2 sm:space-y-3">
+                {normalizedLocations.map((location) => {
+                  const href = getLocationHref(location);
+                  const isExternal = isExternalLocationHref(href);
+                  return (
+                  <li>
+                      <a
+                        href={href}
+                        {...(isExternal
+                          ? {
+                              target: "_blank",
+                              rel: "noopener noreferrer",
+                            }
+                          : {})}
+                        class="group flex w-full items-center gap-3 border-l-2 border-neutral-dark bg-neutral px-4 py-3 text-left transition hover:border-primary-light hover:bg-primary-light/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter"
+                      >
+                        <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center bg-primary-light text-white transition group-hover:bg-primary-light/80">
+                          <svg
+                            class="h-5 w-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                        <span class="flex-1 text-sm sm:text-base font-medium text-primary-dark">{location.name}</span>
+                      </a>
+                  </li>
+                  );
+                })}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  function createMapIframe(src: string) {
+    const iframe = document.createElement("iframe");
+    iframe.src = src;
+    iframe.width = "100%";
+    iframe.height = "100%";
+    iframe.style.border = "0";
+    iframe.loading = "lazy";
+    iframe.referrerPolicy = "no-referrer-when-downgrade";
+    iframe.allowFullscreen = true;
+    iframe.title = "Location Map";
+    iframe.className = "w-full h-full";
+    return iframe;
+  }
+
+  function initDeferredMaps() {
+    const mapShells = document.querySelectorAll("[data-map-shell]");
+    if (!mapShells.length) return;
+
+    mapShells.forEach((shell) => {
+      const el = shell as HTMLElement;
+      if (el.dataset.mapEnhanced === "true") return;
+      el.dataset.mapEnhanced = "true";
+
+      const loadMap = () => {
+        if (el.dataset.mapLoaded === "true") return;
+
+        const src = el.getAttribute("data-map-src");
+        const frame = el.querySelector("[data-map-frame]");
+        if (!src || !frame) return;
+
+        el.dataset.mapLoaded = "true";
+        frame.replaceChildren(createMapIframe(src));
+      };
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              observer.disconnect();
+              loadMap();
+            }
+          },
+          { rootMargin: "225px 0px" }
+        );
+
+        observer.observe(el);
+      } else {
+        loadMap();
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initDeferredMaps);
+</script>
+
+<style is:global>
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary-light) var(--color-neutral);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--color-neutral);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-primary-light);
+    border-left: 2px solid #ffffff;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-lighter);
+  }
+</style>

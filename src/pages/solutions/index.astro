@@ -1,0 +1,106 @@
+---
+import PageLayout from "~/layouts/PageLayout.astro";
+import Hero from "~/components/sections/Hero.astro";
+import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
+import FeaturesSection from "~/components/sections/FeaturesSection.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { getPageTitle } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+// Get solutions content from JSON data
+import solutionsDataRaw from "~/data/pages/solutions.json";
+import { localizeData } from "~/config/site";
+const solutionsData = localizeData(solutionsDataRaw);
+
+const sections = (solutionsData.sections || []).sort(
+  (a: any, b: any) => (a.order || 0) - (b.order || 0)
+);
+
+const metadata = {
+  title: solutionsData.metadata?.title || getPageTitle(solutionsData.title),
+  description: solutionsData.metadata?.description || solutionsData.description,
+  keywords: solutionsData.metadata?.keywords,
+};
+
+// Schema markup data
+const siteUrl = siteConfig.seo.siteUrl;
+const webPageData = {
+  name: metadata.title,
+  description: metadata.description,
+  url: `${siteUrl}/solutions`,
+};
+const breadcrumbData = {
+  items: [
+    { name: "Home", url: "/" },
+    { name: "Solutions", url: "/solutions" },
+  ],
+};
+const faqSection = sections.find((s: any) => s.section === "FAQs");
+---
+
+<PageLayout metadata={metadata}>
+  <StructuredData type="WebPage" data={webPageData} />
+  <StructuredData type="BreadcrumbList" data={breadcrumbData} />
+  {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
+  {
+    sections.map((section: any) => {
+      // Hero Section
+      if (section.section === "Hero") {
+        return (
+          <Hero
+            tagline={section.eyebrow}
+            title={section.title}
+            subtitle={section.description}
+            image={section.image}
+            imageCredit={section.imageCredit}
+            actions={
+              section.ctaText && section.ctaLink
+                ? [
+                    {
+                      text: section.ctaText,
+                      href: section.ctaLink,
+                      variant: "primary",
+                    },
+                  ]
+                : []
+            }
+          />
+        );
+      }
+
+      // Features Sections
+      if (
+        section.section === "FeaturesWithImage" ||
+        section.section === "FeaturesSection"
+      ) {
+        if (!section.features) return null;
+
+        if (section.section === "FeaturesWithImage") {
+          return (
+            <FeaturesWithImage
+              eyebrow={section.eyebrow}
+              title={section.title}
+              description={section.description}
+              cards={section.features}
+              ctaText={section.ctaText}
+              ctaLink={section.ctaLink}
+            />
+          );
+        }
+
+        return (
+          <FeaturesSection
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            features={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
+</PageLayout>

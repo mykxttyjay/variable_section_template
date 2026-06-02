@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* ============================================
+   GLOBAL COLOR SCHEME - TAILWIND V4
+   Change these 4 colors to update the entire site
+   ============================================ */
+@theme {
+  /* ============================================
+     Brand colors — synced from site.json at build time
+     by the themeColorsPlugin() Vite plugin.
+     DO NOT edit these manually; change site.json instead.
+     ============================================ */
+  --color-primary-dark: #222831;
+  --color-primary: #393e46;
+  --color-primary-light: #006b72;
+  --color-neutral: #eeeeee;
+
+  /* Eyebrow/accent color (tertiary from site.json) */
+  --color-eyebrow: #006b72;
+
+  /* Auto-generated shades */
+  --color-primary-darker: #1a1f24;
+  --color-primary-lighter: #00adb5;
+  --color-neutral-dark: #d9d9d9;
+  --color-neutral-darker: #c4c4c4;
+
+  /* Tailwind color scale mapped to brand */
+  --color-primary-50: #eeeeee;
+  --color-primary-100: var(--color-neutral);
+  --color-primary-200: var(--color-neutral-dark);
+  --color-primary-300: var(--color-neutral-darker);
+  --color-primary-400: var(--color-primary-lighter);
+  --color-primary-500: var(--color-primary-light);
+  --color-primary-600: var(--color-primary);
+  --color-primary-700: var(--color-primary-dark);
+  --color-primary-800: var(--color-primary-darker);
+  --color-primary-900: #0f1216;
+
+  /* Map blue to primary (for existing components) */
+  --color-blue-50: var(--color-primary-50);
+  --color-blue-100: var(--color-primary-100);
+  --color-blue-200: var(--color-primary-200);
+  --color-blue-300: var(--color-neutral-darker);
+  --color-blue-400: var(--color-primary-lighter);
+  --color-blue-500: var(--color-primary-light);
+  --color-blue-600: var(--color-primary);
+  --color-blue-700: var(--color-primary-dark);
+  --color-blue-800: var(--color-primary-darker);
+  --color-blue-900: var(--color-primary-900);
+
+  /* Improved gray colors for better contrast (WCAG AA compliant) */
+  --color-gray-500: #4b5563;
+  --color-gray-600: #374151;
+  --color-gray-700: #1f2937;
+  --color-gray-900: #111827;
+}
+
+body {
+  font-family: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Custom Scrollbar Styles for Dropdown */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+  /* Improved contrast */
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  /* Darker for better visibility */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+  /* Even darker on hover */
+}
+
+/* Mobile Dropdown Transitions */
+.mobile-dropdown-content {
+  transition: max-height 0.3s ease-in-out;
+}
+
+/* Fix white line artifacts on dark backgrounds */
+section,
+footer,
+header {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Ensure no gaps between sections */
+body {
+  overflow-x: hidden;
+}
+
+main {
+  display: block;
+  width: 100%;
+}
+
+/* Enhanced gradient utilities for better visual flow */
+.bg-gradient-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 100%
+  );
+}
+
+.bg-gradient-primary-light {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-light) 0%,
+    var(--color-primary-lighter) 100%
+  );
+}
+
+.bg-gradient-neutral {
+  background: linear-gradient(to bottom, var(--color-neutral) 0%, #ffffff 100%);
+}
+
+/* Improved section transitions for better visual flow */
+.section-transition-light {
+  position: relative;
+}
+
+.section-transition-light::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-neutral-dark),
+    transparent
+  );
+}
+
+/* Card hover effects for better interactivity */
+.card-hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px color-mix(in srgb, var(--color-primary-light) 30%, transparent);
+}
+/* ==
+==========================================
+   SCROLL ANIMATIONS
+   ============================================ */
+
+/* Mobile: No animations - content is visible immediately */
+[data-animate] {
+  opacity: 1;
+  transform: none;
+}
+
+[data-animate-stagger] > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* Desktop: Enable animations on screens 768px and wider */
+@media (min-width: 768px) {
+  /* Base animation states */
+  [data-animate] {
+    opacity: 0;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  [data-animate].animate-in {
+    opacity: 1;
+  }
+
+  /* Fade Up Animation */
+  [data-animate="fade-up"] {
+    transform: translateY(30px);
+  }
+
+  [data-animate="fade-up"].animate-in {
+    transform: translateY(0);
+  }
+
+  /* Fade Down Animation */
+  [data-animate="fade-down"] {
+    transform: translateY(-30px);
+  }
+
+  [data-animate="fade-down"].animate-in {
+    transform: translateY(0);
+  }
+
+  /* Fade Left Animation */
+  [data-animate="fade-left"] {
+    transform: translateX(30px);
+  }
+
+  [data-animate="fade-left"].animate-in {
+    transform: translateX(0);
+  }
+
+  /* Fade Right Animation */
+  [data-animate="fade-right"] {
+    transform: translateX(-30px);
+  }
+
+  [data-animate="fade-right"].animate-in {
+    transform: translateX(0);
+  }
+
+  /* Zoom In Animation */
+  [data-animate="zoom-in"] {
+    transform: scale(0.95);
+  }
+
+  [data-animate="zoom-in"].animate-in {
+    transform: scale(1);
+  }
+
+  /* Zoom Out Animation */
+  [data-animate="zoom-out"] {
+    transform: scale(1.05);
+  }
+
+  [data-animate="zoom-out"].animate-in {
+    transform: scale(1);
+  }
+
+  /* Fade Animation (no transform) */
+  [data-animate="fade"] {
+    opacity: 0;
+  }
+
+  [data-animate="fade"].animate-in {
+    opacity: 1;
+  }
+
+  /* Stagger animations for children */
+  [data-animate-stagger] > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  [data-animate-stagger].animate-in > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-animate-stagger].animate-in > *:nth-child(1) {
+    transition-delay: 0.1s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(4) {
+    transition-delay: 0.4s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(5) {
+    transition-delay: 0.5s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(6) {
+    transition-delay: 0.6s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(7) {
+    transition-delay: 0.7s;
+  }
+  [data-animate-stagger].animate-in > *:nth-child(8) {
+    transition-delay: 0.8s;
+  }
+
+  /* Animation delays */
+  [data-animate-delay="100"] {
+    transition-delay: 0.1s;
+  }
+  [data-animate-delay="200"] {
+    transition-delay: 0.2s;
+  }
+  [data-animate-delay="300"] {
+    transition-delay: 0.3s;
+  }
+  [data-animate-delay="400"] {
+    transition-delay: 0.4s;
+  }
+  [data-animate-delay="500"] {
+    transition-delay: 0.5s;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  [data-animate],
+  [data-animate-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

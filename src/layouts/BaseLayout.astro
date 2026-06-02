@@ -1,0 +1,228 @@
+---
+import type { MetaData } from "~/types";
+import { ClientRouter } from "astro:transitions";
+import { Font } from "astro:assets";
+import Header from "~/components/ui/Header.astro";
+import Footer from "~/components/ui/Footer.astro";
+import FinalCTA from "~/components/sections/FinalCTA.astro";
+import MapSection from "~/components/sections/MapSection.astro";
+import FloatingCTAButton from "~/components/ui/FloatingCTAButton.astro";
+import PopupModal from "~/components/ui/PopupModal.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import SkipToContent from "~/components/ui/SkipToContent.astro";
+import ThemeProvider from "~/components/ThemeProvider.astro";
+import { getCanonical } from "~/lib/permalinks";
+import { siteConfig, localizeData } from "~/config/site";
+import homeDataRaw from "~/data/pages/home.json";
+import "~/styles/global.css";
+
+const homeData = localizeData(homeDataRaw);
+const globalMapSection = (homeData.sections || []).find((s: any) => s.section === "Map");
+
+export interface Props {
+  metadata?: MetaData;
+  hideFinalCTA?: boolean;
+  hideMapSection?: boolean;
+}
+
+const { metadata = {}, hideFinalCTA = false, hideMapSection = false } = Astro.props;
+const {
+  title = siteConfig.seo.defaultTitle,
+  description = siteConfig.seo.defaultDescription,
+  image = new URL(siteConfig.seo.ogImage, Astro.site || Astro.url).href,
+  canonical,
+  noindex = false,
+  nofollow = false,
+  keywords,
+} = metadata;
+
+// Only use default keywords if not explicitly set (allows pages to opt-out by not providing keywords)
+const finalKeywords = keywords !== undefined ? keywords : siteConfig.seo.keywords;
+
+// Generate canonical URL
+const canonicalURL = canonical || getCanonical(Astro.url.pathname);
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <Font
+      cssVariable="--font-dm-sans"
+      preload={[
+        { weight: 400, style: "normal" },
+        { weight: 700, style: "normal" },
+      ]}
+    />
+
+    <!-- Critical CSS for instant rendering -->
+    <style is:global>
+      /* Critical above-the-fold styles */
+      body {
+        margin: 0;
+        font-family:
+          var(--font-dm-sans),
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      .antialiased {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Prevent layout shift for hero H1 */
+      h1 {
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--color-primary-dark);
+        margin: 0 0 1.5rem 0;
+      }
+      /* Mobile: Ensure content is visible immediately for fast LCP */
+      @media (max-width: 767px) {
+        [data-animate] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        /* Prevent CLS from hero section on mobile */
+        section:first-of-type {
+          min-height: 300px;
+        }
+        /* Force immediate H1 rendering - bypass all delays */
+        h1 {
+          contain: layout style paint;
+          will-change: auto;
+        }
+        /* Defer header rendering on mobile */
+        header {
+          content-visibility: auto;
+          contain-intrinsic-size: 0 80px;
+        }
+        /* Prioritize hero section */
+        main > section:first-child {
+          content-visibility: visible;
+        }
+      }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    {siteConfig.analytics.googleAnalyticsId && (
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.analytics.googleAnalyticsId}`}></script>
+    )}
+    <script is:inline define:vars={{ gaId: siteConfig.analytics.googleAnalyticsId, gaAgencyId: siteConfig.analytics.agencyGoogleAnalyticsId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      if (gaId) gtag('config', gaId);
+      if (gaAgencyId) gtag('config', gaAgencyId);
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Theme Color (from CMS) -->
+    <meta name="theme-color" content={siteConfig.colors.primary} />
+    <ThemeProvider />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    {description && <meta name="description" content={description} />}
+    {finalKeywords && <meta name="keywords" content={finalKeywords} />}
+    <meta name="author" content={siteConfig.business.name} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Robots -->
+    <meta
+      name="robots"
+      content={`${noindex ? "noindex" : "index"},${nofollow ? "nofollow" : "follow"}`}
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content={siteConfig.seo.siteName} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:site" content={siteConfig.seo.twitterHandle} />
+    <meta name="twitter:creator" content={siteConfig.seo.twitterHandle} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <StructuredData type="LocalBusiness" />
+    <StructuredData type="WebSite" />
+
+    <!-- View Transitions — instant SPA-like navigation -->
+    <ClientRouter />
+  </head>
+  <body class="antialiased text-gray-900 bg-white">
+    <SkipToContent />
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    {!hideMapSection && globalMapSection && (
+      <MapSection
+        title={globalMapSection.title}
+        description={globalMapSection.description}
+        locations={globalMapSection.locations}
+        mapUrl={globalMapSection.mapUrl}
+        viewMode={globalMapSection.viewMode as "half" | "full"}
+      />
+    )}
+    {!hideFinalCTA && <FinalCTA />}
+    <Footer />
+    {Astro.url.pathname !== "/contact-us" && Astro.url.pathname !== "/contact-us/" && <FloatingCTAButton />}
+    <PopupModal />
+
+    <!-- Scroll Animations + GA4 page tracking — re-runs on every navigation -->
+    <script>
+      function initScrollAnimations() {
+        if (window.innerWidth < 768) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate-in");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.02, rootMargin: "0px 0px -5% 0px" }
+        );
+
+        document
+          .querySelectorAll("[data-animate], [data-animate-stagger]")
+          .forEach((el) => observer.observe(el));
+      }
+
+      // astro:page-load fires on initial load + every client-side navigation
+      document.addEventListener("astro:page-load", () => {
+        initScrollAnimations();
+
+        // Track page view in GA4 on client-side navigations
+        const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+        if (typeof gtag === "function") {
+          gtag("event", "page_view", {
+            page_title: document.title,
+            page_location: window.location.href,
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

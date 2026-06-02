@@ -1,0 +1,740 @@
+---
+import { Icon } from "astro-icon/components";
+import { navItems, ctaButton } from "~/config/navigation";
+import { siteConfig } from "~/config/site";
+import ToggleMenu from "../ui/ToggleMenu.astro";
+
+interface NavLink {
+  text: string;
+  href?: string;
+  description?: string;
+  icon?: string;
+  thumbnail?: string;
+  links?: NavLink[];
+}
+
+// Get current page path to exclude from featured
+const currentPath = Astro.url.pathname;
+
+// Get featured items from Solutions megamenu
+const solutionsMegamenu = navItems.find((item: any) => item.type === 'megamenu' && item.title === 'Solutions') as any;
+const featuredItems = solutionsMegamenu?.featured || [];
+
+// Filter out current page and pick random featured solution
+const availableFeatured = featuredItems.filter((item: any) => {
+  return !currentPath.includes(item.href);
+});
+
+// Pick random featured item
+const featuredSolution = availableFeatured.length > 0
+  ? availableFeatured[Math.floor(Math.random() * availableFeatured.length)]
+  : featuredItems[0]; // Fallback to first if somehow empty
+
+const featuredHref = featuredSolution?.href || '#';
+
+// Convert navItems to the format expected by the template
+const links: NavLink[] = navItems.map((item: any) => {
+  if (item.type === 'link') {
+    return {
+      text: item.title,
+      href: item.href,
+    };
+  }
+  
+  if (item.type === 'dropdown') {
+    // For Indoor Billboards dropdown, use the items from JSON
+    if (item.title === "Indoor Billboards") {
+      return {
+        text: item.title,
+        links: item.items.map((subItem: any) => ({
+          text: subItem.title,
+          description: subItem.description,
+          icon: subItem.icon,
+          thumbnail: subItem.thumbnail,
+          href: subItem.href,
+        })),
+      };
+    }
+    
+    return {
+      text: item.title,
+      links: item.items.map((subItem: any) => ({
+        text: subItem.title,
+        description: subItem.description,
+        icon: subItem.icon,
+        thumbnail: subItem.thumbnail,
+        href: subItem.href,
+      })),
+    };
+  }
+  
+  if (item.type === 'megamenu') {
+    // For Solutions megamenu, use the sections from JSON
+    if (item.title === "Solutions") {
+      return {
+        text: item.title,
+        href: item.href,
+        links: item.sections.map((section: any) => ({
+          text: section.label,
+          links: section.items.map((subItem: any) => ({
+            text: subItem.title,
+            description: subItem.description,
+            icon: subItem.icon,
+            thumbnail: subItem.thumbnail,
+            href: subItem.href,
+          })),
+        })),
+      };
+    }
+  }
+  
+  return {
+    text: item.title,
+    href: item.href || '#',
+  };
+});
+
+const actions = ctaButton ? [ctaButton] : [];
+---
+
+<header
+  id="main-header"
+  class="sticky top-0 z-40 flex-none mx-auto w-full bg-white border-b border-gray-200 transition-all duration-300"
+>
+  <div class="max-w-7xl mx-auto">
+    <div
+      class="flex justify-between items-center h-20 transition-all duration-300"
+      id="header-content"
+    >
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center">
+          <img
+            id="header-logo"
+            src="/images/logo/dealer-logo.svg"
+            alt={siteConfig.logo.alt}
+            class="h-12 w-auto transition-all duration-300"
+            width="200"
+            height="50"
+            fetchpriority="high"
+          />
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex md:items-center md:space-x-4">
+        <nav
+          class="flex items-center space-x-1 relative"
+          aria-label="Main navigation"
+        >
+          {
+            links.map((link, index) => (
+              <div class="relative" data-dropdown={`dropdown-${index}`}>
+                {link.links && link.links.length > 0 ? (
+                  <>
+                    {link.href ? (
+                      <a
+                        href={link.href}
+                        class="dropdown-toggle px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary inline-flex items-center"
+                        aria-label={`${link.text} menu`}
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {link.text}
+                        <svg
+                          class="ml-1 h-4 w-4 transition-transform dropdown-arrow"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </a>
+                    ) : (
+                      <button
+                        class="dropdown-toggle px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary inline-flex items-center"
+                        aria-label={`${link.text} menu`}
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {link.text}
+                        <svg
+                          class="ml-1 h-4 w-4 transition-transform dropdown-arrow"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                    {/* Mega Menu for Solutions */}
+                    {link.text === "Solutions" ? (
+                      <div class="dropdown-menu absolute left-1/2 -translate-x-1/2 mt-2 2xl:w-[1000px] xl:w-[550px] lg:w-[450px] w-[400px] max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
+                        <div class="shadow-2xl bg-white ring-1 ring-gray-200 overflow-hidden">
+                          <div class="grid 2xl:grid-cols-[1fr_280px] grid-cols-1 2xl:divide-x divide-gray-100">
+                            {/* Categories Column - Scrollable */}
+                            <div class="relative">
+                              <div
+                                class="px-6 py-6 max-h-[480px] overflow-y-auto scrollbar-thin"
+                                id="solutions-scroll-container"
+                              >
+                                <div class="space-y-8">
+                                  {link.links.map((sublink) => (
+                                    <div>
+                                      {sublink.href ? (
+                                        <a
+                                          href={sublink.href}
+                                          class="inline-flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-wider mb-4 hover:text-primary-dark"
+                                        >
+                                          {sublink.text}
+                                          <svg
+                                            class="w-3 h-3"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                          >
+                                            <path
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M9 5l7 7-7 7"
+                                            />
+                                          </svg>
+                                        </a>
+                                      ) : (
+                                        <div class="inline-flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-wider mb-4">
+                                          {sublink.text}
+                                          <svg
+                                            class="w-3 h-3"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                          >
+                                            <path
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M9 5l7 7-7 7"
+                                            />
+                                          </svg>
+                                        </div>
+                                      )}
+                                      {sublink.links &&
+                                        sublink.links.length > 0 && (
+                                          <div class="grid xl:grid-cols-2 grid-cols-1 gap-x-6 gap-y-1">
+                                            {sublink.links.map((nestedLink) => (
+                                              <a
+                                                href={nestedLink.href}
+                                                class="group/item flex items-start gap-3 p-3 hover:bg-neutral transition-all"
+                                              >
+                                                {nestedLink.icon && (
+                                                  <div class="flex-shrink-0 w-10 h-10 bg-neutral flex items-center justify-center group-hover/item:bg-primary transition-colors">
+                                                    <Icon
+                                                      name={nestedLink.icon}
+                                                      class="w-5 h-5 text-primary group-hover/item:text-white transition-colors"
+                                                    />
+                                                  </div>
+                                                )}
+                                                <div class="flex-1 min-w-0">
+                                                  <div class="text-sm font-semibold text-gray-900 group-hover/item:text-primary transition-colors">
+                                                    {nestedLink.text}
+                                                  </div>
+                                                  {nestedLink.description && (
+                                                    <div class="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                                                      {nestedLink.description}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              </a>
+                                            ))}
+                                          </div>
+                                        )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Featured Section - Random solution excluding current page */}
+                            <div class="hidden 2xl:block bg-gradient-to-br from-neutral to-white p-8">
+                              <div class="text-xs font-bold text-primary uppercase tracking-wider mb-4">
+                                Featured
+                              </div>
+                              <a href={featuredHref} class="group block">
+                                <div class="relative h-32 overflow-hidden mb-4 shadow-md">
+                                  <img
+                                    src={
+                                      featuredSolution?.thumbnail ||
+                                      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+                                    }
+                                    alt={featuredSolution?.title || 'Featured Solution'}
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    loading="lazy"
+                                    width="400"
+                                    height="300"
+                                  />
+                                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                  <div class="absolute bottom-3 left-3 right-3">
+                                    <div class="text-white font-bold text-sm">
+                                      {featuredSolution?.title}
+                                    </div>
+                                  </div>
+                                </div>
+                                <p class="text-xs text-gray-600 mb-4">
+                                  {featuredSolution?.description}
+                                </p>
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
+                                  Learn More
+                                  <svg
+                                    class="w-3 h-3"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 5l7 7-7 7"
+                                    />
+                                  </svg>
+                                </span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Modern dropdown for other menus - auto-adjust position */
+                      <div class="dropdown-menu absolute left-0 lg:left-auto lg:right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
+                        <div class="shadow-2xl bg-white ring-1 ring-gray-200 overflow-hidden">
+                          <div class="p-6">
+                            {link.href && (
+                              <a
+                                href={link.href}
+                                class="inline-flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-wider mb-4 hover:text-primary-dark"
+                              >
+                                Overview
+                                <svg
+                                  class="w-3 h-3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 5l7 7-7 7"
+                                  />
+                                </svg>
+                              </a>
+                            )}
+                            <div class="space-y-1">
+                              {link.links.map((sublink) => (
+                                <a
+                                  href={sublink.href}
+                                  class="group/item flex items-start gap-3 p-3 hover:bg-neutral transition-all"
+                                >
+                                  {sublink.icon && (
+                                    <div class="flex-shrink-0 w-10 h-10 bg-neutral flex items-center justify-center group-hover/item:bg-primary transition-colors">
+                                      <Icon
+                                        name={sublink.icon}
+                                        class="w-5 h-5 text-primary group-hover/item:text-white transition-colors"
+                                      />
+                                    </div>
+                                  )}
+                                  <div class="flex-1 min-w-0">
+                                    <div class="text-sm font-semibold text-gray-900 group-hover/item:text-primary transition-colors">
+                                      {sublink.text}
+                                    </div>
+                                    {sublink.description && (
+                                      <div class="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                                        {sublink.description}
+                                      </div>
+                                    )}
+                                  </div>
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <a
+                    href={link.href}
+                    class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary"
+                  >
+                    {link.text}
+                  </a>
+                )}
+              </div>
+            ))
+          }
+        </nav>
+
+        <!-- CTA Actions -->
+        {
+          actions.length > 0 && (
+            <div class="flex items-center gap-3">
+              {actions.map((action) => (
+                <a
+                  href={action.href}
+                  class="px-6 py-2.5 text-sm font-semibold bg-primary text-white hover:bg-primary-dark transition-all duration-300"
+                >
+                  {action.text}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="flex md:hidden">
+        <ToggleMenu />
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-gray-200 bg-white shadow-lg"
+  >
+    <div
+      class="px-4 pt-4 pb-6 space-y-2 max-h-[calc(100vh-64px)] overflow-y-auto"
+    >
+      {
+        links.map((link) => (
+          <div>
+            {link.links && link.links.length > 0 ? (
+              <>
+                <button
+                  class="mobile-dropdown-btn w-full flex items-center justify-between px-4 py-3 text-base font-semibold text-gray-900 hover:bg-neutral transition-all"
+                  aria-label={`${link.text} menu`}
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {link.text}
+                  <svg
+                    class="h-5 w-5 transform transition-transform text-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div class="mobile-dropdown-content mt-2 space-y-1 transition-all duration-300 ease-in-out overflow-hidden max-h-0">
+                  {link.href && (
+                    <a
+                      href={link.href}
+                      class="block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary"
+                    >
+                      Overview
+                    </a>
+                  )}
+                  {link.links.map((sublink) => (
+                    <div>
+                      {sublink.links && sublink.links.length > 0 ? (
+                        <>
+                          <button
+                            class="mobile-dropdown-btn w-full flex items-center justify-between px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary"
+                            aria-label={`${sublink.text} submenu`}
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            {sublink.text}
+                            <svg
+                              class="h-4 w-4 transform transition-transform"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg>
+                          </button>
+                          <div class="mobile-dropdown-content mt-2 ml-2 space-y-1 transition-all duration-300 ease-in-out overflow-hidden max-h-0">
+                            {sublink.links.map((nestedLink) => (
+                              <a
+                                href={nestedLink.href}
+                                class="flex items-center gap-2 px-3 py-2 text-xs text-gray-500 hover:bg-gray-50 hover:text-primary"
+                              >
+                                {nestedLink.icon && (
+                                  <Icon
+                                    name={nestedLink.icon}
+                                    class="w-3.5 h-3.5 flex-shrink-0"
+                                  />
+                                )}
+                                <span>{nestedLink.text}</span>
+                              </a>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <a
+                          href={sublink.href}
+                          class="block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary"
+                        >
+                          {sublink.text}
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <a
+                href={link.href}
+                class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary"
+              >
+                {link.text}
+              </a>
+            )}
+          </div>
+        ))
+      }
+
+      {
+        actions.length > 0 && (
+          <div class="pt-4 mt-2 border-t border-gray-200 px-4">
+            {actions.map((action) => (
+              <a
+                href={action.href}
+                class="block w-full text-center px-6 py-3 text-sm font-semibold bg-primary text-white hover:bg-primary-dark transition-all duration-300"
+              >
+                {action.text}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  function initMobileMenu() {
+    const toggleButton = document.querySelector(".ml-1\\.5");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    toggleButton?.addEventListener("click", () => {
+      mobileMenu?.classList.toggle("hidden");
+    });
+
+    document.querySelectorAll(".mobile-dropdown-btn").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const content = button.nextElementSibling;
+        const svg = button.querySelector("svg");
+        const parentDiv = button.parentElement;
+
+        // Toggle current dropdown with smooth transition
+        const contentEl = content as HTMLElement;
+        const isOpen =
+          contentEl?.style.maxHeight && contentEl.style.maxHeight !== "0px";
+
+        if (!isOpen) {
+          // Close only sibling dropdowns when opening (same level)
+          const siblings = parentDiv?.parentElement?.children;
+          if (siblings) {
+            Array.from(siblings).forEach((sibling) => {
+              if (sibling !== parentDiv) {
+                const siblingContent = sibling.querySelector(
+                  ":scope > .mobile-dropdown-content"
+                );
+                const siblingArrow = sibling.querySelector(
+                  ":scope > .mobile-dropdown-btn svg"
+                );
+                if (siblingContent) {
+                  (siblingContent as HTMLElement).style.maxHeight = "0px";
+                }
+                if (siblingArrow) {
+                  siblingArrow.classList.remove("rotate-180");
+                }
+              }
+            });
+          }
+
+          contentEl.style.maxHeight = contentEl.scrollHeight + "px";
+          svg?.classList.add("rotate-180");
+
+          // Update parent heights when nested dropdown opens
+          const updateParentHeights = () => {
+            let parent = contentEl.parentElement?.closest(
+              ".mobile-dropdown-content"
+            ) as HTMLElement;
+            while (parent) {
+              parent.style.maxHeight = parent.scrollHeight + "px";
+              parent = parent.parentElement?.closest(
+                ".mobile-dropdown-content"
+              ) as HTMLElement;
+            }
+          };
+
+          setTimeout(updateParentHeights, 10);
+          setTimeout(updateParentHeights, 320);
+        } else {
+          contentEl.style.maxHeight = "0px";
+          svg?.classList.remove("rotate-180");
+
+          // Update parent heights when nested dropdown closes
+          setTimeout(() => {
+            let parent = contentEl.parentElement?.closest(
+              ".mobile-dropdown-content"
+            ) as HTMLElement;
+            while (parent) {
+              parent.style.maxHeight = parent.scrollHeight + "px";
+              parent = parent.parentElement?.closest(
+                ".mobile-dropdown-content"
+              ) as HTMLElement;
+            }
+          }, 310);
+        }
+      });
+    });
+  }
+
+  function initSmartDropdowns() {
+    // Hover-based dropdown navigation
+    const dropdownContainers = document.querySelectorAll("[data-dropdown]");
+
+    dropdownContainers.forEach((container) => {
+      const dropdown = container.querySelector(".dropdown-menu");
+      const arrow = container.querySelector(".dropdown-arrow");
+
+      if (!dropdown) return;
+
+      let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+      const openDropdown = () => {
+        // Clear any pending close timeout
+        if (closeTimeout) {
+          clearTimeout(closeTimeout);
+          closeTimeout = null;
+        }
+
+        // Close all other dropdowns
+        document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+          if (menu !== dropdown) {
+            menu.classList.remove(
+              "opacity-100",
+              "visible",
+              "pointer-events-auto"
+            );
+            menu.classList.add("opacity-0", "invisible", "pointer-events-none");
+          }
+        });
+
+        // Reset all other arrows
+        document.querySelectorAll(".dropdown-arrow").forEach((svg) => {
+          if (svg !== arrow) {
+            svg.classList.remove("rotate-180");
+          }
+        });
+
+        // Open current dropdown
+        dropdown.classList.remove(
+          "opacity-0",
+          "invisible",
+          "pointer-events-none"
+        );
+        dropdown.classList.add("opacity-100", "visible", "pointer-events-auto");
+        arrow?.classList.add("rotate-180");
+      };
+
+      const closeDropdown = () => {
+        closeTimeout = setTimeout(() => {
+          dropdown.classList.remove(
+            "opacity-100",
+            "visible",
+            "pointer-events-auto"
+          );
+          dropdown.classList.add(
+            "opacity-0",
+            "invisible",
+            "pointer-events-none"
+          );
+          arrow?.classList.remove("rotate-180");
+        }, 100);
+      };
+
+      // Open dropdown on hover over container
+      container.addEventListener("mouseenter", openDropdown);
+
+      // Close dropdown when leaving container
+      container.addEventListener("mouseleave", closeDropdown);
+
+      // Keep dropdown open when hovering over it
+      dropdown.addEventListener("mouseenter", () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout);
+          closeTimeout = null;
+        }
+      });
+
+      // Close dropdown when leaving the dropdown menu
+      dropdown.addEventListener("mouseleave", closeDropdown);
+    });
+  }
+
+  function initShrinkHeader() {
+    const header = document.getElementById("main-header");
+    const headerContent = document.getElementById("header-content");
+    const logo = document.getElementById("header-logo");
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > 50) {
+        // Scrolled down - shrink
+        headerContent?.classList.remove("h-20");
+        headerContent?.classList.add("h-16");
+        logo?.classList.remove("h-12");
+        logo?.classList.add("h-9");
+        header?.classList.add("shadow-md");
+      } else {
+        // At top - expand
+        headerContent?.classList.remove("h-16");
+        headerContent?.classList.add("h-20");
+        logo?.classList.remove("h-9");
+        logo?.classList.add("h-12");
+        header?.classList.remove("shadow-md");
+      }
+    });
+  }
+
+  // Re-initialize on every navigation (View Transitions swap the DOM)
+  document.addEventListener("astro:page-load", () => {
+    initMobileMenu();
+    initSmartDropdowns();
+    initShrinkHeader();
+  });
+</script>

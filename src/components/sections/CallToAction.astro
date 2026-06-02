@@ -1,0 +1,50 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  actions?: Array<{
+    text: string;
+    href: string;
+    variant?: "primary" | "secondary";
+  }>;
+}
+
+const {
+  title = "Ready to get started?",
+  subtitle = "Contact us today to learn how we can help grow your business.",
+  actions = [{ text: "Get In Touch", href: "/contact-us", variant: "primary" }],
+} = Astro.props;
+---
+
+<section class="py-20 md:py-28 bg-primary-dark text-white">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="border-l-4 border-primary-light pl-8" data-animate="fade-right">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4">
+        {title}
+      </h2>
+      <p
+        class="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl"
+        set:html={subtitle}
+      />
+
+      {
+        actions.length > 0 && (
+          <div class="flex flex-wrap gap-4">
+            {actions.map((action) => (
+              <a
+                href={action.href}
+                class={
+                  action.variant === "secondary"
+                    ? "px-8 py-3 text-base font-semibold border-2 border-primary-light text-primary-light hover:bg-primary-light hover:text-white transition-all duration-300"
+                    : "px-8 py-3 text-base font-semibold bg-primary-light text-white hover:bg-primary-lighter transition-all duration-300 shadow-lg shadow-primary-light/30"
+                }
+              >
+                {action.text}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

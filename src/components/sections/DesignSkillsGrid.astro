@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+
+interface DesignSkill {
+  title: string;
+  description?: string;
+  image?: string;
+  background?: string; // "primary-dark" | "primary-light" | "image"
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  skills: DesignSkill[];
+}
+
+const { title, description, skills = [] } = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {
+      (title || description) && (
+        <div class="mb-16" data-animate="fade-up">
+          {title && (
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-1 w-16 bg-primary" />
+              <h2 class="text-3xl md:text-4xl font-bold text-primary-dark">
+                {title}
+              </h2>
+            </div>
+          )}
+          {description && (
+            <p class="text-lg text-gray-600 ml-20">{description}</p>
+          )}
+        </div>
+      )
+    }
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+      data-animate-stagger
+    >
+      {
+        skills.map((skill) => (
+          <div class="group relative bg-white border-l-4 border-primary-light overflow-hidden hover:shadow-lg transition-all duration-300">
+            {/* Background Image */}
+            {skill.image && (
+              <div class="relative h-48 overflow-hidden">
+                <Image
+                  src={skill.image}
+                  alt={skill.title}
+                  width={800}
+                  height={600}
+                  class={`w-full h-full group-hover:scale-105 transition-transform duration-300 ${skill.title === "Flyers" ? "object-contain" : "object-cover"}`}
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            {/* Content Container */}
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-primary-dark mb-2 group-hover:text-primary transition-colors">
+                {skill.title}
+              </h3>
+
+              {skill.description && (
+                <p class="text-sm text-gray-600 leading-relaxed">
+                  {skill.description}
+                </p>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

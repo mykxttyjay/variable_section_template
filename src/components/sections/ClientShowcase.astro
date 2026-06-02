@@ -1,0 +1,160 @@
+---
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  description?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  image?: string;
+  imagePosition?: "left" | "right";
+  background?: string;
+}
+
+const {
+  title,
+  eyebrow,
+  description,
+  ctaText,
+  ctaLink,
+  image,
+  imagePosition = "left",
+  background,
+} = Astro.props;
+
+// Handle background
+let bgClass = "";
+let bgStyle = "";
+let isDarkBg = false;
+
+if (background) {
+  if (background === "gray") {
+    bgClass = "bg-gray-50";
+  } else if (background === "white") {
+    bgClass = "bg-white";
+  } else if (background === "primary-dark") {
+    bgStyle = "background-color: var(--color-primary-dark)";
+    isDarkBg = true;
+  } else if (background === "primary") {
+    bgStyle = "background-color: var(--color-primary)";
+    isDarkBg = true;
+  } else if (background === "primary-light") {
+    bgStyle = "background-color: var(--color-primary-light)";
+    isDarkBg = true;
+  } else if (background.startsWith("#") || background.startsWith("rgb")) {
+    bgStyle = `background-color: ${background}`;
+    isDarkBg = true;
+  } else if (background.startsWith("bg-")) {
+    bgClass = background;
+    isDarkBg =
+      background.includes("primary") ||
+      background.includes("gray-8") ||
+      background.includes("gray-9") ||
+      background.includes("black");
+  } else {
+    bgClass = "bg-white";
+  }
+} else {
+  bgClass = "bg-white";
+}
+
+const textColorClass = isDarkBg ? "text-white" : "text-gray-900";
+const subtextColorClass = isDarkBg ? "text-gray-100" : "text-gray-600";
+const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
+---
+
+<section
+  class={`py-16 sm:py-20 md:py-24 ${bgClass}`}
+  {...bgStyle && { style: bgStyle }}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div
+      class={`flex flex-col ${imagePosition === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-0 items-center`}
+    >
+      <!-- Content Column -->
+      <div
+        class="w-full lg:w-1/2 flex items-center p-8 lg:p-12"
+        data-animate={imagePosition === "left" ? "fade-left" : "fade-right"}
+      >
+        <div>
+          {
+            eyebrow && (
+              <div class="flex items-center gap-2 mb-4">
+                <div class="h-px w-8 bg-primary" />
+                <span
+                  class={`font-semibold text-xs sm:text-sm uppercase tracking-widest ${eyebrowColorClass}`}
+                >
+                  {eyebrow}
+                </span>
+              </div>
+            )
+          }
+          {
+            title && (
+              <h2
+                class={`text-2xl sm:text-3xl md:text-4xl font-bold ${textColorClass} mb-4 sm:mb-6`}
+              >
+                {title}
+              </h2>
+            )
+          }
+
+          {/* Mobile-only image: between title and description */}
+          {
+            image && (
+              <div class="lg:hidden mb-6 overflow-hidden">
+                <img
+                  src={image}
+                  alt={title || "Section image"}
+                  class="w-full h-auto object-cover shadow-lg"
+                  loading="lazy"
+                  width={665}
+                  height={457}
+                  decoding="async"
+                />
+              </div>
+            )
+          }
+
+          {
+            description && (
+              <p
+                class={`text-base sm:text-lg ${subtextColorClass} mb-6 sm:mb-8 leading-relaxed`}
+                set:html={description}
+              />
+            )
+          }
+          {
+            ctaText && ctaLink && (
+              <a
+                href={ctaLink}
+                class="inline-block px-8 py-3 bg-primary text-white font-semibold hover:bg-primary-dark transition text-sm sm:text-base"
+              >
+                {ctaText}
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      {/* Desktop-only image: side column */}
+      {
+        image && (
+          <div
+            class="hidden lg:block w-full lg:w-1/2 relative overflow-hidden"
+            data-animate={imagePosition === "left" ? "fade-right" : "fade-left"}
+          >
+            <img
+              src={image}
+              alt={title || "Section image"}
+              class="w-full h-auto object-cover shadow-lg"
+              loading="lazy"
+              width={665}
+              height={457}
+              decoding="async"
+            />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

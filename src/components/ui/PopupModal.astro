@@ -1,0 +1,344 @@
+---
+import { siteConfig } from "~/config/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  delay?: number;
+  showOnce?: boolean;
+}
+
+const {
+  title = "Get Your Free Marketing Consultation",
+  description = "Discover how digital marketing can grow your business. Schedule a free consultation with our experts today.",
+  ctaText = "Schedule Free Consultation",
+  ctaLink = "/contact-us",
+  delay = 5000,
+  showOnce = true,
+} = Astro.props;
+---
+
+<div
+  id="popup-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm"
+  data-delay={delay}
+  data-show-once={showOnce}
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="popup-title"
+  aria-label="Marketing consultation popup"
+>
+  <!-- Modal Container -->
+  <div
+    class="relative w-full h-full sm:h-auto sm:w-[95%] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto bg-white shadow-2xl overflow-hidden sm:overflow-y-auto sm:max-h-[90vh] sm:animate-scale-in"
+  >
+    <!-- Close Button -->
+    <button
+      id="close-popup"
+      class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white transition-colors group"
+      aria-label="Close popup"
+    >
+      <svg
+        class="w-5 h-5 text-gray-600 group-hover:text-primary-dark transition-colors"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- Two Column Layout -->
+    <div class="flex flex-col md:flex-row">
+      <!-- Left Side - Image with Gradient Overlay -->
+      <div class="md:w-2/5 relative bg-primary-dark hidden md:block">
+        <img
+          src="/images/venue-partner.avif"
+          alt="Marketing consultation"
+          width="400"
+          height="600"
+          class="w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-primary-dark/90 via-primary-dark/70 to-primary/60"
+        >
+        </div>
+
+        <!-- Decorative Elements -->
+        <div
+          class="absolute top-8 left-8 w-16 h-1 bg-gradient-to-r from-primary to-accent"
+        >
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0 p-8">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm mb-4"
+          >
+            <span class="w-2 h-2 bg-accent animate-pulse"></span>
+            <span
+              class="text-xs font-bold text-white uppercase tracking-widest"
+            >
+              Free Consultation
+            </span>
+          </div>
+          <h3
+            id="popup-title"
+            class="text-2xl md:text-3xl font-bold text-white leading-tight mb-3"
+          >
+            {title}
+          </h3>
+          <p class="text-white/90 text-sm leading-relaxed">
+            {description}
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Side - Content -->
+      <div
+        class="w-full md:w-3/5 px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12 flex flex-col justify-center"
+      >
+        <!-- Logo -->
+        <div class="mb-6 flex justify-center pl-28 sm:pl-36">
+          <img
+            src={siteConfig.logo.src}
+            alt={siteConfig.logo.alt}
+            class="h-20 w-auto"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <!-- Mobile Title -->
+        <div class="md:hidden mb-6">
+          <div class="h-1 w-16 bg-gradient-to-r from-primary to-accent mb-4">
+          </div>
+          <h3
+            id="popup-title-mobile"
+            class="text-2xl font-bold text-primary-dark leading-tight mb-2"
+          >
+            {title}
+          </h3>
+        </div>
+
+        <!-- Headline -->
+        <div class="mb-6 sm:mb-8">
+          <h4
+            class="text-xl sm:text-2xl md:text-3xl font-bold text-primary-dark leading-tight mb-2 sm:mb-3"
+          >
+            Ready to Grow Your Business?
+          </h4>
+          <p class="text-sm sm:text-base text-gray-600 leading-relaxed">
+            Get expert marketing strategies tailored to your business needs.
+          </p>
+        </div>
+
+        <!-- Benefits List -->
+        <ul class="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
+          <li class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-5 h-5 mt-0.5">
+              <svg
+                class="w-5 h-5 text-primary"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <span class="text-sm sm:text-base text-gray-700"
+              >Free 30-minute strategy session</span
+            >
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-5 h-5 mt-0.5">
+              <svg
+                class="w-5 h-5 text-primary"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <span class="text-sm sm:text-base text-gray-700"
+              >Custom campaign recommendations</span
+            >
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-5 h-5 mt-0.5">
+              <svg
+                class="w-5 h-5 text-primary"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <span class="text-sm sm:text-base text-gray-700"
+              >No commitment or pressure</span
+            >
+          </li>
+        </ul>
+
+        <!-- CTA Button -->
+        <a
+          href={ctaLink}
+          class="block w-full px-6 py-3 sm:px-8 sm:py-4 bg-primary-dark text-white text-center font-semibold text-sm sm:text-base hover:bg-primary-darker transition-all duration-300 shadow-lg mb-4 sm:mb-6"
+        >
+          {ctaText}
+        </a>
+
+        <!-- Trust Indicators -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4"
+        >
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-primary"></div>
+            <span class="font-medium">20+ Years Experience</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-primary"></div>
+            <span class="font-medium">Local Experts</span>
+          </div>
+        </div>
+
+        <!-- Secondary Action -->
+        <button
+          id="close-popup-bottom"
+          class="block w-full text-sm text-gray-700 hover:text-primary-darker transition-colors text-center font-medium"
+        >
+          No thanks, I'll browse first
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "popup-shown-timestamp";
+  const TWELVE_HOURS = 12 * 60 * 60 * 1000;
+  let hasShownPopup = false;
+
+  function shouldShowPopup() {
+    try {
+      const lastShown = localStorage.getItem(STORAGE_KEY);
+      if (!lastShown) return true;
+      return Date.now() - parseInt(lastShown, 10) >= TWELVE_HOURS;
+    } catch {
+      return true;
+    }
+  }
+
+  function markPopupAsShown() {
+    try {
+      localStorage.setItem(STORAGE_KEY, Date.now().toString());
+    } catch {
+      // Silently fail
+    }
+  }
+
+  function showPopup() {
+    const popup = document.getElementById("popup-modal");
+    if (!popup || hasShownPopup || !shouldShowPopup()) return;
+
+    popup.classList.remove("hidden");
+    popup.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    hasShownPopup = true;
+    markPopupAsShown();
+  }
+
+  function closePopup() {
+    const popup = document.getElementById("popup-modal");
+    if (!popup) return;
+
+    popup.classList.add("animate-fade-out");
+    setTimeout(() => {
+      popup.classList.add("hidden");
+      popup.classList.remove("flex", "animate-fade-out");
+      document.body.style.overflow = "";
+    }, 300);
+  }
+
+  function initPopup() {
+    const popup = document.getElementById("popup-modal");
+    if (!popup) return;
+
+    document.getElementById("close-popup")?.addEventListener("click", closePopup);
+    document.getElementById("close-popup-bottom")?.addEventListener("click", closePopup);
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) closePopup();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !popup.classList.contains("hidden")) closePopup();
+    });
+
+    window.addEventListener("show-popup-modal", () => {
+      const p = document.getElementById("popup-modal");
+      if (!p) return;
+      p.classList.remove("hidden");
+      p.classList.add("flex");
+      document.body.style.overflow = "hidden";
+      markPopupAsShown();
+    });
+
+    if (window.innerWidth >= 768) {
+      setTimeout(showPopup, 3000);
+    }
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    hasShownPopup = false;
+    initPopup();
+  });
+</script>
+
+<style>
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  /* Only animate on larger screens */
+  @media (min-width: 640px) {
+    .sm\:animate-scale-in {
+      animation: scale-in 0.3s ease-out;
+    }
+  }
+
+  .animate-fade-out {
+    animation: fade-out 0.3s ease-in forwards;
+  }
+</style>

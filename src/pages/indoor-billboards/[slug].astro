@@ -1,0 +1,221 @@
+---
+import PageLayout from "~/layouts/PageLayout.astro";
+import Hero from "~/components/sections/Hero.astro";
+import FAQs from "~/components/sections/FAQs.astro";
+import MapSection from "~/components/sections/MapSection.astro";
+import ContentWithKeypoints from "~/components/sections/ContentWithKeypoints.astro";
+import ContentWithImage from "~/components/sections/ContentWithImage.astro";
+import BoostVisibility from "~/components/sections/BoostVisibility.astro";
+import CTALight from "~/components/sections/CTALight.astro";
+import FeaturesSection from "~/components/sections/FeaturesSection.astro";
+import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
+import DesignSkillsGrid from "~/components/sections/DesignSkillsGrid.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { getPageTitle } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+// Import all indoor-billboards JSON data files
+import becomeAVenuePartnerData from "~/data/pages/become-a-venue-partner.json";
+import locationsData from "~/data/pages/billboard-locations.json";
+import screenAdvertisingData from "~/data/pages/screen-advertising.json";
+import { localizeData } from "~/config/site";
+
+const billboardDataMap: Record<string, any> = localizeData({
+  "become-a-venue-partner": becomeAVenuePartnerData,
+  locations: locationsData,
+  "screen-advertising": screenAdvertisingData,
+});
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "become-a-venue-partner" } },
+    { params: { slug: "locations" } },
+    { params: { slug: "screen-advertising" } },
+  ];
+}
+
+const { slug } = Astro.params;
+const entry = billboardDataMap[slug!];
+
+const sections = (entry.sections || []).sort(
+  (a: any, b: any) => (a.order || 0) - (b.order || 0)
+);
+
+const metadata = {
+  title: entry.metadata?.title || getPageTitle(entry.title),
+  description: entry.metadata?.description || entry.description,
+  keywords: entry.metadata?.keywords,
+};
+
+// Schema markup data
+const siteUrl = siteConfig.seo.siteUrl;
+const pageUrl = `${siteUrl}/indoor-billboards/${slug}`;
+const isService = slug === "screen-advertising";
+const schemaPayload = {
+  name: entry.title,
+  description: entry.description,
+  url: pageUrl,
+  ...(isService && { serviceType: entry.title }),
+};
+const breadcrumbData = {
+  items: [
+    { name: "Home", url: "/" },
+    { name: "Indoor Billboards", url: "/indoor-billboards/screen-advertising" },
+    { name: entry.title, url: `/indoor-billboards/${slug}` },
+  ],
+};
+const faqSection = sections.find((s: any) => s.section === "FAQs");
+---
+
+<PageLayout metadata={metadata}>
+  {isService
+    ? <StructuredData type="Service" data={schemaPayload} />
+    : <StructuredData type="WebPage" data={schemaPayload} />}
+  <StructuredData type="BreadcrumbList" data={breadcrumbData} />
+  {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
+  {
+    sections.map((section: any) => {
+      // Hero Section
+      if (section.section === "Hero") {
+        return (
+          <Hero
+            tagline={section.eyebrow}
+            title={section.title}
+            subtitle={section.description}
+            image={section.image}
+            imageCredit={section.imageCredit}
+            actions={
+              section.ctaText && section.ctaLink
+                ? [
+                    {
+                      text: section.ctaText,
+                      href: section.ctaLink,
+                      variant: "primary",
+                    },
+                  ]
+                : []
+            }
+          />
+        );
+      }
+
+      // FAQs Section
+      if (section.section === "FAQs" && section.faqs) {
+        return <FAQs title={section.title} faqs={section.faqs} />;
+      }
+
+      // Map Section
+      if (section.section === "Map") {
+        return (
+          <MapSection
+            title={section.title}
+            description={section.description}
+            locations={section.locations}
+            mapUrl={section.mapUrl}
+            viewMode={section.viewMode}
+          />
+        );
+      }
+
+      // ContentWithKeypoints Section
+      if (section.section === "ContentWithKeypoints") {
+        return (
+          <ContentWithKeypoints
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            image={section.image}
+            keyPoints={section.keyPoints}
+          />
+        );
+      }
+
+      // ContentWithImage Section
+      if (section.section === "ContentWithImage") {
+        return (
+          <ContentWithImage
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            image={section.image}
+            imagePosition={section.imagePosition}
+            background={section.background}
+          />
+        );
+      }
+
+      // BoostVisibility Section
+      if (section.section === "BoostVisibility") {
+        return (
+          <BoostVisibility
+            title={section.title}
+            description={section.description}
+            image={section.image}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            features={section.features || []}
+          />
+        );
+      }
+
+      // CTALight Section
+      if (section.section === "CTALight") {
+        return (
+          <CTALight
+            title={section.title}
+            description={section.description}
+            ctaText={section.ctaText || "Get In Touch"}
+            ctaLink={section.ctaLink || "/contact"}
+          />
+        );
+      }
+
+      // Design Skills Grid Section
+      if (section.section === "DesignSkillsGrid" && section.skills) {
+        return (
+          <DesignSkillsGrid
+            title={section.title}
+            description={section.description}
+            skills={section.skills}
+          />
+        );
+      }
+
+      // Features Sections
+      if (
+        section.section === "FeaturesWithImage" ||
+        section.section === "FeaturesSection"
+      ) {
+        if (!section.features) return null;
+        if (section.section === "FeaturesWithImage") {
+          return (
+            <FeaturesWithImage
+              eyebrow={section.eyebrow}
+              title={section.title}
+              description={section.description}
+              cards={section.features}
+              ctaText={section.ctaText}
+              ctaLink={section.ctaLink}
+            />
+          );
+        }
+        return (
+          <FeaturesSection
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            features={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
+</PageLayout>

@@ -1,0 +1,231 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { SITE_NAME } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+const metadata = {
+  title: "Terms of Service",
+  description: "Review the Variable Section Terms of Service covering acceptable use of our website, intellectual property, third-party services, and your responsibilities.",
+  keywords: "", // Explicitly no keywords for legal pages
+};
+
+// Schema markup data
+const siteUrl = siteConfig.seo.siteUrl;
+const webPageData = {
+  name: metadata.title,
+  description: metadata.description,
+  url: `${siteUrl}/terms`,
+};
+const breadcrumbData = {
+  items: [
+    { name: "Home", url: "/" },
+    { name: "Terms of Service", url: "/terms" },
+  ],
+};
+---
+
+<BaseLayout metadata={metadata}>
+  <StructuredData type="WebPage" data={webPageData} />
+  <StructuredData type="BreadcrumbList" data={breadcrumbData} />
+  <div class="bg-white py-16 md:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-primary-dark mb-4">
+          Our Terms of Service
+        </h1>
+        <p class="text-gray-600">Last Updated: March 28, 2026</p>
+      </div>
+
+      <!-- Content -->
+      <div class="prose prose-lg max-w-none">
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            1. Acceptance of Terms
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            By accessing and using the {SITE_NAME} website ("Site"), you agree
+            to be bound by these Terms of Service. If you do not agree to these
+            terms, please do not use our Site.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            2. About Our Site
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            {SITE_NAME} is a digital marketing and local advertising agency
+            serving the Denver region. This Site provides information about
+            our services, including:
+          </p>
+          <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-4">
+            <li>Indoor billboard and digital signage advertising</li>
+            <li>Social media management</li>
+            <li>Website design and development</li>
+            <li>Pay-per-click (PPC) advertising</li>
+            <li>SEO and local search optimization</li>
+            <li>Google Business Profile setup</li>
+            <li>Lead generation campaigns</li>
+          </ul>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            This Site is informational in nature and provides a way for you to
+            contact us through our inquiry form. Any service engagements will be
+            governed by separate agreements between you and {SITE_NAME}.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            3. Use of the Site
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            When using this Site, you agree to:
+          </p>
+          <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-4">
+            <li>Provide accurate information when submitting inquiries through our contact form</li>
+            <li>Use the Site only for lawful purposes</li>
+            <li>Not attempt to interfere with the proper functioning of the Site</li>
+            <li>Not reproduce, duplicate, or exploit any part of the Site without our written permission</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            4. Intellectual Property
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            All content on this Site, including text, graphics, logos, images,
+            and design, is the property of {SITE_NAME} or its content suppliers
+            and is protected by applicable intellectual property laws. You may
+            not reproduce, distribute, or create derivative works from any
+            content on this Site without our prior written consent.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            5. Third-Party Services
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Our Site uses third-party services to enhance functionality:
+          </p>
+          <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-4">
+            <li>
+              <strong>Google Analytics:</strong> To understand how visitors use
+              our Site and improve the user experience
+            </li>
+            <li>
+              <strong>Contact Form Provider:</strong> To process inquiries
+              submitted through our contact form
+            </li>
+          </ul>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            These services are governed by their own terms and privacy policies.
+            We are not responsible for the practices of these third-party
+            providers.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            6. External Links
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Our Site may contain links to external websites, including social
+            media platforms. These links are provided for your convenience, and
+            we do not endorse or assume responsibility for the content, privacy
+            policies, or practices of any third-party websites.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            7. Disclaimer of Warranties
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            This Site and its content are provided on an "as is" and "as
+            available" basis. {SITE_NAME} makes no warranties, expressed or
+            implied, regarding the accuracy, completeness, or reliability of any
+            information on this Site. We do not guarantee that the Site will be
+            available at all times or free from errors.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            8. Limitation of Liability
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            {SITE_NAME} shall not be liable for any indirect, incidental,
+            special, consequential, or punitive damages resulting from your use
+            of or inability to use this Site. This includes, but is not limited
+            to, damages arising from reliance on any information obtained through
+            the Site.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            9. Changes to These Terms
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            We reserve the right to update these Terms of Service at any time.
+            Changes will be posted on this page with an updated "Last Updated"
+            date. Your continued use of the Site after any changes constitutes
+            your acceptance of the revised terms.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            10. Governing Law
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            These Terms of Service shall be governed by and construed in
+            accordance with the laws of the State of California, without regard
+            to its conflict of law provisions.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-primary-dark mb-4">
+            11. Contact Information
+          </h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            If you have any questions about these Terms of Service, please
+            contact us:
+          </p>
+          <ul class="list-none text-gray-700 space-y-2">
+            <li><strong>Email:</strong> {siteConfig.contact.email}</li>
+            <li><strong>Phone:</strong> {siteConfig.contact.phoneFormatted}</li>
+            <li><strong>Address:</strong> {siteConfig.location.fullAddress}</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="mt-12 pt-8 border-t border-gray-200">
+        <a
+          href="/"
+          class="inline-flex items-center text-primary hover:text-primary-dark transition"
+        >
+          <svg
+            class="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

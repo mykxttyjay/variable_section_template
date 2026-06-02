@@ -1,0 +1,115 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Feature {
+  title?: string;
+  description?: string;
+  icon?: string;
+  link?: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  features: Feature[];
+}
+
+const {
+  title,
+  description,
+  image,
+  ctaText,
+  ctaLink,
+  features = [],
+} = Astro.props;
+---
+
+<section id="boost-visibility" class="py-16 md:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16" data-animate="fade-up">
+      {
+        title && (
+          <div class="flex items-center gap-3 mb-4">
+            <div class="h-1 w-16 bg-primary" />
+            <h2 class="text-3xl md:text-4xl font-bold text-primary-dark">
+              {title}
+            </h2>
+          </div>
+        )
+      }
+      {
+        description && (
+          <p class="text-lg text-gray-600 ml-20" set:html={description} />
+        )
+      }
+    </div>
+
+    <div class="space-y-12">
+      {
+        image && (
+          <div
+            class="hidden md:block relative h-64 md:h-96 overflow-hidden"
+            data-animate="fade-up"
+          >
+            <img
+              src={image}
+              alt={title || "Digital Marketing Solutions"}
+              class="w-full h-full object-cover"
+              loading="lazy"
+              width="1200"
+              height="400"
+              decoding="async"
+            />
+          </div>
+        )
+      }
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        data-animate-stagger
+      >
+        {
+          features.map((feature) => {
+            const Tag = feature.link ? "a" : "div";
+            const linkProps = feature.link ? { href: feature.link } : {};
+            return (
+              <Tag {...linkProps} class="relative p-6 bg-gray-50 hover:bg-white border-l-4 border-primary-light transition-all duration-300 group block no-underline">
+                <div class="flex items-start gap-4">
+                  {feature.icon && (
+                    <div class="flex-shrink-0 w-10 h-10 bg-primary text-white flex items-center justify-center">
+                      <Icon name={feature.icon} class="w-5 h-5" />
+                    </div>
+                  )}
+                  <div class="flex-1">
+                    <h3 class="text-lg font-bold text-primary-dark mb-2 group-hover:text-primary transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </Tag>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    {
+      ctaText && ctaLink && (
+        <div class="mt-12 flex justify-center">
+          <a
+            href={ctaLink}
+            class="px-8 py-3 bg-primary text-white font-semibold hover:bg-primary-dark transition-colors duration-300"
+          >
+            {ctaText}
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import { siteConfig } from "~/config/site"
+
+const c = siteConfig.colors as Record<string, string | undefined>
+const { primary, secondary, tertiary, quaternary } = siteConfig.colors
+
+function adjustColor(hex: string, factor: number): string {
+  const h = hex.replace('#', '')
+  const r = Math.min(255, Math.max(0, Math.round(parseInt(h.substring(0, 2), 16) * factor)))
+  const g = Math.min(255, Math.max(0, Math.round(parseInt(h.substring(2, 4), 16) * factor)))
+  const b = Math.min(255, Math.max(0, Math.round(parseInt(h.substring(4, 6), 16) * factor)))
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
+
+// Explicit overrides from site.json take precedence; otherwise auto-derive
+const primaryDark = c.primaryDark || adjustColor(primary, 0.6)
+const primaryDarker = c.primaryDarker || adjustColor(primary, 0.35)
+const primaryLight = c.primaryLight || secondary
+const primaryLighter = c.primaryLighter || adjustColor(secondary, 1.2)
+const eyebrow = c.eyebrow || adjustColor(tertiary || adjustColor(secondary, 0.85), 0.65)
+const neutralDark = c.neutralDark || adjustColor(quaternary, 0.9)
+const neutralDarker = c.neutralDarker || adjustColor(quaternary, 0.8)
+---
+
+<Fragment set:html={`<style>:root{--color-primary:${primary};--color-primary-dark:${primaryDark};--color-primary-light:${primaryLight};--color-neutral:${quaternary};--color-primary-darker:${primaryDarker};--color-primary-lighter:${primaryLighter};--color-eyebrow:${eyebrow};--color-neutral-dark:${neutralDark};--color-neutral-darker:${neutralDarker}}</style>`} />

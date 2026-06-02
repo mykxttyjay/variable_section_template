@@ -1,0 +1,441 @@
+---
+interface TeamMember {
+  name: string;
+  role?: string;
+  location?: string;
+  image?: string;
+  bio?: string;
+  favoriteIndustries?: string[];
+  linkedin?: string;
+  email?: string;
+}
+
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  description?: string;
+  members: TeamMember[];
+  isCarousel?: boolean;
+  itemsPerSlide?: number;
+  carouselAutoplay?: boolean;
+  carouselAutoplayDelay?: number;
+}
+
+const {
+  title,
+  eyebrow,
+  description,
+  members = [],
+  isCarousel: isCarouselProp,
+  itemsPerSlide = 3,
+  carouselAutoplay = false,
+  carouselAutoplayDelay = 5000,
+} = Astro.props;
+
+const isCarousel =
+  members.length > itemsPerSlide ? true : isCarouselProp || false;
+
+const displayMembers = members;
+const memberCount = displayMembers.length;
+
+const getGridClasses = () => {
+  switch (memberCount) {
+    case 1:
+      return "grid grid-cols-1 max-w-lg mx-auto";
+    case 2:
+      return "grid grid-cols-1 sm:grid-cols-2 max-w-5xl mx-auto";
+    case 3:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+    case 4:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
+    default:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+  }
+};
+
+---
+
+<section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {
+      (eyebrow || title || description) && (
+        <div class="text-center mb-8 sm:mb-12" data-animate="fade-up">
+          {eyebrow && (
+            <div class="flex items-center justify-center gap-2 mb-2">
+              <div class="h-px w-12 bg-primary" />
+              <p
+                class="text-xs sm:text-sm font-bold uppercase tracking-wider text-primary"
+              >
+                {eyebrow}
+              </p>
+            </div>
+          )}
+          {title && (
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark mb-4">
+              {title}
+            </h2>
+          )}
+          {description && (
+            <p
+              class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
+              set:html={description}
+            />
+          )}
+        </div>
+      )
+    }
+
+    {
+      isCarousel ? (
+        <div
+          class="relative"
+          data-team-carousel-root
+          data-items-per-slide={String(itemsPerSlide)}
+          data-autoplay={String(carouselAutoplay)}
+          data-autoplay-delay={String(carouselAutoplayDelay)}
+        >
+          <div class="overflow-hidden">
+            <div
+              class="flex transition-all duration-500 ease-in-out"
+              data-carousel-track
+            >
+              {displayMembers.map((member) => (
+                <div
+                  class="flex-shrink-0 px-3"
+                  style={`width: ${100 / itemsPerSlide}%`}
+                >
+                  <div class="bg-white border-l-4 border-primary-light hover:shadow-lg transition-all duration-300 h-full">
+                    <div class="p-8 text-center">
+                      {member.image && (
+                        <div class="w-36 h-36 mx-auto mb-6 overflow-hidden">
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+                      <h3 class="text-lg font-bold text-primary-dark mb-1">
+                        {member.name}
+                      </h3>
+                      {member.role && (
+                        <p class="text-sm text-gray-600">{member.role}</p>
+                      )}
+                      {member.location && (
+                        <p class="text-xs text-gray-400 mt-1">
+                          {member.location}
+                        </p>
+                      )}
+                      {member.bio && (
+                        <p
+                          class="text-sm text-gray-600 leading-relaxed mt-4"
+                          set:html={member.bio}
+                        />
+                      )}
+                      {member.favoriteIndustries &&
+                        member.favoriteIndustries.length > 0 && (
+                          <div class="mt-5 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-bold text-primary-dark uppercase tracking-wide mb-2">
+                              Favorite Industries:
+                            </p>
+                            <p class="text-sm text-gray-500 leading-relaxed">
+                              {member.favoriteIndustries.join(" | ")}
+                            </p>
+                          </div>
+                        )}
+                      {(member.linkedin || member.email) && (
+                        <div class="flex items-center justify-center gap-4 mt-5">
+                          {member.linkedin && (
+                            <a
+                              href={member.linkedin}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="text-gray-400 hover:text-primary transition-colors"
+                              aria-label={`${member.name} LinkedIn`}
+                            >
+                              <svg
+                                class="w-5 h-5"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                              </svg>
+                            </a>
+                          )}
+                          {member.email && (
+                            <a
+                              href={`mailto:${member.email}`}
+                              class="text-gray-400 hover:text-primary transition-colors"
+                              aria-label={`Email ${member.name}`}
+                            >
+                              <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                />
+                              </svg>
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation Buttons */}
+          <button
+            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-primary text-white p-3 hover:bg-primary-dark transition z-10"
+            data-carousel-prev
+            aria-label="Previous team members"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-primary text-white p-3 hover:bg-primary-dark transition z-10"
+            data-carousel-next
+            aria-label="Next team members"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+
+          {/* Dots Indicator */}
+          <div class="flex justify-center gap-2 mt-6">
+            {Array.from({
+              length: Math.ceil(displayMembers.length / itemsPerSlide),
+            }).map((_, index) => (
+              <button
+                class="w-3 h-3 bg-gray-300 hover:bg-primary transition"
+                data-carousel-dot={index}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div
+          class={`${getGridClasses()} gap-6 lg:gap-8`}
+          data-animate-stagger
+        >
+          {displayMembers.map((member) => (
+            <div class="bg-white border-l-4 border-primary-light hover:shadow-lg transition-all duration-300">
+              <div class="p-8 text-center">
+                {member.image && (
+                  <div class="w-36 h-36 mx-auto mb-6 overflow-hidden">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <h3 class="text-lg font-bold text-primary-dark mb-1">
+                  {member.name}
+                </h3>
+                {member.role && (
+                  <p class="text-sm text-gray-600">{member.role}</p>
+                )}
+                {member.location && (
+                  <p class="text-xs text-gray-400 mt-1">{member.location}</p>
+                )}
+                {member.bio && (
+                  <p
+                    class="text-sm text-gray-600 leading-relaxed mt-4"
+                    set:html={member.bio}
+                  />
+                )}
+                {member.favoriteIndustries &&
+                  member.favoriteIndustries.length > 0 && (
+                    <div class="mt-5 pt-4 border-t border-gray-100">
+                      <p class="text-xs font-bold text-primary-dark uppercase tracking-wide mb-2">
+                        Favorite Industries:
+                      </p>
+                      <p class="text-sm text-gray-500 leading-relaxed">
+                        {member.favoriteIndustries.join(" | ")}
+                      </p>
+                    </div>
+                  )}
+                {(member.linkedin || member.email) && (
+                  <div class="flex items-center justify-center gap-4 mt-5">
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-primary transition-colors"
+                        aria-label={`${member.name} LinkedIn`}
+                      >
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                      </a>
+                    )}
+                    {member.email && (
+                      <a
+                        href={`mailto:${member.email}`}
+                        class="text-gray-400 hover:text-primary transition-colors"
+                        aria-label={`Email ${member.name}`}
+                      >
+                        <svg
+                          class="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  function initTeamCarousels() {
+    const carousels = document.querySelectorAll("[data-team-carousel-root]");
+    if (!carousels.length) return;
+
+    carousels.forEach((carousel) => {
+      const el = carousel as HTMLElement;
+      if (el.dataset.carouselInitialized === "true") return;
+
+      const track = el.querySelector("[data-carousel-track]") as HTMLElement | null;
+      const prevBtn = el.querySelector("[data-carousel-prev]") as HTMLButtonElement | null;
+      const nextBtn = el.querySelector("[data-carousel-next]") as HTMLButtonElement | null;
+      const dots = el.querySelectorAll("[data-carousel-dot]");
+      const itemsPerSlide = Number(el.dataset.itemsPerSlide || "3");
+      const autoplay = el.dataset.autoplay === "true";
+      const autoplayDelay = Number(el.dataset.autoplayDelay || "5000");
+      const totalCards = track?.children.length || 0;
+
+      if (!track || !prevBtn || !nextBtn || !dots.length || !totalCards) return;
+
+      el.dataset.carouselInitialized = "true";
+
+      let currentIndex = 0;
+      const totalSlides = Math.ceil(totalCards / itemsPerSlide);
+      let autoplayInterval: ReturnType<typeof setInterval>;
+
+      function updateCarousel() {
+        const offset = -(currentIndex * 100);
+        track!.style.opacity = "0";
+        setTimeout(() => {
+          track!.style.transform = `translateX(${offset}%)`;
+          track!.style.opacity = "1";
+        }, 150);
+
+        dots.forEach((dot, index) => {
+          if (index === currentIndex) {
+            dot.classList.add("bg-primary");
+            dot.classList.remove("bg-gray-300");
+          } else {
+            dot.classList.remove("bg-primary");
+            dot.classList.add("bg-gray-300");
+          }
+        });
+      }
+
+      function goToSlide(index: number) {
+        currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
+        updateCarousel();
+        resetAutoplay();
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex < totalSlides - 1 ? currentIndex + 1 : 0);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex > 0 ? currentIndex - 1 : totalSlides - 1);
+      }
+
+      function resetAutoplay() {
+        if (autoplay) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        }
+      }
+
+      prevBtn.addEventListener("click", prevSlide);
+      nextBtn.addEventListener("click", nextSlide);
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => goToSlide(index));
+      });
+
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") prevSlide();
+        if (e.key === "ArrowRight") nextSlide();
+      });
+
+      let touchStartX = 0;
+      el.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      el.addEventListener("touchend", (e) => {
+        const diff = touchStartX - e.changedTouches[0].screenX;
+        if (diff > 50) nextSlide();
+        if (diff < -50) prevSlide();
+      });
+
+      updateCarousel();
+      if (autoplay) {
+        autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        el.addEventListener("mouseenter", () => clearInterval(autoplayInterval));
+        el.addEventListener("mouseleave", resetAutoplay);
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initTeamCarousels);
+</script>

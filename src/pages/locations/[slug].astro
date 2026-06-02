@@ -1,0 +1,246 @@
+---
+import PageLayout from "~/layouts/PageLayout.astro";
+import Hero from "~/components/sections/Hero.astro";
+
+import FAQs from "~/components/sections/FAQs.astro";
+import ContentWithImage from "~/components/sections/ContentWithImage.astro";
+import CTALight from "~/components/sections/CTALight.astro";
+import FeaturesSection from "~/components/sections/FeaturesSection.astro";
+import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
+import Benefits from "~/components/sections/Benefits.astro";
+import MapSection from "~/components/sections/MapSection.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { getPageTitle } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+// Import all location JSON data files
+import lakewoodData from "~/data/locations/lakewood.json";
+import auroraData from "~/data/locations/aurora.json";
+import arvadaData from "~/data/locations/arvada.json";
+import centennialData from "~/data/locations/centennial.json";
+import { localizeData } from "~/config/site";
+
+const locationDataMap: Record<string, any> = localizeData({
+  lakewood: lakewoodData,
+  aurora: auroraData,
+  arvada: arvadaData,
+  centennial: centennialData,
+});
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "lakewood" } },
+    { params: { slug: "aurora" } },
+    { params: { slug: "arvada" } },
+    { params: { slug: "centennial" } },
+  ];
+}
+
+const { slug } = Astro.params;
+const entry = locationDataMap[slug!];
+
+const sections = (entry.sections || []).sort(
+  (a: any, b: any) => (a.order || 0) - (b.order || 0)
+);
+
+const metadata = {
+  title: entry.metadata?.title || getPageTitle(entry.title),
+  description: entry.metadata?.description || entry.description,
+  keywords: entry.metadata?.keywords,
+  canonical: entry.metadata?.canonical,
+};
+
+// Location-specific structured data
+const siteUrl = siteConfig.seo.siteUrl;
+const locationSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: `${siteConfig.business.name} - ${entry.location}`,
+  description: entry.description,
+  url: `${siteUrl}/locations/${slug}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: entry.location,
+    addressRegion: siteConfig.location.state,
+    addressCountry: "US",
+  },
+  areaServed: {
+    "@type": "City",
+    name: entry.location,
+  },
+  priceRange: "$",
+  telephone: `+1${siteConfig.contact.phone}`,
+  email: siteConfig.contact.email,
+  openingHours: "Mo-Fr 09:00-17:00"
+};
+
+// Breadcrumb structured data
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: `${siteUrl}/`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Locations",
+      item: `${siteUrl}/locations`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: entry.location,
+      item: `${siteUrl}/locations/${slug}`,
+    },
+  ],
+};
+
+const faqSection = sections.find((s: any) => s.section === "FAQs");
+---
+
+<PageLayout metadata={metadata} hideMapSection={true}>
+  <!-- Location-specific structured data -->
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(locationSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
+  {
+    sections.map((section: any) => {
+      // Hero Section
+      if (section.section === "Hero") {
+        return (
+          <Hero
+            subtitle={section.eyebrow}
+            title={section.title}
+            tagline={section.description}
+            image={section.image}
+            imageCredit={section.imageCredit}
+            actions={
+              section.ctaText && section.ctaLink
+                ? [
+                    {
+                      text: section.ctaText,
+                      href: section.ctaLink,
+                      variant: "primary",
+                    },
+                  ]
+                : []
+            }
+          />
+        );
+      }
+
+      // Benefits Section
+      if (section.section === "Benefits") {
+        return (
+          <Benefits
+            title={section.title}
+            description={section.description}
+            benefits={section.benefits}
+          />
+        );
+      }
+
+      // FAQs Section
+      if (section.section === "FAQs" && section.faqs) {
+        return <FAQs title={section.title} faqs={section.faqs} />;
+      }
+
+      // ContentWithImage Section
+      if (section.section === "ContentWithImage") {
+        return (
+          <ContentWithImage
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            image={section.image}
+            imagePosition={section.imagePosition}
+            background={section.background}
+          />
+        );
+      }
+
+      // CTALight Section
+      if (section.section === "CTALight") {
+        return (
+          <CTALight
+            title={section.title}
+            description={section.description}
+            ctaText={section.ctaText || "Get in Touch"}
+            ctaLink={section.ctaLink || "/contact-us"}
+          />
+        );
+      }
+
+      // Features Sections
+      if (
+        section.section === "FeaturesWithImage" ||
+        section.section === "FeaturesSection"
+      ) {
+        if (!section.features) return null;
+
+        if (section.section === "FeaturesWithImage") {
+          return (
+            <FeaturesWithImage
+              eyebrow={section.eyebrow}
+              title={section.title}
+              description={section.description}
+              cards={section.features}
+              ctaText={section.ctaText}
+              ctaLink={section.ctaLink}
+            />
+          );
+        }
+
+        return (
+          <FeaturesSection
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            features={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      // Map Section
+      if (section.section === "Map" && section.locations) {
+        // Filter out the current location from the list
+        const filteredLocations = section.locations.filter((loc: any) => {
+          const locationName = typeof loc === "string" ? loc : loc.name;
+          return (
+            locationName.toLowerCase() !== entry.location.toLowerCase()
+          );
+        });
+
+        return (
+          <MapSection
+            title={section.title}
+            description={section.description}
+            locations={filteredLocations}
+            mapUrl={section.mapUrl}
+            viewMode={section.viewMode}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
+
+</PageLayout>

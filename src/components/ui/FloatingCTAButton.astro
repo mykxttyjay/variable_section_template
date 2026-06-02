@@ -1,0 +1,89 @@
+---
+interface Props {
+  text?: string;
+}
+
+const { text = "Free Consultation" } = Astro.props;
+---
+
+<button
+  id="floating-cta-button"
+  type="button"
+  class="fixed bottom-6 right-6 z-40 px-6 py-3 bg-primary-light text-white font-semibold hover:bg-primary-lighter transition-all duration-300 hover:scale-105 flex items-center gap-2 group shadow-lg shadow-primary-light/40"
+  aria-label="Open free consultation popup"
+>
+  <svg
+    class="w-5 h-5 group-hover:rotate-12 transition-transform"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+    ></path>
+  </svg>
+  <span class="hidden sm:inline">{text}</span>
+  <span class="sm:hidden">Consult</span>
+</button>
+
+<script>
+  function bindFloatingCTA() {
+    const btn = document.getElementById("floating-cta-button");
+    if (!btn || btn.dataset.bound === "true") return;
+    btn.dataset.bound = "true";
+    btn.addEventListener("click", () => {
+      window.dispatchEvent(new Event("show-popup-modal"));
+    });
+  }
+
+  document.addEventListener("astro:page-load", bindFloatingCTA);
+</script>
+
+<style>
+  #floating-cta-button {
+    animation: float-in 0.5s ease-out;
+  }
+
+  @keyframes float-in {
+    from {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Composited idle motion to avoid animating box-shadow on the main thread */
+  @keyframes idle-bob {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-3px) scale(1.01);
+    }
+  }
+
+  #floating-cta-button {
+    animation:
+      float-in 0.5s ease-out,
+      idle-bob 4s ease-in-out 1s infinite;
+  }
+
+  #floating-cta-button:hover {
+    box-shadow:
+      0 20px 60px -5px rgba(0, 0, 0, 0.6),
+      0 10px 15px -2px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #floating-cta-button {
+      animation: none;
+    }
+  }
+</style>

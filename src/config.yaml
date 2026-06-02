@@ -1,0 +1,34 @@
+site:
+  name: LinktoThrive
+  site: "https://variable-section-template.vercel.app"
+  base: "/"
+  trailingSlash: false
+
+# Default SEO metadata
+metadata:
+  title:
+    default: LinktoThrive
+    template: "%s — LinktoThrive"
+  description: "Denver marketing agency: web design, social media, indoor billboards & PPC. Grow your business with proven solutions."
+  keywords: "Denver marketing agency, digital marketing Denver, marketing services Denver CO, indoor billboard advertising, social media management, website design Denver, PPC advertising, Google Business Profile, local marketing Denver, Denver advertising agency"
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: LinktoThrive
+    images:
+      - url: "/favicon.svg"
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    handle: "@linktothrive"
+    site: "@linktothrive"
+    cardType: summary_large_image
+
+i18n:
+  language: en
+  textDirection: ltr
+
+ui:
+  theme: "system" # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

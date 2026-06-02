@@ -1,0 +1,374 @@
+---
+import { Icon } from "astro-icon/components";
+import { footerConfig } from "~/config/navigation";
+import { siteConfig } from "~/config/site";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-primary-dark text-gray-100 border-t-4 border-primary-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+    <!-- Top Section: Logo + Tagline + Social -->
+    <div
+      class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 pb-12 border-b border-white/20"
+    >
+      <div class="lg:col-span-2">
+        <a href="/" class="hidden md:inline-block mb-6 group">
+          <img
+            src={siteConfig.logo.src}
+            alt={siteConfig.logo.alt}
+            class="h-16 w-auto brightness-0 invert transition-transform group-hover:scale-105"
+            width="182"
+            height="64"
+            loading="lazy"
+          />
+        </a>
+        <p class="text-white text-base leading-relaxed max-w-xl">
+          Your trusted partner for comprehensive digital marketing
+          solutions, from custom website design and SEO to indoor billboard
+          advertising and targeted campaigns that deliver real results.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center lg:items-end">
+        <p class="text-white font-bold mb-4 text-sm uppercase tracking-wider">
+          Connect With Us
+        </p>
+        <div class="flex items-center gap-3">
+          {siteConfig.social.linkedin && (
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              class="w-10 h-10 border border-white/30 flex items-center justify-center hover:bg-white/10 transition"
+            >
+              <Icon name="tabler:brand-linkedin" class="w-5 h-5" />
+            </a>
+          )}
+          {siteConfig.social.facebook && (
+            <a
+              href={siteConfig.social.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              class="w-10 h-10 border border-white/30 flex items-center justify-center hover:bg-white/10 transition"
+            >
+              <Icon name="tabler:brand-facebook" class="w-5 h-5" />
+            </a>
+          )}
+          {siteConfig.social.instagram && (
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              class="w-10 h-10 border border-white/30 flex items-center justify-center hover:bg-white/10 transition"
+            >
+              <Icon name="tabler:brand-instagram" class="w-5 h-5" />
+            </a>
+          )}
+          {siteConfig.social.youtube && (
+            <a
+              href={siteConfig.social.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              class="w-10 h-10 border border-white/30 flex items-center justify-center hover:bg-white/10 transition"
+            >
+              <Icon name="tabler:brand-youtube" class="w-5 h-5" />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- Links Grid -->
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12"
+    >
+      {
+        footerConfig.columns.map((column) => (
+          <div>
+            {column.type === 'links' ? (
+              <>
+                <p class="text-white font-bold mb-6 text-sm uppercase tracking-wider">
+                  {column.title}
+                </p>
+                <ul class="space-y-1.5">
+                  {column.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class="text-white hover:text-accent transition text-sm py-1.5 px-2 block hover:bg-white/5 inline-flex items-center group break-words"
+                      >
+                        <span class="w-0 group-hover:w-1.5 h-1.5 bg-primary-light transition-all mr-0 group-hover:mr-2 flex-shrink-0" />
+                        <span class="break-all">{link.label}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : column.type === 'contact' ? (
+              <>
+                <p class="text-white font-bold mb-6 text-sm uppercase tracking-wider">
+                  {column.title}
+                </p>
+                <ul class="space-y-3">
+                  <li>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.location.fullAddress || siteConfig.location.address || `${siteConfig.location.city}, ${siteConfig.location.state}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex items-start gap-3 text-sm text-white hover:text-accent transition"
+                    >
+                      <Icon name="tabler:map-pin" class="w-5 h-5 text-primary-light flex-shrink-0 mt-0.5" />
+                      <span>{siteConfig.location.fullAddress || siteConfig.location.address || `${siteConfig.location.city}, ${siteConfig.location.state}`}</span>
+                    </a>
+                  </li>
+                  {siteConfig.contact.phoneFormatted && (
+                    <li>
+                      <a href={`tel:${siteConfig.contact.phone}`} class="flex items-center gap-3 text-sm text-white hover:text-accent transition">
+                        <Icon name="tabler:phone" class="w-5 h-5 text-primary-light flex-shrink-0" />
+                        <span>{siteConfig.contact.phoneFormatted}</span>
+                      </a>
+                    </li>
+                  )}
+                  {siteConfig.contact.email && (
+                    <li>
+                      <a href={`mailto:${siteConfig.contact.email}`} class="flex items-center gap-3 text-sm text-white hover:text-accent transition">
+                        <Icon name="tabler:mail" class="w-5 h-5 text-primary-light flex-shrink-0" />
+                        <span>{siteConfig.contact.email}</span>
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              </>
+            ) : column.type === 'accordion' ? (
+              <>
+                {column.href ? (
+                  <a
+                    href={column.href}
+                    class="text-white font-bold mb-6 text-sm uppercase tracking-wider hover:text-accent transition block inline-flex items-center gap-2 group"
+                  >
+                    {column.title}
+                    <svg
+                      class="w-4 h-4 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </a>
+                ) : (
+                  <p class="text-white font-bold mb-6 text-sm uppercase tracking-wider">
+                    {column.title}
+                  </p>
+                )}
+                <div class="space-y-1">
+                  {column.sections.map((section, index) => (
+                    <div class="accordion-group">
+                      <button
+                        class="accordion-toggle w-full text-left flex items-center justify-between text-white hover:text-accent text-xs font-semibold uppercase tracking-wider py-2.5 px-3 hover:bg-white/5 transition-all"
+                        data-accordion={`group-${index}`}
+                        aria-expanded={index === 0 ? "true" : "false"}
+                      >
+                        <span>{section.label}</span>
+                        <svg
+                          class="accordion-icon w-4 h-4 transition-transform duration-300 flex-shrink-0"
+                          style={index === 0 ? "" : "transform: rotate(-90deg)"}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                      <ul
+                        class="accordion-content space-y-1.5 overflow-hidden transition-all duration-300 pl-3"
+                        data-accordion-content={`group-${index}`}
+                        style={
+                          index === 0
+                            ? "max-height: 500px; opacity: 1; margin-top: 0.5rem;"
+                            : "max-height: 0; opacity: 0;"
+                        }
+                      >
+                        {section.items.map((item) => (
+                          <li>
+                            <a
+                              href={item.href}
+                              class="text-white hover:text-accent transition text-sm py-1.5 px-2 block hover:bg-white/5 inline-flex items-center group"
+                            >
+                              <span class="w-0 group-hover:w-1.5 h-1.5 bg-primary-light transition-all mr-0 group-hover:mr-2" />
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : null}
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t border-white/20 pt-8">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm"
+      >
+        <div
+          class="flex flex-wrap justify-center md:justify-start items-center gap-6"
+        >
+          {
+            footerConfig.bottomLinks.length > 0 && (
+              <>
+                {footerConfig.bottomLinks.map((link, index) => (
+                  <>
+                    {index > 0 && <span class="text-white/30">|</span>}
+                    <a
+                      href={link.href}
+                      class="text-white hover:text-accent transition"
+                    >
+                      {link.label}
+                    </a>
+                  </>
+                ))}
+              </>
+            )
+          }
+        </div>
+
+        <div class="text-white text-center md:text-right">
+          <span>
+            © {currentYear} {siteConfig.business.name}. All rights reserved.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function initFooterAccordions() {
+    const accordionToggles = document.querySelectorAll(".accordion-toggle");
+
+    accordionToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const targetId = toggle.getAttribute("data-accordion");
+        const content = document.querySelector(
+          `[data-accordion-content="${targetId}"]`
+        );
+        const icon = toggle.querySelector(".accordion-icon");
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+
+        if (isExpanded) {
+          toggle.setAttribute("aria-expanded", "false");
+          if (content) {
+            (content as HTMLElement).style.maxHeight = "0";
+            (content as HTMLElement).style.opacity = "0";
+            (content as HTMLElement).style.marginTop = "0";
+          }
+          if (icon) {
+            (icon as HTMLElement).style.transform = "rotate(-90deg)";
+          }
+        } else {
+          accordionToggles.forEach((otherToggle) => {
+            if (otherToggle !== toggle) {
+              const otherId = otherToggle.getAttribute("data-accordion");
+              const otherContent = document.querySelector(
+                `[data-accordion-content="${otherId}"]`
+              );
+              const otherIcon = otherToggle.querySelector(".accordion-icon");
+
+              otherToggle.setAttribute("aria-expanded", "false");
+              if (otherContent) {
+                (otherContent as HTMLElement).style.maxHeight = "0";
+                (otherContent as HTMLElement).style.opacity = "0";
+                (otherContent as HTMLElement).style.marginTop = "0";
+              }
+              if (otherIcon) {
+                (otherIcon as HTMLElement).style.transform = "rotate(-90deg)";
+              }
+            }
+          });
+
+          toggle.setAttribute("aria-expanded", "true");
+          if (content) {
+            (content as HTMLElement).style.maxHeight = "500px";
+            (content as HTMLElement).style.opacity = "1";
+            (content as HTMLElement).style.marginTop = "0.5rem";
+          }
+          if (icon) {
+            (icon as HTMLElement).style.transform = "rotate(0deg)";
+          }
+        }
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initFooterAccordions);
+</script>
+
+<style>
+  footer {
+    color: white !important;
+  }
+
+  footer * {
+    color: white !important;
+  }
+
+  footer a {
+    text-decoration: none !important;
+    color: white !important;
+  }
+
+  footer a:hover {
+    color: var(--color-primary-light) !important;
+  }
+
+  footer h4,
+  footer span,
+  footer p,
+  footer button {
+    color: white !important;
+  }
+
+  .accordion-toggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white !important;
+  }
+
+  .accordion-toggle:focus {
+    outline: 2px solid color-mix(in srgb, var(--color-primary-light) 50%, transparent);
+    outline-offset: 2px;
+  }
+
+  .accordion-content {
+    transition:
+      max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .accordion-icon {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>

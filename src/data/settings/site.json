@@ -1,0 +1,54 @@
+{
+  "business": {
+    "name": "LinktoThrive",
+    "fullName": "LinktoThrive",
+    "tagline": "Your Trusted Marketing Partner",
+    "description": "Denver's trusted digital marketing agency specializing in web design, social media, indoor billboard advertising, and multichannel campaigns."
+  },
+  "location": {
+    "city": "Denver",
+    "state": "Colorado",
+    "address": "Denver, CO",
+    "fullAddress": "Denver, CO"
+  },
+  "contact": {
+    "email": "info@linktothrive.com",
+    "phone": "9093257576",
+    "phoneFormatted": "(909) 325-7576"
+  },
+  "colors": {
+    "primary": "#393e46",
+    "secondary": "#00adb5",
+    "tertiary": "#006b72",
+    "quaternary": "#eeeeee",
+    "primaryDark": "#222831",
+    "primaryDarker": "#1a1f24",
+    "primaryLight": "#006b72",
+    "primaryLighter": "#00adb5",
+    "neutralDark": "#d9d9d9",
+    "neutralDarker": "#c4c4c4",
+    "eyebrow": "#006b72"
+  },
+  "logo": {
+    "src": "/images/logo/dealer-logo.svg",
+    "alt": "variable section"
+  },
+  "social": {
+    "facebook": "https://web.facebook.com/profile.php?id=61580844470451&_rdc=1&_rdr#",
+    "instagram": "https://www.instagram.com/linktothrive/",
+    "linkedin": "https://www.linkedin.com/company/linktothrive/"
+  },
+  "seo": {
+    "siteName": "Variable Section",
+    "defaultTitle": "Denver Digital Signage & Marketing | Variable Section",
+    "defaultDescription": "We connect businesses in Denver through digital signage, PPC, social media, SEO, and website design to keep brands visible and top of mind.",
+    "keywords": "Denver marketing agency, digital marketing Denver, marketing services Denver CO, indoor billboard advertising, social media management, website design Denver, PPC advertising, Google Business Profile, local marketing Denver, Denver advertising agency",
+    "siteUrl": "https://variable-section-template.vercel.app",
+    "ogImage": "/images/logo/dealer-logo.avif",
+    "twitterHandle": "@linktothrive"
+  },
+  "analytics": {
+    "googleAnalyticsId": "",
+    "agencyGoogleAnalyticsId": "G-8ZNXBE4PGW"
+  }
+}

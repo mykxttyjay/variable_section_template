@@ -1,0 +1,87 @@
+---
+interface FAQ {
+  question?: string;
+  answer?: string;
+}
+
+interface Props {
+  title?: string;
+  faqs: FAQ[];
+}
+
+const { title, faqs = [] } = Astro.props;
+
+// Generate FAQPage schema for SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer?.replace(/<[^>]*>/g, ""), // Strip HTML for schema
+    },
+  })),
+};
+---
+
+<!-- FAQPage Structured Data -->
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={JSON.stringify(faqSchema)}
+/>
+
+<section class="py-16 md:py-24 bg-gray-50">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    {
+      title && (
+        <div class="mb-12" data-animate="fade-up">
+          <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">
+            {title}
+          </h2>
+          <div class="h-1 w-24 bg-primary" />
+        </div>
+      )
+    }
+
+    <div class="space-y-3" data-animate-stagger>
+      {
+        faqs.map((faq) => (
+          <details class="group bg-white border-l-4 border-primary-light overflow-hidden">
+            <summary
+              class="flex justify-between items-center cursor-pointer p-6 hover:bg-gray-50 transition"
+              aria-label={`Toggle answer for: ${faq.question}`}
+            >
+              <h3 class="text-base md:text-lg font-bold text-primary-dark pr-8">
+                {faq.question}
+              </h3>
+              <div
+                class="flex-shrink-0 w-8 h-8 bg-primary text-white flex items-center justify-center transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+              </div>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 bg-gray-50">
+              <p set:html={faq.answer} class="leading-relaxed" />
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

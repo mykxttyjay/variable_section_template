@@ -1,0 +1,314 @@
+---
+import PageLayout from "~/layouts/PageLayout.astro";
+import { Icon } from "astro-icon/components";
+import Hero from "~/components/sections/Hero.astro";
+import FeaturesSection from "~/components/sections/FeaturesSection.astro";
+import MapSection from "~/components/sections/MapSection.astro";
+import CTALight from "~/components/sections/CTALight.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { getPageTitle } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+// Get contact-us content from JSON data
+import contactDataRaw from "~/data/pages/contact-us.json";
+import { localizeData } from "~/config/site";
+const contactData = localizeData(contactDataRaw);
+const { sections } = contactData;
+
+// Sort sections by order
+const sortedSections = sections.sort(
+  (a: any, b: any) => (a.order || 0) - (b.order || 0)
+);
+
+const metadata = {
+  title: contactData.metadata?.title || getPageTitle(contactData.title),
+  description:
+    contactData.metadata?.description || contactData.description,
+  keywords: contactData.metadata?.keywords,
+};
+
+// Schema markup data
+const siteUrl = siteConfig.seo.siteUrl;
+const contactPageData = {
+  name: metadata.title,
+  description: metadata.description,
+  url: `${siteUrl}/contact-us`,
+};
+const breadcrumbData = {
+  items: [
+    { name: "Home", url: "/" },
+    { name: "Contact Us", url: "/contact-us" },
+  ],
+};
+---
+
+<PageLayout metadata={metadata} hideFinalCTA={true}>
+  <StructuredData type="ContactPage" data={contactPageData} />
+  <StructuredData type="BreadcrumbList" data={breadcrumbData} />
+  {
+    sortedSections.map((section: any) => {
+      if (section.section === "Hero") {
+        return (
+          <Hero
+            tagline={section.eyebrow}
+            title={section.title}
+            subtitle={section.description}
+            image={section.image}
+            imageCredit={section.imageCredit}
+            actions={
+              section.ctaText && section.ctaLink
+                ? [
+                    {
+                      text: section.ctaText,
+                      href: section.ctaLink,
+                      variant: "primary",
+                    },
+                  ]
+                : []
+            }
+          />
+        );
+      }
+
+      if (section.section === "FeaturesSection" && section.features) {
+        return (
+          <FeaturesSection
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            features={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      if (section.section === "FormSection") {
+        return (
+          <>
+            <section class="py-12 sm:py-16 md:py-20 bg-gray-50">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-stretch">
+                  <div
+                    class="lg:col-span-2 bg-primary-dark text-white p-8 lg:p-10"
+                    data-animate="fade-right"
+                  >
+                    <div>
+                      {section.title && (
+                        <div class="mb-6">
+                          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
+                            {section.title}
+                          </h2>
+                          <div class="h-1 w-20 bg-accent" />
+                        </div>
+                      )}
+                      {section.eyebrow && (
+                        <p class="text-base sm:text-lg text-white/90 mb-4">
+                          {section.eyebrow}
+                        </p>
+                      )}
+                      {section.description && (
+                        <p class="text-sm text-white/80 mb-8 leading-relaxed">
+                          {section.description}
+                        </p>
+                      )}
+                      {section.contactInfo && section.contactInfo.length > 0 && (
+                        <div class="space-y-4 border-t border-white/20 pt-6">
+                          {section.contactInfo.map((info: any) => (
+                            <div class="flex items-start gap-3">
+                              <div class="flex-shrink-0 w-8 h-8 bg-accent flex items-center justify-center">
+                                <Icon
+                                  name={info.icon}
+                                  class="w-4 h-4 text-white"
+                                />
+                              </div>
+                              <div>
+                                {info.link ? (
+                                  <a
+                                    href={info.link}
+                                    class="text-sm sm:text-base font-medium text-white hover:text-accent transition block"
+                                  >
+                                    {info.value}
+                                  </a>
+                                ) : (
+                                  <p class="text-sm sm:text-base font-medium text-white">
+                                    {info.value}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div
+                    class="lg:col-span-3 bg-white p-8 lg:p-10 border-l-4 border-primary-light shadow-lg"
+                    data-animate="fade-left"
+                  >
+                    <div
+                      class="min-h-[600px] border border-gray-200 bg-white"
+                      data-ghl-shell
+                      data-ghl-src="https://api.leadconnectorhq.com/widget/form/f1H7YWYlG0Fw1vsW7Ug4"
+                      data-ghl-title="Contact Us_LinktoThrive"
+                      data-ghl-form-id="f1H7YWYlG0Fw1vsW7Ug4"
+                      data-ghl-iframe-id="inline-f1H7YWYlG0Fw1vsW7Ug4"
+                    >
+                      <div class="min-h-[600px] bg-gray-100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </>
+        );
+      }
+
+      if (section.section === "Map") {
+        return (
+          <MapSection
+            title={section.title}
+            description={section.description}
+            locations={section.locations}
+            mapUrl={section.mapUrl}
+            viewMode={section.viewMode}
+          />
+        );
+      }
+
+      if (section.section === "CTALight") {
+        return (
+          <CTALight
+            title={section.title}
+            description={section.description}
+            ctaText={section.ctaText || "Get In Touch"}
+            ctaLink={section.ctaLink || "/contact-us"}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
+<script is:inline>
+  (function() {
+    function loadGhlEmbedScript() {
+      if (window.__ghlEmbedPromise) {
+        return window.__ghlEmbedPromise;
+      }
+
+      var existingScript = document.querySelector('script[data-ghl-embed-script="true"]');
+
+      if (existingScript && existingScript.dataset.loaded === "true") {
+        window.__ghlEmbedPromise = Promise.resolve();
+        return window.__ghlEmbedPromise;
+      }
+
+      window.__ghlEmbedPromise = new Promise(function(resolve, reject) {
+        var script = existingScript || document.createElement("script");
+        script.src = "https://link.msgsndr.com/js/form_embed.js";
+        script.async = true;
+        script.dataset.ghlEmbedScript = "true";
+
+        script.addEventListener("load", function() {
+          script.dataset.loaded = "true";
+          resolve();
+        }, { once: true });
+
+        script.addEventListener("error", function() {
+          reject(new Error("Unable to load the contact form embed."));
+        }, { once: true });
+
+        if (!existingScript) {
+          document.head.appendChild(script);
+        }
+      });
+
+      return window.__ghlEmbedPromise;
+    }
+
+    function createGhlIframe(src, title, iframeId, formId) {
+      var iframe = document.createElement("iframe");
+      iframe.src = src;
+      iframe.title = title || "Contact Form";
+      iframe.loading = "eager";
+      iframe.className = "min-h-[600px] w-full";
+      iframe.setAttribute("style", "width:100%;height:100%;border:none;border-radius:0;min-height:600px");
+      iframe.id = iframeId || "";
+      iframe.dataset.layout = JSON.stringify({ id: "INLINE" });
+      iframe.dataset.triggerType = "alwaysShow";
+      iframe.dataset.triggerValue = "";
+      iframe.dataset.activationType = "alwaysActivated";
+      iframe.dataset.activationValue = "";
+      iframe.dataset.deactivationType = "neverDeactivate";
+      iframe.dataset.deactivationValue = "";
+      iframe.dataset.formName = title || "Contact Form";
+      iframe.dataset.height = "undefined";
+      iframe.dataset.layoutIframeId = iframeId || "";
+      iframe.dataset.formId = formId || "";
+      return iframe;
+    }
+
+    function initDeferredGhlForms() {
+      var shells = document.querySelectorAll("[data-ghl-shell]");
+      if (!shells.length) return;
+
+      shells.forEach(function(shell) {
+        // Reset state on each init so refreshes work
+        shell.removeAttribute("data-ghl-enhanced");
+        shell.removeAttribute("data-ghl-loaded");
+        shell.dataset.ghlEnhanced = "true";
+
+        var loadEmbed = function() {
+          if (shell.dataset.ghlLoaded === "true") return;
+
+          var src = shell.getAttribute("data-ghl-src");
+          if (!src) return;
+
+          shell.dataset.ghlLoaded = "true";
+          var iframe = createGhlIframe(
+            src,
+            shell.getAttribute("data-ghl-title"),
+            shell.getAttribute("data-ghl-iframe-id"),
+            shell.getAttribute("data-ghl-form-id")
+          );
+          shell.replaceChildren(iframe);
+
+          loadGhlEmbedScript().catch(function() {
+            shell.dataset.ghlLoaded = "false";
+            shell.innerHTML =
+              '<div class="flex h-full min-h-[600px] flex-col items-center justify-center px-6 text-center">' +
+              '<p class="text-sm font-semibold text-red-600">The contact form could not be loaded.</p>' +
+              '<button type="button" class="mt-4 inline-flex items-center justify-center bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark" data-ghl-load>Try Again</button>' +
+              "</div>";
+            var retryBtn = shell.querySelector("[data-ghl-load]");
+            if (retryBtn) retryBtn.addEventListener("click", loadEmbed, { once: true });
+          });
+        };
+
+        // Load immediately — form is the primary content of this page
+        loadEmbed();
+      });
+    }
+
+    // Clear cached promise on fresh page load
+    window.__ghlEmbedPromise = undefined;
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initDeferredGhlForms);
+    } else {
+      initDeferredGhlForms();
+    }
+
+    // Re-init on bfcache restore (mobile back/forward)
+    window.addEventListener("pageshow", function(e) {
+      if (e.persisted) {
+        window.__ghlEmbedPromise = undefined;
+        initDeferredGhlForms();
+      }
+    });
+  })();
+</script>
+</PageLayout>

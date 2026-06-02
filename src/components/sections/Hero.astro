@@ -1,0 +1,116 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  image?: string;
+  imageCredit?: string;
+  actions?: Array<{
+    text: string;
+    href: string;
+    variant?: "primary" | "secondary";
+  }>;
+}
+
+const {
+  title = "Welcome to Your Brand",
+  subtitle = "Elevate your business with our comprehensive marketing solutions",
+  tagline,
+  image,
+  imageCredit,
+  actions = [],
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="relative">
+      <!-- Content Container - Overlapping Design -->
+      <div
+        class="relative z-20 px-4 sm:px-6 lg:px-8 pt-20 pb-16 md:pt-32 md:pb-24"
+      >
+        <div class="max-w-2xl">
+          {
+            tagline && (
+              <div class="flex items-center gap-2 mb-6">
+                <div class="h-px w-12 bg-primary" />
+                <span class="font-semibold text-sm uppercase tracking-widest text-primary">
+                  {tagline}
+                </span>
+              </div>
+            )
+          }
+
+          <h1
+            class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-dark mb-6 leading-[1.1]"
+          >
+            {title}
+          </h1>
+
+          <div
+            class="h-1 w-24 bg-gradient-to-r from-primary-light to-primary-lighter mb-8"
+          >
+          </div>
+
+          <p class="text-base md:text-lg text-gray-600 mb-10 leading-relaxed" set:html={subtitle}>
+          </p>
+
+          {
+            actions.length > 0 && (
+              <div class="flex flex-wrap gap-4">
+                {actions.map((action) => (
+                  <a
+                    href={action.href}
+                    class={
+                      action.variant === "secondary"
+                        ? "px-8 py-4 text-base font-semibold bg-white text-primary-dark border-2 border-primary-light hover:bg-primary-light hover:text-white transition-all duration-300"
+                        : "px-8 py-4 text-base font-semibold bg-primary-light text-white hover:bg-primary-lighter transition-all duration-300 shadow-lg shadow-primary-light/30"
+                    }
+                  >
+                    {action.text}
+                  </a>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Image Container - Desktop Only (hidden on mobile) -->
+      {
+        image && (
+          <>
+            <div class="hidden lg:block absolute top-0 right-0 w-1/2 h-full z-10">
+              <div class="relative h-full">
+                <div class="absolute inset-0 bg-gradient-to-l from-transparent via-white/30 to-white z-10 pointer-events-none" />
+                <img
+                  src={image}
+                  alt="Hero visual"
+                  class="absolute inset-0 w-full h-full object-cover"
+                  loading="eager"
+                  fetchpriority="high"
+                  width="800"
+                  height="600"
+                  decoding="async"
+                />
+              </div>
+            </div>
+            {imageCredit && (
+              <span class="hidden lg:flex items-center gap-1 absolute bottom-2 right-2 z-30 text-[9px] text-white/40 [&_a]:underline [&_a]:hover:text-white/60 [&_a]:transition-colors" set:html={imageCredit} />
+            )}
+          </>
+        )
+      }
+
+      <!-- Decorative Elements -->
+      <div
+        class="absolute top-40 right-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10"
+      >
+      </div>
+      <div
+        class="absolute bottom-20 left-1/3 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-10"
+      >
+      </div>
+    </div>
+  </div>
+</section>

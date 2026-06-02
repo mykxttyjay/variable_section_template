@@ -1,0 +1,184 @@
+---
+import { siteConfig } from "~/config/site";
+
+interface Props {
+  type?:
+    | "LocalBusiness"
+    | "WebSite"
+    | "Organization"
+    | "WebPage"
+    | "AboutPage"
+    | "ContactPage"
+    | "Service"
+    | "BreadcrumbList"
+    | "FAQPage";
+  data?: any;
+}
+
+const { type = "LocalBusiness", data } = Astro.props;
+
+// Build sameAs array from social links (filter out empty values)
+const sameAs = [
+  siteConfig.social.facebook,
+  siteConfig.social.instagram,
+  siteConfig.social.linkedin,
+  siteConfig.social.twitter,
+  siteConfig.social.youtube,
+].filter(Boolean);
+
+const siteUrl = siteConfig.seo.siteUrl;
+
+// LocalBusiness schema - driven by siteConfig
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: siteConfig.business.name,
+  description: siteConfig.business.description,
+  url: siteUrl,
+  telephone: `+1${siteConfig.contact.phone}`,
+  email: siteConfig.contact.email,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: siteConfig.location.city,
+    addressRegion: siteConfig.location.state,
+    addressCountry: "US",
+  },
+  areaServed: {
+    "@type": "City",
+    name: siteConfig.location.city,
+  },
+  priceRange: "$$",
+  openingHours: "Mo-Fr 09:00-17:00",
+  ...(sameAs.length > 0 && { sameAs }),
+};
+
+// WebSite schema
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteConfig.business.name,
+  url: siteUrl,
+  description: siteConfig.business.description,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+// Organization schema
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteConfig.business.name,
+  url: siteUrl,
+  logo: `${siteUrl}${siteConfig.logo.src}`,
+  description: siteConfig.business.description,
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: `+1${siteConfig.contact.phone}`,
+    contactType: "customer service",
+    areaServed: "US",
+    availableLanguage: "en",
+  },
+  ...(sameAs.length > 0 && { sameAs }),
+};
+
+// Helper to build a page-level schema (WebPage / AboutPage / ContactPage)
+const buildPageSchema = (pageType: "WebPage" | "AboutPage" | "ContactPage") => ({
+  "@context": "https://schema.org",
+  "@type": pageType,
+  name: data?.name || siteConfig.business.name,
+  ...(data?.description && { description: data.description }),
+  url: data?.url || siteUrl,
+  ...(data?.image && { image: data.image }),
+  inLanguage: "en-US",
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteConfig.business.name,
+    url: siteUrl,
+  },
+  ...(data?.breadcrumb && { breadcrumb: data.breadcrumb }),
+});
+
+// Service schema
+const buildServiceSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: data?.name || siteConfig.business.name,
+  ...(data?.description && { description: data.description }),
+  ...(data?.url && { url: data.url }),
+  ...(data?.image && { image: data.image }),
+  ...(data?.serviceType && { serviceType: data.serviceType }),
+  provider: {
+    "@type": "LocalBusiness",
+    name: siteConfig.business.name,
+    url: siteUrl,
+    telephone: `+1${siteConfig.contact.phone}`,
+    email: siteConfig.contact.email,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: siteConfig.location.city,
+      addressRegion: siteConfig.location.state,
+      addressCountry: "US",
+    },
+  },
+  areaServed: {
+    "@type": "City",
+    name: siteConfig.location.city,
+  },
+});
+
+// BreadcrumbList schema — expects data.items: [{ name, url }]
+const buildBreadcrumbSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: (data?.items || []).map((item: any, idx: number) => ({
+    "@type": "ListItem",
+    position: idx + 1,
+    name: item.name,
+    item: item.url?.startsWith("http") ? item.url : `${siteUrl}${item.url || ""}`,
+  })),
+});
+
+// FAQPage schema — expects data.faqs: [{ question, answer }]
+const stripHtml = (html: string) =>
+  String(html || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+
+const buildFAQSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: (data?.faqs || []).map((f: any) => ({
+    "@type": "Question",
+    name: stripHtml(f.question),
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: stripHtml(f.answer),
+    },
+  })),
+});
+
+// Select schema based on type
+let schema: any = localBusinessSchema;
+if (type === "WebSite") {
+  schema = webSiteSchema;
+} else if (type === "Organization") {
+  schema = organizationSchema;
+} else if (type === "WebPage" || type === "AboutPage" || type === "ContactPage") {
+  schema = buildPageSchema(type);
+} else if (type === "Service") {
+  schema = buildServiceSchema();
+} else if (type === "BreadcrumbList") {
+  schema = buildBreadcrumbSchema();
+} else if (type === "FAQPage") {
+  schema = buildFAQSchema();
+} else if (type === "LocalBusiness" && data) {
+  // Merge with custom data if provided
+  schema = { ...localBusinessSchema, ...data };
+}
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

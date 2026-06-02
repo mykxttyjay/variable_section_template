@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"facebook.com\\\\|instagram.com\\\\|linkedin.com\\\\|youtube.com\\\\|twitter.com\\\\|x.com\" 'c:\\\\Users\\\\Rubica\\\\Documents\\\\Client Websites\\\\link-to-thrive\\\\src' --include=*.astro --include=*.tsx --include=*.ts --include=*.json)",
+      "Bash(bun --version)",
+      "Bash(bun install:*)",
+      "Bash(bun run:*)",
+      "Bash(xargs grep:*)",
+      "Bash(bun add:*)",
+      "Bash(find /c/Users/efgbt/Documents/ntv/link-to-thrive/src -type f \\\\\\(-name *.js -o -name *.ts \\\\\\) ! -path */node_modules/*)",
+      "WebSearch",
+      "Bash(gh issue:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:daniel.es)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(bun remove:*)",
+      "Bash(node -e \"const {resolve} = require\\('path'\\); const {readFileSync} = require\\('fs'\\); try { const p = resolve\\('./src/content/settings/site.json'\\); console.log\\('Path:', p\\); console.log\\('Exists?', readFileSync\\(p,'utf-8'\\).slice\\(0,50\\)\\); } catch\\(e\\) { console.log\\('ERROR:', e.code, e.message\\); }\")",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(node --experimental-vm-modules -e \"import\\('./astro.config.mjs'\\).then\\(c => console.log\\('OK:', typeof c.default\\)\\).catch\\(e => console.log\\('ERR:', e.message\\)\\)\")",
+      "Bash(node -e \"const {resolve} = require\\('path'\\); const {existsSync} = require\\('fs'\\); const p = resolve\\('./src/content/settings/site.json'\\); console.log\\('cwd:', process.cwd\\(\\)\\); console.log\\('Path:', p\\); console.log\\('Exists:', existsSync\\(p\\)\\);\")"
+    ]
+  }
+}

@@ -1,0 +1,218 @@
+---
+import PageLayout from "~/layouts/PageLayout.astro";
+import Hero from "~/components/sections/Hero.astro";
+import FAQs from "~/components/sections/FAQs.astro";
+import ContentWithImage from "~/components/sections/ContentWithImage.astro";
+import ContentWithVideo from "~/components/sections/ContentWithVideo.astro";
+import CTALight from "~/components/sections/CTALight.astro";
+import FeaturesSection from "~/components/sections/FeaturesSection.astro";
+import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
+import NetworksSection from "~/components/sections/NetworksSection.astro";
+import FormSection from "~/components/sections/FormSection.astro";
+import StructuredData from "~/components/seo/StructuredData.astro";
+import { getPageTitle } from "~/lib/config";
+import { siteConfig } from "~/config/site";
+
+// Import all branding-awareness solution JSON data files
+import connectedTvData from "~/data/pages/connected-tv.json";
+import displayGeofencingData from "~/data/pages/display-geofencing.json";
+import streamingAudioData from "~/data/pages/streaming-audio.json";
+import { localizeData } from "~/config/site";
+
+const brandingDataMap: Record<string, any> = localizeData({
+  "connected-tv": connectedTvData,
+  "display-geofencing": displayGeofencingData,
+  "streaming-audio": streamingAudioData,
+});
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "connected-tv" } },
+    { params: { slug: "display-geofencing" } },
+    { params: { slug: "streaming-audio" } },
+  ];
+}
+
+const { slug } = Astro.params;
+const entry = brandingDataMap[slug!];
+
+const sections = (entry.sections || []).sort(
+  (a: any, b: any) => (a.order || 0) - (b.order || 0)
+);
+
+const metadata = {
+  title: entry.metadata?.title || getPageTitle(entry.title),
+  description: entry.metadata?.description || entry.description,
+  keywords: entry.metadata?.keywords,
+};
+
+// Schema markup data
+const siteUrl = siteConfig.seo.siteUrl;
+const pageUrl = `${siteUrl}/solutions/branding-awareness/${slug}`;
+const serviceData = {
+  name: entry.title,
+  description: entry.description,
+  url: pageUrl,
+  serviceType: entry.title,
+};
+const breadcrumbData = {
+  items: [
+    { name: "Home", url: "/" },
+    { name: "Solutions", url: "/solutions" },
+    { name: entry.title, url: `/solutions/branding-awareness/${slug}` },
+  ],
+};
+const faqSection = sections.find((s: any) => s.section === "FAQs");
+---
+
+<PageLayout metadata={metadata}>
+  <StructuredData type="Service" data={serviceData} />
+  <StructuredData type="BreadcrumbList" data={breadcrumbData} />
+  {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
+  {
+    sections.map((section: any) => {
+      // Hero Section
+      if (section.section === "Hero") {
+        return (
+          <Hero
+            tagline={section.eyebrow}
+            title={section.title}
+            subtitle={section.description}
+            image={section.image}
+            imageCredit={section.imageCredit}
+            actions={
+              section.ctaText && section.ctaLink
+                ? [
+                    {
+                      text: section.ctaText,
+                      href: section.ctaLink,
+                      variant: "primary",
+                    },
+                  ]
+                : []
+            }
+          />
+        );
+      }
+
+      // FAQs Section
+      if (section.section === "FAQs" && section.faqs) {
+        return <FAQs title={section.title} faqs={section.faqs} />;
+      }
+
+      // ContentWithImage Section
+      if (section.section === "ContentWithImage") {
+        return (
+          <ContentWithImage
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            image={section.image}
+            imagePosition={section.imagePosition}
+            background={section.background}
+          />
+        );
+      }
+
+      // ContentWithVideo Section
+      if (section.section === "ContentWithVideo") {
+        return (
+          <ContentWithVideo
+            title={section.title}
+            eyebrow={section.eyebrow}
+            description={section.description}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+            videoUrl={section.videoUrl}
+            videoPosition={section.videoPosition}
+            background={section.background}
+            poster={section.poster}
+            autoplay={section.autoplay}
+            muted={section.muted}
+            loop={section.loop}
+            controls={section.controls}
+          />
+        );
+      }
+
+      // CTALight Section
+      if (section.section === "CTALight") {
+        return (
+          <CTALight
+            title={section.title}
+            description={section.description}
+            ctaText={section.ctaText || "Get In Touch"}
+            ctaLink={section.ctaLink || "/contact"}
+          />
+        );
+      }
+
+      // Features Sections
+      if (
+        section.section === "FeaturesWithImage" ||
+        section.section === "FeaturesSection"
+      ) {
+        if (!section.features) return null;
+
+        if (section.section === "FeaturesWithImage") {
+          return (
+            <FeaturesWithImage
+              eyebrow={section.eyebrow}
+              title={section.title}
+              description={section.description}
+              cards={section.features}
+              ctaText={section.ctaText}
+              ctaLink={section.ctaLink}
+              isCarousel={section.isCarousel}
+              itemsPerSlide={section.itemsPerSlide}
+              carouselAutoplay={section.carouselAutoplay}
+              carouselAutoplayDelay={section.carouselAutoplayDelay}
+            />
+          );
+        }
+
+        return (
+          <FeaturesSection
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
+            features={section.features}
+            ctaText={section.ctaText}
+            ctaLink={section.ctaLink}
+          />
+        );
+      }
+
+      // Networks Section
+      if (section.section === "Networks" && section.networks) {
+        return (
+          <NetworksSection
+            title={section.title}
+            subtitle={section.subtitle}
+            description={section.description}
+            networks={section.networks}
+          />
+        );
+      }
+
+      // Form Section
+      if (section.section === "Form" && section.formFields) {
+        return (
+          <FormSection
+            title={section.title}
+            subtitle={section.eyebrow}
+            description={section.description}
+            fields={section.formFields}
+            submitText={section.submitText}
+            submitAction={section.submitAction}
+            background={section.background}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
+</PageLayout>

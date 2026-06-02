@@ -1,0 +1,84 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  features?: any[];
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  features = [],
+  ctaText,
+  ctaLink,
+} = Astro.props;
+---
+
+<section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {(eyebrow || title || description) && (
+      <div class="text-center mb-8 sm:mb-12" data-animate="fade-up">
+        {eyebrow && (
+          <div class="flex items-center justify-center gap-2 mb-2">
+            <div class="h-px w-12 bg-primary" />
+            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wide text-primary">
+              {eyebrow}
+            </p>
+          </div>
+        )}
+        {title && (
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark mb-4">
+            {title}
+          </h2>
+        )}
+        {description && (
+          <p
+            class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
+            set:html={description}
+          />
+        )}
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {features.map((feature: any) => (
+        <div class="group relative p-6 bg-white hover:bg-gray-100 transition-all duration-300 flex items-start gap-4">
+          {feature.icon && (
+            <div class="flex-shrink-0 w-12 h-12 bg-primary text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Icon name={feature.icon} class="w-6 h-6" />
+            </div>
+          )}
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-primary-dark mb-2 group-hover:text-primary transition-colors">
+              {feature.link ? (
+                <a href={feature.link} class="after:absolute after:inset-0">
+                  {feature.title}
+                </a>
+              ) : (
+                feature.title
+              )}
+            </h3>
+            <p class="text-gray-600 text-base leading-relaxed" set:html={feature.description} />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {ctaText && ctaLink && (
+      <div class="text-center mt-8 sm:mt-12" data-animate="fade-up" data-animate-delay="200">
+        <a
+          href={ctaLink}
+          class="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-primary text-white font-medium hover:bg-primary-dark transition text-sm sm:text-base"
+        >
+          {ctaText}
+        </a>
+      </div>
+    )}
+  </div>
+</section>

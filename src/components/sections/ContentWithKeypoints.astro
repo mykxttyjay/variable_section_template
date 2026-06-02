@@ -1,0 +1,105 @@
+---
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  description?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  image?: string;
+  imageLarge?: string;
+  keyPoints?: string[];
+}
+
+const {
+  title,
+  eyebrow,
+  description,
+  ctaText,
+  ctaLink,
+  image,
+  imageLarge,
+  keyPoints = [],
+} = Astro.props;
+---
+
+<section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+      <div class="order-2 lg:order-1 lg:col-span-3" data-animate="fade-right">
+        {
+          eyebrow && (
+            <div class="flex items-center gap-2 mb-4">
+              <div class="h-px w-12 bg-primary" />
+              <span class="font-bold text-xs sm:text-sm uppercase tracking-widest text-primary">
+                {eyebrow}
+              </span>
+            </div>
+          )
+        }
+        {
+          title && (
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark mb-4 sm:mb-6">
+              {title}
+            </h2>
+          )
+        }
+        {
+          description && (
+            <p
+              class="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed"
+              set:html={description}
+            />
+          )
+        }
+        {
+          keyPoints.length > 0 && (
+            <div class="bg-white p-6 border-l-4 border-primary-light mb-6 sm:mb-8">
+              <ul class="space-y-3" data-animate-stagger>
+                {keyPoints.map((point) => (
+                  <li class="flex items-start gap-3">
+                    <div class="flex-shrink-0 w-6 h-6 bg-primary text-white flex items-center justify-center text-xs font-bold mt-0.5">
+                      ✓
+                    </div>
+                    <span class="text-sm sm:text-base text-gray-700 flex-1">
+                      {point}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+        {
+          ctaText && ctaLink && (
+            <a
+              href={ctaLink}
+              class="inline-block px-8 py-3 bg-primary text-white font-semibold hover:bg-primary-dark transition text-sm sm:text-base"
+            >
+              {ctaText}
+            </a>
+          )
+        }
+      </div>
+      {
+        image && (
+          <div
+            class="hidden lg:block relative overflow-hidden order-1 lg:order-2 lg:col-span-2"
+            data-animate="fade-left"
+          >
+            <picture>
+              <source media="(min-width: 768px)" srcset={imageLarge || image} />
+              <img
+                src={image}
+                alt={title || "Venue Network"}
+                class="w-full h-auto object-cover shadow-lg aspect-[4/5]"
+                width="400"
+                height="500"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

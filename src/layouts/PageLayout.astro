@@ -1,0 +1,16 @@
+---
+import type { MetaData } from "~/types";
+import BaseLayout from "./BaseLayout.astro";
+
+export interface Props {
+  metadata?: MetaData;
+  hideFinalCTA?: boolean;
+  hideMapSection?: boolean;
+}
+
+const { metadata = {}, hideFinalCTA = false, hideMapSection = false } = Astro.props;
+---
+
+<BaseLayout metadata={metadata} hideFinalCTA={hideFinalCTA} hideMapSection={hideMapSection}>
+  <slot />
+</BaseLayout>

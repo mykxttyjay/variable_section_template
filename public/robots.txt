@@ -1,0 +1,15 @@
+# Robots.txt for LinktoThrive
+# https://linktothrive.com
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://variable-section-template.vercel.app/sitemap-index.xml
+
+# Disallow admin/private areas
+Disallow: /api/
+Disallow: /_astro/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
