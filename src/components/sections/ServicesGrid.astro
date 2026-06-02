@@ -24,7 +24,7 @@ const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
   <div class="glow-orb glow-orb-green w-[600px] h-[600px] -top-[10%] -left-[10%] opacity-15"></div>
   <div class="glow-orb glow-orb-mint w-[500px] h-[500px] -bottom-[10%] -right-[10%] opacity-15"></div>
 
-  <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 relative z-10">
+  <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4 relative z-10">
     {
       (title || description) && (
         <div class="mb-12" data-animate="fade-up">
@@ -39,19 +39,6 @@ const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
               class="text-lg text-gray-700 [&_strong]:text-primary-dark [&_strong]:font-semibold [&_a]:text-primary-light [&_a]:underline [&_a]:font-semibold [&_a]:hover:text-primary"
               set:html={description}
             />
-          )}
-          {ctaText && ctaLink && (
-            <div class="mt-6">
-              <a
-                href={ctaLink}
-                class="btn-clipped inline-flex items-center gap-2 px-8 py-3 bg-primary-light text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:bg-primary-lighter"
-              >
-                {ctaText}
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
-              </a>
-            </div>
           )}
         </div>
       )
@@ -85,14 +72,28 @@ const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
                   <Icon name={card.icon} class="w-6 h-6" />
                 </div>
               )}
-              <h3 class="text-base font-bold mb-3 text-primary-dark group-hover:text-primary-light transition-colors duration-300">
+              <h3 class="font-bold mb-3 text-primary-dark group-hover:text-primary-light transition-colors duration-300" style="font-size: 16px;">
                 {card.title}
               </h3>
-              <p class="text-sm text-gray-600 leading-relaxed" set:html={card.description} />
+              <p class="text-gray-600 leading-relaxed" style="font-size: 15px;" set:html={card.description} />
             </CardWrapper>
           );
         })
       }
     </div>
+
+    {ctaText && ctaLink && (
+      <div class="mt-10 flex justify-center">
+        <a
+          href={ctaLink}
+          class="btn-clipped inline-flex items-center gap-2 px-8 py-3 bg-primary-light text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:bg-primary-lighter"
+        >
+          {ctaText}
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </a>
+      </div>
+    )}
   </div>
 </section>
