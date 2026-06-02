@@ -74,7 +74,7 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
 >
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
     <div
-      class={`flex flex-col ${imagePosition === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-0 items-center`}
+      class={`flex flex-col ${imagePosition === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-0 items-stretch`}
     >
       <!-- Content Column -->
       <div
@@ -85,9 +85,11 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
           {
             eyebrow && (
               <div class="flex items-center gap-2 mb-4">
-                <div class="h-px w-8 bg-primary" />
+                <svg class="w-4 h-4 text-primary-light flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
                 <span
-                  class={`font-semibold text-xs sm:text-sm uppercase tracking-widest ${eyebrowColorClass}`}
+                  class={`font-bold text-xs sm:text-sm uppercase tracking-widest ${eyebrowColorClass}`}
                 >
                   {eyebrow}
                 </span>
@@ -131,13 +133,13 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
       {
         image && (
           <div
-            class="w-full lg:w-1/2 relative overflow-hidden"
+            class="w-full lg:w-1/2 relative overflow-hidden self-stretch"
             data-animate={imagePosition === "left" ? "fade-right" : "fade-left"}
           >
             <img
               src={image}
               alt={title || "Section image"}
-              class="w-full h-auto object-cover shadow-lg"
+              class="w-full h-full object-cover absolute inset-0"
               loading="lazy"
               width={665}
               height={457}

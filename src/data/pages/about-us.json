@@ -19,7 +19,7 @@
       "description": "With 20 years of corporate experience working with industry leaders, we've brought our expertise to {city}. We're passionate about helping local businesses thrive through innovative <strong><a href='/indoor-billboards/screen-advertising' class='text-primary-dark hover:text-primary transition-colors underline decoration-primary/50'>digital billboard advertising</a></strong>, <strong><a href='/solutions/foundational/website-design' class='text-primary-dark hover:text-primary transition-colors underline decoration-primary/50'>website design</a></strong>, and <strong><a href='/solutions' class='text-primary-dark hover:text-primary transition-colors underline decoration-primary/50'>multichannel campaigns</a></strong>.<br><br>Our team combines strategic thinking with creative execution to deliver marketing solutions that actually work. We understand that every business is unique, which is why we take the time to learn about your goals, your audience, and your challenges before recommending any strategy. From small local shops to growing enterprises, we've helped {city} businesses increase their visibility, engage their customers, and drive real results.<br><br>Beyond business, we're committed to our community, building relationships and supporting local non-profits and charitable organizations. We believe in giving back to the community that has given us so much. Together, let's build something great, our strategy, your brand!",
       "image": "/images/about-us-team.avif",
       "imagePosition": "left",
-      "background": "gray",
+      "background": "white",
       "order": 2
     },
     {
