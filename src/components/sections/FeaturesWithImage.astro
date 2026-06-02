@@ -1,4 +1,4 @@
----
+﻿---
 import { Icon } from "astro-icon/components";
 
 interface Card {
@@ -88,12 +88,32 @@ const getGridClasses = () => {
     {
       isCarousel ? (
         <div
-          class="relative"
+          class="relative px-12"
           data-feature-carousel-root
           data-items-per-slide={String(itemsPerSlide)}
           data-autoplay={String(carouselAutoplay)}
           data-autoplay-delay={String(carouselAutoplayDelay)}
         >
+          {/* Navigation Buttons — on sides, outside cards */}
+          <button
+            class="absolute left-0 top-1/2 -translate-y-1/2 bg-primary text-white p-2.5 hover:bg-primary-dark transition z-10"
+            data-carousel-prev
+            aria-label="Previous slide"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            class="absolute right-0 top-1/2 -translate-y-1/2 bg-primary text-white p-2.5 hover:bg-primary-dark transition z-10"
+            data-carousel-next
+            aria-label="Next slide"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
           {/* Carousel Container */}
           <div class="overflow-hidden">
             <div
@@ -105,7 +125,7 @@ const getGridClasses = () => {
                   class="flex-shrink-0 px-3"
                   style={`width: ${100 / itemsPerSlide}%`}
                 >
-                  <div class="bg-white overflow-hidden transition-all duration-300 h-full border-l-4 border-primary-light hover:shadow-lg group">
+                  <div class="bg-white overflow-hidden transition-all duration-300 h-full border border-gray-200 hover:border-primary-light/40 hover:shadow-md group">
                     {card.image && (
                       <div class="relative h-48 overflow-hidden">
                         <img
@@ -141,46 +161,6 @@ const getGridClasses = () => {
             </div>
           </div>
 
-          {/* Navigation Buttons */}
-          <button
-            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-primary text-white p-3 hover:bg-primary-dark transition z-10"
-            data-carousel-prev
-            aria-label="Previous slide"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <button
-            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-primary text-white p-3 hover:bg-primary-dark transition z-10"
-            data-carousel-next
-            aria-label="Next slide"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-
           {/* Dots Indicator */}
           <div class="flex justify-center gap-2 mt-6">
             {Array.from({
@@ -197,7 +177,7 @@ const getGridClasses = () => {
       ) : (
         <div class={`${getGridClasses()} gap-6 lg:gap-8`} data-animate-stagger>
           {displayCards.map((card) => (
-            <div class="bg-white overflow-hidden border-l-4 border-primary-light hover:shadow-lg transition-all duration-300 group">
+            <div class="bg-white overflow-hidden hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-primary-light/40 group">
               {card.image && (
                 <div class="relative h-48 overflow-hidden">
                   <img

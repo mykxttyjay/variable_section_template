@@ -28,7 +28,7 @@
       "description": "",
       "order": 3,
       "isCarousel": true,
-      "itemsPerSlide": 2,
+      "itemsPerSlide": 3,
       "carouselAutoplay": true,
       "carouselAutoplayDelay": 5000,
       "features": [
