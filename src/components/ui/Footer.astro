@@ -11,32 +11,29 @@ const currentYear = new Date().getFullYear();
   <div class="glow-orb glow-orb-green w-96 h-96 -top-48 -right-48 opacity-10"></div>
   <div class="glow-orb glow-orb-mint w-96 h-96 -bottom-48 -left-48 opacity-10"></div>
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4 py-16 md:py-20">
-    <!-- Top Section: Logo + Tagline + Social -->
+    <!-- Main Footer Grid: Logo + Description + All Columns in one row -->
     <div
-      class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 pb-12 border-b border-white/20"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 md:gap-8 mb-12 pb-12 border-b border-white/20"
     >
-      <div class="lg:col-span-2">
-        <a href="/" class="hidden md:inline-block mb-6 group">
+      {/* Logo and Description Column - Takes 2 columns */}
+      <div class="sm:col-span-2">
+        <a href="/" class="inline-block mb-6">
           <img
-            src={siteConfig.logo.src}
+            src="/images/logo/dealer-logo.svg"
             alt={siteConfig.logo.alt}
-            class="h-16 w-auto brightness-0 invert transition-transform group-hover:scale-105"
+            class="h-16 w-auto brightness-0 invert"
             width="182"
             height="64"
             loading="lazy"
           />
         </a>
-        <p class="text-white text-base leading-relaxed max-w-xl">
+        <p class="text-white text-base leading-relaxed mb-6">
           Your trusted partner for comprehensive digital marketing
           solutions, from custom website design and SEO to indoor billboard
           advertising and targeted campaigns that deliver real results.
         </p>
-      </div>
-
-      <div class="flex flex-col items-center lg:items-end">
-        <p class="text-white font-bold mb-4 text-sm uppercase tracking-wider">
-          Connect With Us
-        </p>
+        
+        {/* Social Icons */}
         <div class="flex items-center gap-3">
           {siteConfig.social.linkedin && (
             <a
@@ -84,15 +81,11 @@ const currentYear = new Date().getFullYear();
           )}
         </div>
       </div>
-    </div>
 
-    <!-- Links Grid -->
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12"
-    >
+      {/* Footer Columns - Each takes 1 column */}
       {
         footerConfig.columns.map((column) => (
-          <div>
+          <div class={column.title === 'Company' ? 'ml-12' : column.title === 'Indoor Billboards' ? 'min-w-[220px]' : ''}>
             {column.type === 'links' ? (
               <>
                 <p class="text-white font-bold mb-6 text-sm uppercase tracking-wider">
@@ -230,7 +223,7 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <!-- Bottom Bar -->
-    <div class="border-t border-white/20 pt-8">
+    <div class="pt-4">
       <div
         class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm"
       >

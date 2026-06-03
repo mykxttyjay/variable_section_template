@@ -1,4 +1,4 @@
----
+﻿---
 import { Icon } from "astro-icon/components";
 
 interface Card {
@@ -35,10 +35,10 @@ const {
 } = Astro.props;
 
 // Automatically enable carousel if more than 4 cards, otherwise use prop value
-const isCarousel = cards.length > 4 ? true : (isCarouselProp || false);
+const isCarousel = isCarouselProp || false;
 
-// Show all cards if carousel, otherwise limit to max 4
-const displayCards = isCarousel ? cards : cards.slice(0, 4);
+// Show all cards if carousel, otherwise show all cards
+const displayCards = cards;
 const cardCount = displayCards.length;
 
 // Adaptive grid classes based on card count
@@ -51,6 +51,9 @@ const getGridClasses = () => {
     case 3:
       return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto";
     case 4:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
+    case 5:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
     default:
       return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
   }
@@ -58,7 +61,7 @@ const getGridClasses = () => {
 
 ---
 
-<section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+<section class="py-12 sm:py-16 md:py-24 relative overflow-hidden" style="background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.07) 0%, transparent 50%);">
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
     {
       (eyebrow || title || description) && (
@@ -88,12 +91,32 @@ const getGridClasses = () => {
     {
       isCarousel ? (
         <div
-          class="relative"
+          class="relative px-12"
           data-feature-carousel-root
           data-items-per-slide={String(itemsPerSlide)}
           data-autoplay={String(carouselAutoplay)}
           data-autoplay-delay={String(carouselAutoplayDelay)}
         >
+          {/* Navigation Buttons — on sides, outside cards */}
+          <button
+            class="absolute left-0 top-1/2 -translate-y-1/2 bg-primary text-white p-2.5 hover:bg-primary-dark transition z-10"
+            data-carousel-prev
+            aria-label="Previous slide"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            class="absolute right-0 top-1/2 -translate-y-1/2 bg-primary text-white p-2.5 hover:bg-primary-dark transition z-10"
+            data-carousel-next
+            aria-label="Next slide"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
           {/* Carousel Container */}
           <div class="overflow-hidden">
             <div
@@ -105,7 +128,7 @@ const getGridClasses = () => {
                   class="flex-shrink-0 px-3"
                   style={`width: ${100 / itemsPerSlide}%`}
                 >
-                  <div class="bg-white overflow-hidden transition-all duration-300 h-full border-l-4 border-primary-light hover:shadow-lg group">
+                  <div class="bg-white overflow-hidden transition-all duration-300 h-full border border-gray-200 hover:border-primary-light/40 hover:shadow-md group">
                     {card.image && (
                       <div class="relative h-48 overflow-hidden">
                         <img
@@ -118,7 +141,7 @@ const getGridClasses = () => {
                     )}
                     <div class="p-6">
                       {card.icon && (
-                        <div class="w-10 h-10 bg-primary flex items-center justify-center mb-4">
+                        <div class="w-10 h-10 bg-primary-light flex items-center justify-center mb-4">
                           <Icon name={card.icon} class="w-5 h-5 text-white" />
                         </div>
                       )}
@@ -141,46 +164,6 @@ const getGridClasses = () => {
             </div>
           </div>
 
-          {/* Navigation Buttons */}
-          <button
-            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-primary text-white p-3 hover:bg-primary-dark transition z-10"
-            data-carousel-prev
-            aria-label="Previous slide"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <button
-            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-primary text-white p-3 hover:bg-primary-dark transition z-10"
-            data-carousel-next
-            aria-label="Next slide"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-
           {/* Dots Indicator */}
           <div class="flex justify-center gap-2 mt-6">
             {Array.from({
@@ -197,7 +180,7 @@ const getGridClasses = () => {
       ) : (
         <div class={`${getGridClasses()} gap-6 lg:gap-8`} data-animate-stagger>
           {displayCards.map((card) => (
-            <div class="bg-white overflow-hidden border-l-4 border-primary-light hover:shadow-lg transition-all duration-300 group">
+            <div class="bg-white overflow-hidden hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-primary-light/40 group">
               {card.image && (
                 <div class="relative h-48 overflow-hidden">
                   <img
@@ -206,14 +189,14 @@ const getGridClasses = () => {
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                   />
+                  {card.icon && (
+                    <div class="absolute top-4 right-4 w-12 h-12 bg-primary-light flex items-center justify-center shadow-lg">
+                      <Icon name={card.icon} class="w-6 h-6 text-white" />
+                    </div>
+                  )}
                 </div>
               )}
               <div class="p-6">
-                {card.icon && (
-                  <div class="w-10 h-10 bg-primary flex items-center justify-center mb-4">
-                    <Icon name={card.icon} class="w-5 h-5 text-white" />
-                  </div>
-                )}
                 {card.title && (
                   <h3
                     class="text-lg font-bold text-primary-dark mb-2"

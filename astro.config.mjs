@@ -11,6 +11,7 @@ import vercel from "@astrojs/vercel";
 import { readFileSync, writeFileSync, readdirSync, statSync } from "fs";
 import { resolve, join } from "path";
 import { fileURLToPath } from "url";
+import { unified } from "@astrojs/markdown-remark";
 const siteJsonAbsolute = resolve("./src/data/settings/site.json");
 const siteData = JSON.parse(readFileSync(siteJsonAbsolute, "utf-8"));
 
@@ -146,7 +147,7 @@ export default defineConfig({
   site: siteData.seo?.siteUrl || "https://www.linktothrive.com",
   adapter: vercel({
     webAnalytics: {
-      enabled: true,
+      enabled: process.env.NODE_ENV === "production",
     },
   }),
   // CSP is set via vercel.json headers to avoid Astro auto-hashing
@@ -239,7 +240,9 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin],
-    syntaxHighlight: false,
+    processor: unified({
+      remarkPlugins: [readingTimeRemarkPlugin],
+      syntaxHighlight: false,
+    }),
   },
 });

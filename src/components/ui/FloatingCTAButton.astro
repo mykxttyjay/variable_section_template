@@ -9,11 +9,12 @@ const { text = "Free Consultation" } = Astro.props;
 <button
   id="floating-cta-button"
   type="button"
-  class="fixed bottom-6 right-6 z-40 px-6 py-3 bg-primary-light text-white font-semibold hover:bg-primary-lighter transition-all duration-300 hover:scale-105 flex items-center gap-2 group shadow-lg shadow-primary-light/40"
+  class="fixed bottom-6 right-6 z-40 px-8 py-3 bg-primary-light text-white font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-3 group shadow-2xl shadow-primary-light/60 border border-primary-lighter/20 hover:border-primary-lighter/50"
+  style="font-size: 15px;"
   aria-label="Open free consultation popup"
 >
   <svg
-    class="w-5 h-5 group-hover:rotate-12 transition-transform"
+    class="w-6 h-6 group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
     fill="none"
     stroke="currentColor"
     viewBox="0 0 24 24"
@@ -25,8 +26,8 @@ const { text = "Free Consultation" } = Astro.props;
       d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
     ></path>
   </svg>
-  <span class="hidden sm:inline">{text}</span>
-  <span class="sm:hidden">Consult</span>
+  <span class="hidden sm:inline font-bold">{text}</span>
+  <span class="sm:hidden font-bold">Consult</span>
 </button>
 
 <script>
@@ -44,7 +45,7 @@ const { text = "Free Consultation" } = Astro.props;
 
 <style>
   #floating-cta-button {
-    animation: float-in 0.5s ease-out;
+    animation: float-in 0.5s ease-out, floating 3s ease-in-out 0.3s infinite, pulse-glow 2.5s ease-in-out 0.5s infinite;
   }
 
   @keyframes float-in {
@@ -58,32 +59,62 @@ const { text = "Free Consultation" } = Astro.props;
     }
   }
 
-  /* Composited idle motion to avoid animating box-shadow on the main thread */
-  @keyframes idle-bob {
+  /* Enhanced floating animation - smooth up and down motion */
+  @keyframes floating {
     0%,
     100% {
-      transform: translateY(0) scale(1);
+      transform: translateY(0px);
     }
     50% {
-      transform: translateY(-3px) scale(1.01);
+      transform: translateY(-15px);
     }
   }
 
-  #floating-cta-button {
-    animation:
-      float-in 0.5s ease-out,
-      idle-bob 4s ease-in-out 1s infinite;
+  /* Enhanced pulse glow effect */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3), 0 0 20px rgba(5, 150, 105, 0.2);
+    }
+    50% {
+      box-shadow: 0 20px 50px rgba(5, 150, 105, 0.5), 0 0 40px rgba(5, 150, 105, 0.4), inset 0 0 20px rgba(52, 211, 153, 0.1);
+    }
   }
 
+  /* Hover state with dramatic lift and glow */
   #floating-cta-button:hover {
-    box-shadow:
-      0 20px 60px -5px rgba(0, 0, 0, 0.6),
-      0 10px 15px -2px rgba(0, 0, 0, 0.3) !important;
+    animation: float-in 0s, hover-lift 0.3s ease-out forwards, pulse-glow-hover 0.6s ease-in-out infinite !important;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
   }
 
+  @keyframes hover-lift {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-20px) scale(1.08);
+    }
+  }
+
+  /* Enhanced glow on hover */
+  @keyframes pulse-glow-hover {
+    0%,
+    100% {
+      box-shadow: 0 25px 60px rgba(5, 150, 105, 0.6), 0 0 50px rgba(16, 185, 129, 0.4);
+    }
+    50% {
+      box-shadow: 0 30px 80px rgba(5, 150, 105, 0.8), 0 0 70px rgba(16, 185, 129, 0.6), inset 0 0 30px rgba(52, 211, 153, 0.2);
+    }
+  }
+
+  /* Accessibility: respect motion preferences */
   @media (prefers-reduced-motion: reduce) {
     #floating-cta-button {
-      animation: none;
+      animation: float-in 0.5s ease-out !important;
+    }
+
+    #floating-cta-button:hover {
+      animation: float-in 0s !important;
     }
   }
 </style>
