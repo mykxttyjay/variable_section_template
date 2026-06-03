@@ -76,18 +76,18 @@ const {
             const Tag = feature.link ? "a" : "div";
             const linkProps = feature.link ? { href: feature.link } : {};
             return (
-              <Tag {...linkProps} class="relative p-6 bg-gray-50 hover:bg-white border-l-4 border-primary-light transition-all duration-300 group block no-underline">
-                <div class="flex items-start gap-4">
+              <Tag {...linkProps} class="relative p-8 bg-white transition-all duration-300 group block no-underline rounded-lg overflow-hidden border border-gray-200 shadow-md hover:shadow-xl">
+                <div class="flex items-start gap-5 relative z-10">
                   {feature.icon && (
-                    <div class="flex-shrink-0 w-10 h-10 bg-primary text-white flex items-center justify-center">
-                      <Icon name={feature.icon} class="w-5 h-5" />
+                    <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-primary-light to-primary text-white flex items-center justify-center group-hover:scale-125 transition-transform duration-300 rounded-lg shadow-lg">
+                      <Icon name={feature.icon} class="w-7 h-7" />
                     </div>
                   )}
                   <div class="flex-1">
-                    <h3 class="text-lg font-bold text-primary-dark mb-2 group-hover:text-primary transition-colors">
+                    <h3 class="text-lg font-bold text-primary-dark mb-2 group-hover:text-primary transition-colors duration-200">
                       {feature.title}
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">
+                    <p class="text-gray-600 text-sm leading-relaxed group-hover:text-gray-700 transition-colors duration-200">
                       {feature.description}
                     </p>
                   </div>

@@ -134,7 +134,7 @@ const bgStyle = sectionBackground === "gradient"
                   class="flex-shrink-0 px-3"
                   style={`width: ${100 / itemsPerSlide}%`}
                 >
-                  <div class="bg-white overflow-hidden transition-all duration-300 h-full border border-gray-200 hover:border-primary-light/40 hover:shadow-md group">
+                  <div class="bg-white overflow-hidden transition-all duration-300 h-full border border-gray-200 shadow-md hover:shadow-lg group rounded-lg">
                     {card.image && (
                       <div class="relative h-48 overflow-hidden">
                         <img
@@ -147,8 +147,8 @@ const bgStyle = sectionBackground === "gradient"
                     )}
                     <div class="p-6">
                       {card.icon && (
-                        <div class="w-10 h-10 bg-primary-light flex items-center justify-center mb-4">
-                          <Icon name={card.icon} class="w-5 h-5 text-white" />
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary-light to-primary text-white flex items-center justify-center mb-4 rounded-lg shadow-lg">
+                          <Icon name={card.icon} class="w-6 h-6" />
                         </div>
                       )}
                       {card.title && (
@@ -186,7 +186,7 @@ const bgStyle = sectionBackground === "gradient"
       ) : (
         <div class={`${getGridClasses()} gap-6 lg:gap-8`} data-animate-stagger>
           {displayCards.map((card) => (
-            <div class="bg-white overflow-hidden hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-primary-light/40 group">
+            <div class="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-200 shadow-md group rounded-lg">
               {card.image && (
                 <div class="relative h-48 overflow-hidden">
                   <img
@@ -196,8 +196,8 @@ const bgStyle = sectionBackground === "gradient"
                     loading="lazy"
                   />
                   {card.icon && (
-                    <div class="absolute top-4 right-4 w-12 h-12 bg-primary-light flex items-center justify-center shadow-lg">
-                      <Icon name={card.icon} class="w-6 h-6 text-white" />
+                    <div class="absolute top-4 right-4 w-12 h-12 bg-gradient-to-br from-primary-light to-primary text-white flex items-center justify-center shadow-lg rounded-lg">
+                      <Icon name={card.icon} class="w-6 h-6" />
                     </div>
                   )}
                 </div>

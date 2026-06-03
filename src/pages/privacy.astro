@@ -1,4 +1,4 @@
----
+the ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
 import { SITE_NAME } from "~/lib/config";
@@ -25,7 +25,7 @@ const breadcrumbData = {
 };
 ---
 
-<BaseLayout metadata={metadata}>
+<BaseLayout metadata={metadata} hideMapSection={true} hideFinalCTA={true}>
   <StructuredData type="WebPage" data={webPageData} />
   <StructuredData type="BreadcrumbList" data={breadcrumbData} />
   <div class="bg-white py-16 md:py-24">
