@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import PageLayout from "~/layouts/PageLayout.astro";
 import Hero from "~/components/sections/Hero.astro";
 
@@ -10,45 +11,18 @@ import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
 import Benefits from "~/components/sections/Benefits.astro";
 import MapSection from "~/components/sections/MapSection.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
-import { getPageTitle } from "~/lib/config";
 import { siteConfig } from "~/config/site";
+import { getEntry, buildMetadata } from "~/lib/content";
 
-// Import all location JSON data files
-import lakewoodData from "~/data/locations/lakewood.json";
-import auroraData from "~/data/locations/aurora.json";
-import arvadaData from "~/data/locations/arvada.json";
-import centennialData from "~/data/locations/centennial.json";
-import { localizeData } from "~/config/site";
-
-const locationDataMap: Record<string, any> = localizeData({
-  lakewood: lakewoodData,
-  aurora: auroraData,
-  arvada: arvadaData,
-  centennial: centennialData,
-});
-
-export function getStaticPaths() {
-  return [
-    { params: { slug: "lakewood" } },
-    { params: { slug: "aurora" } },
-    { params: { slug: "arvada" } },
-    { params: { slug: "centennial" } },
-  ];
+// Location pages come from the EmDash "locations" collection.
+const { slug } = Astro.params;
+const entry = await getEntry("locations", slug!);
+if (!entry) {
+  return new Response("Not found", { status: 404 });
 }
 
-const { slug } = Astro.params;
-const entry = locationDataMap[slug!];
-
-const sections = (entry.sections || []).sort(
-  (a: any, b: any) => (a.order || 0) - (b.order || 0)
-);
-
-const metadata = {
-  title: entry.metadata?.title || getPageTitle(entry.title),
-  description: entry.metadata?.description || entry.description,
-  keywords: entry.metadata?.keywords,
-  canonical: entry.metadata?.canonical,
-};
+const sections = entry.sections;
+const metadata = buildMetadata(entry);
 
 // Location-specific structured data
 const siteUrl = siteConfig.seo.siteUrl;
