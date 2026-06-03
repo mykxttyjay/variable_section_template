@@ -27,10 +27,7 @@
       "title": "5 Reasons To Choose Us",
       "description": "",
       "order": 3,
-      "isCarousel": true,
-      "itemsPerSlide": 3,
-      "carouselAutoplay": true,
-      "carouselAutoplayDelay": 5000,
+      "isCarousel": false,
       "features": [
         {
           "title": "Experts in Local Marketing",

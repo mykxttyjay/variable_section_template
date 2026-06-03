@@ -35,10 +35,10 @@ const {
 } = Astro.props;
 
 // Automatically enable carousel if more than 4 cards, otherwise use prop value
-const isCarousel = cards.length > 4 ? true : (isCarouselProp || false);
+const isCarousel = isCarouselProp || false;
 
-// Show all cards if carousel, otherwise limit to max 4
-const displayCards = isCarousel ? cards : cards.slice(0, 4);
+// Show all cards if carousel, otherwise show all cards
+const displayCards = cards;
 const cardCount = displayCards.length;
 
 // Adaptive grid classes based on card count
@@ -51,6 +51,9 @@ const getGridClasses = () => {
     case 3:
       return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto";
     case 4:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
+    case 5:
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
     default:
       return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
   }
@@ -186,14 +189,14 @@ const getGridClasses = () => {
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                   />
+                  {card.icon && (
+                    <div class="absolute top-4 right-4 w-12 h-12 bg-primary flex items-center justify-center shadow-lg">
+                      <Icon name={card.icon} class="w-6 h-6 text-white" />
+                    </div>
+                  )}
                 </div>
               )}
               <div class="p-6">
-                {card.icon && (
-                  <div class="w-10 h-10 bg-primary flex items-center justify-center mb-4">
-                    <Icon name={card.icon} class="w-5 h-5 text-white" />
-                  </div>
-                )}
                 {card.title && (
                   <h3
                     class="text-lg font-bold text-primary-dark mb-2"
