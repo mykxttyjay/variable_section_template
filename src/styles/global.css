@@ -476,12 +476,13 @@ main {
 }
 
 /* ── Nav dropdown panels ── */
-.dropdown-menu > div {
-  background: rgba(255, 255, 255, 0.80) !important;
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.50) !important;
-  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.12);
+.dropdown-menu > div,
+.dropdown-menu > div > div {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(0, 107, 114, 0.15) !important;
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Generic white-background cards & bordered panels ── */
@@ -548,4 +549,38 @@ section.bg-white {
 
 section.bg-gray-50 {
   background: #f9fafb !important;
+}
+
+/* ── Nav link font size ── */
+#main-header nav a,
+#main-header nav button {
+  font-size: 15px;
+}
+
+/* ============================================
+   HERO PANEL SLIDE-IN ANIMATION
+   White gradient panel slides in from the left
+   ============================================ */
+@keyframes heroPanelSlideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+.hero-panel-animate {
+  animation: heroPanelSlideIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-panel-animate {
+    animation: none;
+  }
 }

@@ -107,7 +107,7 @@
     },
     {
       "section": "CTABanner",
-      "title": "Partner with {city}'s Local Advertising & Digital Marketing Pros",
+      "title": "Partner with {city}'s Local Advertising<br>& Digital Marketing Pros",
       "description": "Whether you're looking for <strong><a href='/indoor-billboards/screen-advertising' style='text-decoration: none; color: inherit;'>screen ads</a></strong>, a new <strong><a href='/solutions/foundational/website-design' style='text-decoration: none; color: inherit;'>website</a></strong>, or a complete <strong>digital marketing</strong> strategy in <strong>{city}</strong>, we're here to help. Contact us today for a free consultation and let's discuss how we can grow your business.",
       "ctaText": "Schedule Free Consultation",
       "ctaLink": "/contact-us",
@@ -116,7 +116,7 @@
     },
     {
       "section": "FAQs",
-      "title": "FAQS",
+      "title": "Frequently Asked Questions",
       "order": 7,
       "faqs": [
         {

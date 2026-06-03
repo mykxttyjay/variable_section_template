@@ -36,7 +36,7 @@ const faqSchema = {
 <section class="py-16 md:py-24 relative overflow-hidden" style="background-color: #f9f9f7; background-image: radial-gradient(ellipse at 100% 0%, rgba(0,107,114,0.08) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,173,181,0.07) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(0,107,114,0.04) 0%, transparent 60%);">
   <!-- Decorative Glow Blob -->
   <div class="glow-orb glow-orb-mint w-[400px] h-[400px] -bottom-20 -right-20 opacity-10"></div>
-  <div class="max-w-5xl mx-auto px-3 sm:px-4 lg:px-6">
+  <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
     {
       title && (
         <div class="mb-12" data-animate="fade-up">
@@ -51,16 +51,16 @@ const faqSchema = {
     <div class="space-y-3" data-animate-stagger>
       {
         faqs.map((faq) => (
-          <details class="group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_25px_-5px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_30px_-5px_rgba(99,102,241,0.08)] hover:border-primary-light/35 transition-all duration-300 overflow-hidden">
+          <details class="group bg-white border border-slate-100 shadow-[0_4px_25px_-5px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_30px_-5px_rgba(0,107,114,0.08)] hover:border-primary-light/35 transition-all duration-300 overflow-hidden">
             <summary
               class="flex justify-between items-center cursor-pointer p-6 hover:bg-slate-50/50 transition-colors duration-300"
               aria-label={`Toggle answer for: ${faq.question}`}
             >
-              <h3 class="text-base md:text-lg font-bold text-primary-dark pr-8 group-hover:text-primary transition-colors duration-200">
+              <h3 class="text-base md:text-lg font-semibold text-primary-dark pr-8 group-hover:text-primary transition-colors duration-200">
                 {faq.question}
               </h3>
               <div
-                class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center transition-all duration-300 group-open:bg-primary-light group-open:text-white group-open:rotate-45 shadow-sm"
+                class="flex-shrink-0 w-8 h-8 bg-slate-100 text-slate-700 flex items-center justify-center transition-all duration-300 group-open:bg-primary-light group-open:text-white group-open:rotate-45"
                 aria-hidden="true"
               >
                 <svg

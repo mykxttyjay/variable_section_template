@@ -16,23 +16,33 @@ const {
 } = Astro.props;
 ---
 
-<section class="py-20 md:py-28 bg-gradient-to-br from-primary-darker via-primary-dark to-slate-900 text-white relative overflow-hidden">
+<section class="py-20 md:py-28 text-white relative overflow-hidden">
+  <!-- Background Image with Parallax -->
+  <div
+    id="cta-banner-parallax-bg"
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('/images/chino-hills-ca-bg.avif'); transform: translateY(0px) scale(1.1);"
+  >
+  </div>
+
+  <!-- Dark Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-primary-darker/90 via-primary-dark/85 to-slate-900/90"></div>
+
   <!-- Decorative Glow Blobs -->
-  <div class="glow-orb glow-orb-green w-[600px] h-[600px] -top-40 -right-40 opacity-20"></div>
-  <div class="glow-orb glow-orb-mint w-[500px] h-[500px] -bottom-40 -left-40 opacity-15"></div>
-  <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-    <div class="relative z-10" data-animate="fade-right">
-      <h2 class="text-3xl md:text-5xl font-bold mb-4">
-        {title}
-      </h2>
+  <div class="glow-orb glow-orb-green w-[600px] h-[600px] -top-40 -right-40 opacity-20 relative z-[1]"></div>
+  <div class="glow-orb glow-orb-mint w-[500px] h-[500px] -bottom-40 -left-40 opacity-15 relative z-[1]"></div>
+  
+  <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4 relative z-10">
+    <div class="relative z-10 text-center" data-animate="fade-right">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4" set:html={title}></h2>
       <p
-        class="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl"
+        class="text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto"
         set:html={subtitle}
       />
 
       {
         actions.length > 0 && (
-          <div class="flex flex-wrap gap-4">
+          <div class="flex flex-wrap gap-4 justify-center">
             {actions.map((action) => (
               <a
                 href={action.href}
@@ -54,3 +64,57 @@ const {
     </div>
   </div>
 </section>
+
+<script>
+  // Parallax scrolling effect for CTA Banner background
+  function initCTABannerParallax() {
+    const parallaxBg = document.getElementById('cta-banner-parallax-bg');
+    const ctaSection = parallaxBg?.closest('section');
+    
+    if (!parallaxBg || !ctaSection) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+      const rect = ctaSection.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      // Only apply parallax when section is in viewport
+      if (rect.bottom > 0 && sectionTop < windowHeight) {
+        // Calculate parallax based on section position in viewport
+        const scrollProgress = (windowHeight - sectionTop) / (windowHeight + sectionHeight);
+        const yPos = (scrollProgress - 0.5) * 80; // Range for smoother effect
+        
+        parallaxBg.style.transform = `translateY(${yPos}px) scale(1.1)`;
+      }
+      
+      ticking = false;
+    }
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+
+    // Throttled scroll listener
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', requestTick, { passive: true });
+    
+    // Initial call
+    updateParallax();
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCTABannerParallax);
+  } else {
+    initCTABannerParallax();
+  }
+
+  // Re-initialize on Astro page transitions (if using View Transitions)
+  document.addEventListener('astro:page-load', initCTABannerParallax);
+</script>

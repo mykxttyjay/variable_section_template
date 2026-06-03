@@ -38,7 +38,7 @@ const isExternalLocationHref = (href: string) =>
 ---
 
 <section class="py-12 sm:py-16 md:py-24 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+  <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
     <div class="text-center mb-8 sm:mb-12" data-animate="fade-up">
       {
         title && (
@@ -56,116 +56,53 @@ const isExternalLocationHref = (href: string) =>
 
     {
       viewMode === "full" ? (
-        /* Full Width Map View with overlay list */
+        /* Full Width Map View — card above, map below */
         <div class="w-full">
+          {normalizedLocations && normalizedLocations.length > 0 && (
+            <div class="mb-6" data-animate="fade-up">
+              <div class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                  <svg class="w-6 h-6 text-primary-light" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                  </svg>
+                  <h3 class="text-xl font-bold text-primary-dark">Browse Our Network</h3>
+                </div>
+                <p class="text-sm text-gray-500 leading-relaxed">Browse the venues in our network while exploring the map.</p>
+              </div>
+              <ul class="flex flex-wrap gap-3">
+                {normalizedLocations.map((location) => {
+                  const href = getLocationHref(location);
+                  const isExternal = isExternalLocationHref(href);
+                  return (
+                    <li>
+                      <a
+                        href={href}
+                        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        class="group inline-flex items-center gap-2 px-4 py-2.5 bg-white border-2 border-gray-300 rounded hover:border-[#00897B] hover:bg-[#00897B] hover:text-white transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter shadow-sm hover:shadow-md"
+                      >
+                        <span class="flex h-5 w-5 flex-shrink-0 items-center justify-center bg-primary-light text-white group-hover:bg-white group-hover:text-[#00897B] transition-colors duration-200">
+                          <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                          </svg>
+                        </span>
+                        <span class="text-sm font-semibold text-primary-dark group-hover:text-white transition-colors duration-200">{location.name}</span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
           <div
-            class="relative w-full h-full overflow-hidden border border-gray-200 bg-white shadow-lg sm:h-[500px] lg:h-[600px]"
+            class="relative w-full overflow-hidden border border-gray-200 bg-white shadow-lg sm:h-[450px] lg:h-[550px]"
             data-map-shell
             data-map-src={mapUrl}
             data-map-mode="full"
           >
-            <div
-              class="relative h-full w-full"
-              data-map-frame
-            >
+            <div class="relative h-full w-full" data-map-frame>
               <div class="h-full w-full bg-gray-100"></div>
             </div>
-
-            {
-              normalizedLocations && normalizedLocations.length > 0 && (
-                <>
-                  <div class="hidden lg:flex z-20 flex-col gap-4 absolute top-24 right-6 w-80 max-h-[65%] bg-white text-primary-dark p-6 shadow-2xl border-l-4 border-primary-light">
-                    <div>
-                      <h3 class="text-xl font-bold mb-2 text-primary-dark">Browse Our Network</h3>
-                      <p class="text-sm text-gray-600">
-                        Browse the venues in our network while exploring the map.
-                      </p>
-                    </div>
-                    <div class="overflow-y-auto pr-2 custom-scrollbar">
-                      <ul class="space-y-2">
-                        {normalizedLocations.map((location) => {
-                          const href = getLocationHref(location);
-                          const isExternal = isExternalLocationHref(href);
-                          return (
-                            <li>
-                              <a
-                                href={href}
-                                {...(isExternal
-                                  ? {
-                                      target: "_blank",
-                                      rel: "noopener noreferrer",
-                                    }
-                                  : {})}
-                                class="group flex w-full items-center gap-3 border-l-2 border-neutral-dark bg-neutral px-4 py-3 text-left transition hover:border-primary-light hover:bg-primary-light/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter"
-                              >
-                                <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center bg-primary-light text-white transition group-hover:bg-primary-light/80">
-                                  <svg
-                                    class="h-4 w-4"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                      clip-rule="evenodd"
-                                    />
-                                  </svg>
-                                </span>
-                                <span class="flex-1 text-sm leading-snug font-medium text-primary-dark">{location.name}</span>
-                              </a>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                </>
-              )
-            }
           </div>
-
-          {
-            normalizedLocations && normalizedLocations.length > 0 && (
-              <div class="mt-6 lg:hidden bg-white text-primary-dark p-6 shadow-lg border-l-4 border-primary-light">
-                <h3 class="text-xl font-bold mb-4 text-primary-dark">Service Areas</h3>
-                <ul class="space-y-2">
-                  {normalizedLocations.map((location) => {
-                    const href = getLocationHref(location);
-                    const isExternal = isExternalLocationHref(href);
-                    return (
-                      <li>
-                        <a
-                          href={href}
-                          {...(isExternal
-                            ? {
-                                target: "_blank",
-                                rel: "noopener noreferrer",
-                              }
-                            : {})}
-                          class="group flex w-full items-center gap-3 border-l-2 border-neutral-dark bg-neutral px-4 py-3 text-left transition hover:border-primary-light hover:bg-primary-light/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter"
-                        >
-                          <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center bg-primary-light text-white transition group-hover:bg-primary-light/80">
-                            <svg
-                              class="h-4 w-4"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                clip-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                          <span class="flex-1 text-sm font-medium text-primary-dark">{location.name}</span>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )
-          }
         </div>
       ) : (
         /* Half View - Map + Locations Side by Side */
