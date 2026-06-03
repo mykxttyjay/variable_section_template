@@ -5,6 +5,9 @@ pages are prerendered to static HTML at build time; the EmDash CMS (admin panel,
 REST API, auth) runs on demand in a single Vercel serverless function.
 
 - **CMS:** [EmDash](https://www.emdashcms.dev/) `0.16.x` (Astro integration, beta)
+- **Admin UI runtime:** React 19 via `@astrojs/react` (EmDash's admin is a React app;
+  React, react-dom, and `@astrojs/react` are peer deps we install directly and
+  register in `astro.config.mjs`)
 - **Database:** Turso / libSQL (`@libsql/client`)
 - **Media storage:** S3-compatible backend for EmDash's media library, with
   Cloudinary as the optional public delivery/optimization layer

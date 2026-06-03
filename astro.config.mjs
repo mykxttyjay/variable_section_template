@@ -9,6 +9,7 @@ import icon from "astro-icon";
 import { EnumChangefreq } from "sitemap";
 import vercel from "@astrojs/vercel";
 import emdash from "emdash/astro";
+import react from "@astrojs/react";
 import { emdashDatabase, emdashStorage } from "./src/lib/emdash.config.mjs";
 import { readFileSync, writeFileSync, readdirSync, statSync } from "fs";
 import { resolve, join } from "path";
@@ -200,6 +201,8 @@ export default defineConfig({
       },
     }),
     configIntegration(),
+    // React renderer required by EmDash's admin panel (TipTap, react-query, etc.)
+    react(),
     emdash({
       database: emdashDatabase(),
       storage: emdashStorage(),
@@ -226,9 +229,13 @@ export default defineConfig({
   output: "server",
   // EmDash auth uses Astro sessions. The Vercel adapter does not provide a
   // default session driver, so we store sessions in the same Turso/libSQL DB.
-  // An absolute path is required so Vite resolves the driver from project root.
+  // Object form (Astro v6+): entrypoint is an absolute path to our custom driver.
   session: {
-    driver: fileURLToPath(new URL("./src/lib/session-driver.mjs", import.meta.url)),
+    driver: {
+      entrypoint: fileURLToPath(
+        new URL("./src/lib/session-driver.mjs", import.meta.url)
+      ),
+    },
   },
   vite: {
     plugins: [themeColorsPlugin(), tailwindcss()],
