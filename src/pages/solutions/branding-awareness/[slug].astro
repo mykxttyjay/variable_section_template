@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import PageLayout from "~/layouts/PageLayout.astro";
 import Hero from "~/components/sections/Hero.astro";
 import FAQs from "~/components/sections/FAQs.astro";
@@ -11,41 +11,18 @@ import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
 import NetworksSection from "~/components/sections/NetworksSection.astro";
 import FormSection from "~/components/sections/FormSection.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
-import { getPageTitle } from "~/lib/config";
 import { siteConfig } from "~/config/site";
+import { getEntry, buildMetadata } from "~/lib/content";
 
-// Import all branding-awareness solution JSON data files
-import connectedTvData from "~/data/pages/connected-tv.json";
-import displayGeofencingData from "~/data/pages/display-geofencing.json";
-import streamingAudioData from "~/data/pages/streaming-audio.json";
-import { localizeData } from "~/config/site";
-
-const brandingDataMap: Record<string, any> = localizeData({
-  "connected-tv": connectedTvData,
-  "display-geofencing": displayGeofencingData,
-  "streaming-audio": streamingAudioData,
-});
-
-export function getStaticPaths() {
-  return [
-    { params: { slug: "connected-tv" } },
-    { params: { slug: "display-geofencing" } },
-    { params: { slug: "streaming-audio" } },
-  ];
+// Branding-awareness solution pages come from the EmDash "solutions" collection.
+const { slug } = Astro.params;
+const entry = await getEntry("solutions", slug!);
+if (!entry || entry.category !== "branding-awareness") {
+  return new Response("Not found", { status: 404 });
 }
 
-const { slug } = Astro.params;
-const entry = brandingDataMap[slug!];
-
-const sections = (entry.sections || []).sort(
-  (a: any, b: any) => (a.order || 0) - (b.order || 0)
-);
-
-const metadata = {
-  title: entry.metadata?.title || getPageTitle(entry.title),
-  description: entry.metadata?.description || entry.description,
-  keywords: entry.metadata?.keywords,
-};
+const sections = entry.sections;
+const metadata = buildMetadata(entry);
 
 // Schema markup data
 const siteUrl = siteConfig.seo.siteUrl;

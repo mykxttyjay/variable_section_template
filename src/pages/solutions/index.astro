@@ -1,27 +1,20 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import PageLayout from "~/layouts/PageLayout.astro";
 import Hero from "~/components/sections/Hero.astro";
 import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
 import FeaturesSection from "~/components/sections/FeaturesSection.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
-import { getPageTitle } from "~/lib/config";
 import { siteConfig } from "~/config/site";
+import { getEntry, buildMetadata } from "~/lib/content";
 
-// Get solutions content from JSON data
-import solutionsDataRaw from "~/data/pages/solutions.json";
-import { localizeData } from "~/config/site";
-const solutionsData = localizeData(solutionsDataRaw);
-
-const sections = (solutionsData.sections || []).sort(
-  (a: any, b: any) => (a.order || 0) - (b.order || 0)
-);
-
-const metadata = {
-  title: solutionsData.metadata?.title || getPageTitle(solutionsData.title),
-  description: solutionsData.metadata?.description || solutionsData.description,
-  keywords: solutionsData.metadata?.keywords,
-};
+// Solutions index content comes from the EmDash "pages" collection.
+const solutionsData = await getEntry("pages", "solutions");
+if (!solutionsData) {
+  return new Response("Solutions content not found", { status: 404 });
+}
+const sections = solutionsData.sections;
+const metadata = buildMetadata(solutionsData);
 
 // Schema markup data
 const siteUrl = siteConfig.seo.siteUrl;

@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import PageLayout from "~/layouts/PageLayout.astro";
 import Hero from "~/components/sections/Hero.astro";
 import FAQs from "~/components/sections/FAQs.astro";
@@ -12,41 +12,19 @@ import FeaturesSection from "~/components/sections/FeaturesSection.astro";
 import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
 import DesignSkillsGrid from "~/components/sections/DesignSkillsGrid.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
-import { getPageTitle } from "~/lib/config";
 import { siteConfig } from "~/config/site";
+import { getEntry, buildMetadata } from "~/lib/content";
 
-// Import all indoor-billboards JSON data files
-import becomeAVenuePartnerData from "~/data/pages/become-a-venue-partner.json";
-import locationsData from "~/data/pages/billboard-locations.json";
-import screenAdvertisingData from "~/data/pages/screen-advertising.json";
-import { localizeData } from "~/config/site";
-
-const billboardDataMap: Record<string, any> = localizeData({
-  "become-a-venue-partner": becomeAVenuePartnerData,
-  locations: locationsData,
-  "screen-advertising": screenAdvertisingData,
-});
-
-export function getStaticPaths() {
-  return [
-    { params: { slug: "become-a-venue-partner" } },
-    { params: { slug: "locations" } },
-    { params: { slug: "screen-advertising" } },
-  ];
+// Indoor billboard pages come from the EmDash "indoor_billboards" collection.
+// (Collection slug uses an underscore; the public URL stays /indoor-billboards/.)
+const { slug } = Astro.params;
+const entry = await getEntry("indoor_billboards", slug!);
+if (!entry) {
+  return new Response("Not found", { status: 404 });
 }
 
-const { slug } = Astro.params;
-const entry = billboardDataMap[slug!];
-
-const sections = (entry.sections || []).sort(
-  (a: any, b: any) => (a.order || 0) - (b.order || 0)
-);
-
-const metadata = {
-  title: entry.metadata?.title || getPageTitle(entry.title),
-  description: entry.metadata?.description || entry.description,
-  keywords: entry.metadata?.keywords,
-};
+const sections = entry.sections;
+const metadata = buildMetadata(entry);
 
 // Schema markup data
 const siteUrl = siteConfig.seo.siteUrl;

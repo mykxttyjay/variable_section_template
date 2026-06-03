@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import PageLayout from "~/layouts/PageLayout.astro";
 import Hero from "~/components/sections/Hero.astro";
 import ContentWithImage from "~/components/sections/ContentWithImage.astro";
@@ -9,27 +9,16 @@ import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
 import ContentWithKeypoints from "~/components/sections/ContentWithKeypoints.astro";
 import CTALight from "~/components/sections/CTALight.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
-import { getPageTitle } from "~/lib/config";
 import { siteConfig } from "~/config/site";
+import { getEntry, buildMetadata } from "~/lib/content";
 
-// Get about-us content from JSON data
-import aboutDataRaw from "~/data/pages/about-us.json";
-import { localizeData } from "~/config/site";
-const aboutData = localizeData(aboutDataRaw);
-const { sections } = aboutData;
-
-// Sort sections by order
-const sortedSections = sections.sort(
-  (a: any, b: any) => (a.order || 0) - (b.order || 0)
-);
-
-const metadata = {
-  title:
-    aboutData.metadata?.title || getPageTitle(aboutData.title),
-  description:
-    aboutData.metadata?.description || aboutData.description,
-  keywords: aboutData.metadata?.keywords,
-};
+// About-us content comes from the EmDash "pages" collection.
+const aboutData = await getEntry("pages", "about-us");
+if (!aboutData) {
+  return new Response("About content not found", { status: 404 });
+}
+const sortedSections = aboutData.sections;
+const metadata = buildMetadata(aboutData);
 
 // Schema markup data
 const siteUrl = siteConfig.seo.siteUrl;

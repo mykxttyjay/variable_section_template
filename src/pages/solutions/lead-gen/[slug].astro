@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import PageLayout from "~/layouts/PageLayout.astro";
 import Hero from "~/components/sections/Hero.astro";
 import FAQs from "~/components/sections/FAQs.astro";
@@ -12,38 +12,18 @@ import FeaturesSection from "~/components/sections/FeaturesSection.astro";
 import FeaturesWithImage from "~/components/sections/FeaturesWithImage.astro";
 import DesignSkillsGrid from "~/components/sections/DesignSkillsGrid.astro";
 import StructuredData from "~/components/seo/StructuredData.astro";
-import { getPageTitle } from "~/lib/config";
 import { siteConfig } from "~/config/site";
+import { getEntry, buildMetadata } from "~/lib/content";
 
-// Import all lead-gen solution JSON data files
-import payPerClickData from "~/data/pages/pay-per-click.json";
-import socialMediaAdvertisingData from "~/data/pages/social-media-advertising.json";
-import { localizeData } from "~/config/site";
-
-const leadGenDataMap: Record<string, any> = localizeData({
-  "pay-per-click": payPerClickData,
-  "social-media-advertising": socialMediaAdvertisingData,
-});
-
-export function getStaticPaths() {
-  return [
-    { params: { slug: "pay-per-click" } },
-    { params: { slug: "social-media-advertising" } },
-  ];
+// Lead-gen solution pages come from the EmDash "solutions" collection.
+const { slug } = Astro.params;
+const entry = await getEntry("solutions", slug!);
+if (!entry || entry.category !== "lead-gen") {
+  return new Response("Not found", { status: 404 });
 }
 
-const { slug } = Astro.params;
-const entry = leadGenDataMap[slug!];
-
-const sections = (entry.sections || []).sort(
-  (a: any, b: any) => (a.order || 0) - (b.order || 0)
-);
-
-const metadata = {
-  title: entry.metadata?.title || getPageTitle(entry.title),
-  description: entry.metadata?.description || entry.description,
-  keywords: entry.metadata?.keywords,
-};
+const sections = entry.sections;
+const metadata = buildMetadata(entry);
 
 // Schema markup data
 const siteUrl = siteConfig.seo.siteUrl;
