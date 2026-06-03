@@ -185,10 +185,10 @@ const actions = ctaButton ? [ctaButton] : [];
                       <div class="dropdown-menu absolute left-1/2 -translate-x-1/2 mt-2 2xl:w-[1000px] xl:w-[550px] lg:w-[450px] w-[400px] max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
                         <div class="shadow-xl bg-white border border-gray-200 overflow-hidden">
                           <div class="grid 2xl:grid-cols-[1fr_280px] grid-cols-1 2xl:divide-x divide-gray-100">
-                            {/* Categories Column - Scrollable */}
+                            {/* Categories Column - Full visibility, no scroll */}
                             <div class="relative">
                               <div
-                                class="px-6 py-6 max-h-[480px] overflow-y-auto scrollbar-thin"
+                                class="px-6 py-6"
                                 id="solutions-scroll-container"
                               >
                                 <div class="space-y-8">
@@ -238,18 +238,18 @@ const actions = ctaButton ? [ctaButton] : [];
                                             {sublink.links.map((nestedLink) => (
                                               <a
                                                 href={nestedLink.href}
-                                                class="group/item flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-all"
+                                                class="group/item flex items-start gap-3 px-3 py-3 hover:bg-neutral transition-all border-l-2 border-transparent hover:border-primary-light"
                                               >
                                                 {nestedLink.icon && (
-                                                  <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover/item:bg-primary-light transition-colors">
+                                                  <div class="flex-shrink-0 w-8 h-8 bg-neutral flex items-center justify-center group-hover/item:bg-primary-light transition-colors">
                                                     <Icon
                                                       name={nestedLink.icon}
-                                                      class="w-5 h-5 text-slate-700 group-hover/item:text-white transition-colors"
+                                                      class="w-4 h-4 text-primary group-hover/item:text-white transition-colors"
                                                     />
                                                   </div>
                                                 )}
                                                 <div class="flex-1 min-w-0">
-                                                  <div class="text-sm font-semibold text-gray-900 group-hover/item:text-primary transition-colors">
+                                                  <div class="text-sm font-semibold text-gray-800 group-hover/item:text-primary transition-colors">
                                                     {nestedLink.text}
                                                   </div>
                                                   {nestedLink.description && (
@@ -258,6 +258,9 @@ const actions = ctaButton ? [ctaButton] : [];
                                                     </div>
                                                   )}
                                                 </div>
+                                                <svg class="w-3.5 h-3.5 text-gray-300 group-hover/item:text-primary-light transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                                </svg>
                                               </a>
                                             ))}
                                           </div>
