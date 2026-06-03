@@ -19,8 +19,9 @@ const {
 <section class="relative py-20 md:py-28 text-white overflow-hidden">
   <!-- Lightweight Background Image -->
   <div
+    id="final-cta-parallax-bg"
     class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-    style="background-image: url('/images/chino-hills-ca-bg.avif'); transform: scale(1.02);"
+    style="background-image: url('/images/home-cta.avif'); transform: translateY(0px) scale(1.02);"
   >
   </div>
 
@@ -63,3 +64,57 @@ const {
   </div>
 </section>
 
+
+<script>
+  // Parallax scrolling effect for Final CTA background
+  function initFinalCTAParallax() {
+    const parallaxBg = document.getElementById('final-cta-parallax-bg');
+    const ctaSection = parallaxBg?.closest('section');
+    
+    if (!parallaxBg || !ctaSection) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+      const rect = ctaSection.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      // Only apply parallax when section is in viewport
+      if (rect.bottom > 0 && sectionTop < windowHeight) {
+        // Calculate parallax based on section position in viewport
+        const scrollProgress = (windowHeight - sectionTop) / (windowHeight + sectionHeight);
+        const yPos = (scrollProgress - 0.5) * 100; // Range from -50 to 50
+        
+        parallaxBg.style.transform = `translateY(${yPos}px) scale(1.02)`;
+      }
+      
+      ticking = false;
+    }
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+
+    // Throttled scroll listener
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', requestTick, { passive: true });
+    
+    // Initial call
+    updateParallax();
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFinalCTAParallax);
+  } else {
+    initFinalCTAParallax();
+  }
+
+  // Re-initialize on Astro page transitions (if using View Transitions)
+  document.addEventListener('astro:page-load', initFinalCTAParallax);
+</script>

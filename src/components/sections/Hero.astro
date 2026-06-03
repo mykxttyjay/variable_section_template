@@ -25,12 +25,13 @@ const {
 <section class="relative overflow-hidden min-h-[85vh] flex items-stretch">
 
   <!-- Full-bleed background image (right side shows through) -->
-  <div class="absolute inset-0 z-0">
+  <div class="absolute inset-0 z-0" id="hero-parallax-bg">
     {image ? (
       <img
         src={image}
         alt="Hero background"
         class="w-full h-full object-cover object-center"
+        style="transform: translateY(0px);"
         loading="eager"
         fetchpriority="high"
         width="1600"
@@ -110,3 +111,55 @@ const {
   )}
 
 </section>
+
+<script>
+  // Parallax scrolling effect for hero background
+  function initHeroParallax() {
+    const parallaxBg = document.getElementById('hero-parallax-bg');
+    const heroSection = parallaxBg?.closest('section');
+    
+    if (!parallaxBg || !heroSection) return;
+    
+    const img = parallaxBg.querySelector('img');
+    if (!img) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+      const rect = heroSection.getBoundingClientRect();
+      const scrolled = window.scrollY;
+      
+      // Only apply parallax when section is in view
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        // Parallax factor: 0.5 means background moves at half speed (adjust for different effects)
+        const yPos = scrolled * 0.5;
+        img.style.transform = `translateY(${yPos}px)`;
+      }
+      
+      ticking = false;
+    }
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+
+    // Throttled scroll listener
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Initial call
+    updateParallax();
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroParallax);
+  } else {
+    initHeroParallax();
+  }
+
+  // Re-initialize on Astro page transitions (if using View Transitions)
+  document.addEventListener('astro:page-load', initHeroParallax);
+</script>

@@ -467,12 +467,13 @@ main {
 }
 
 /* ── Nav dropdown panels ── */
-.dropdown-menu > div {
-  background: rgba(255, 255, 255, 0.80) !important;
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.50) !important;
-  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.12);
+.dropdown-menu > div,
+.dropdown-menu > div > div {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(0, 107, 114, 0.15) !important;
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Generic white-background cards & bordered panels ── */
