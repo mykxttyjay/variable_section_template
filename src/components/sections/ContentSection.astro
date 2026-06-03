@@ -76,7 +76,7 @@ const getLayoutClasses = (variant: string, hasImage: boolean) => {
         {features && features.length > 0 && (
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8" data-animate-stagger>
             {features.map((feature) => (
-              <div class="p-4 lg:p-6 border border-gray-200 hover:border-primary-light hover:shadow-lg transition-all duration-200">
+              <div class="p-4 lg:p-6 bg-white border border-gray-200 shadow-md hover:shadow-xl transition-all duration-200 rounded-lg group">
                 {feature.image && (
                   <div class="mb-4">
                     <img
@@ -90,14 +90,14 @@ const getLayoutClasses = (variant: string, hasImage: boolean) => {
                   </div>
                 )}
                 {feature.icon && !feature.image && (
-                  <div class="w-10 h-10 sm:w-12 sm:h-12 bg-neutral flex items-center justify-center mb-4">
-                    <Icon name={feature.icon} class="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                  <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-light to-primary text-white flex items-center justify-center mb-4 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+                    <Icon name={feature.icon} class="w-7 h-7 sm:w-8 sm:h-8" />
                   </div>
                 )}
-                <h3 class="text-lg sm:text-xl font-semibold text-primary-dark mb-2">
+                <h3 class="text-lg sm:text-xl font-semibold text-primary-dark mb-2 group-hover:text-primary transition-colors">
                   {feature.title}
                 </h3>
-                <p class="text-sm sm:text-base text-gray-600">
+                <p class="text-sm sm:text-base text-gray-600 group-hover:text-gray-700 transition-colors">
                   {feature.description}
                 </p>
               </div>
