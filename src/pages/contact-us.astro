@@ -46,7 +46,12 @@ const breadcrumbData = {
   <StructuredData type="ContactPage" data={contactPageData} />
   <StructuredData type="BreadcrumbList" data={breadcrumbData} />
   {
-    sortedSections.map((section: any) => {
+    sortedSections.map((section: any, index: number) => {
+      // Calculate alternating background (skip Hero which is index 0)
+      const sectionIndex = index;
+      const isEven = sectionIndex % 2 === 0;
+      const sectionBackground = isEven ? "white" : "gradient";
+      
       if (section.section === "Hero") {
         return (
           <Hero
@@ -79,6 +84,7 @@ const breadcrumbData = {
             features={section.features}
             ctaText={section.ctaText}
             ctaLink={section.ctaLink}
+            sectionBackground={sectionBackground}
           />
         );
       }

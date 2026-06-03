@@ -35,15 +35,20 @@ const breadcrumbData = {
     { name: "Solutions", url: "/solutions" },
   ],
 };
-const faqSection = sections.find((s: any) => s.section === "FAQs");
+const faqSection = sections.find((s: any) => s.section === "FAQs") as any;
 ---
 
 <PageLayout metadata={metadata}>
   <StructuredData type="WebPage" data={webPageData} />
   <StructuredData type="BreadcrumbList" data={breadcrumbData} />
-  {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
+  {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: (faqSection as any).faqs }} />}
   {
-    sections.map((section: any) => {
+    sections.map((section: any, index: number) => {
+      // Calculate alternating background (skip Hero which is index 0)
+      const sectionIndex = index;
+      const isEven = sectionIndex % 2 === 0;
+      const sectionBackground = isEven ? "white" : "gradient";
+      
       // Hero Section
       if (section.section === "Hero") {
         return (
@@ -84,6 +89,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
               cards={section.features}
               ctaText={section.ctaText}
               ctaLink={section.ctaLink}
+              sectionBackground={sectionBackground}
             />
           );
         }
@@ -96,6 +102,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
             features={section.features}
             ctaText={section.ctaText}
             ctaLink={section.ctaLink}
+            sectionBackground={sectionBackground}
           />
         );
       }

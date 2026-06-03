@@ -14,12 +14,18 @@ interface Props {
   ctaText?: string;
   ctaLink?: string;
   cards: Card[];
+  sectionBackground?: "gradient" | "white";
 }
 
-const { title, description, ctaText, ctaLink, cards = [] } = Astro.props;
+const { title, description, ctaText, ctaLink, cards = [], sectionBackground = "gradient" } = Astro.props;
+
+const bgClass = sectionBackground === "white" ? "bg-white" : "";
+const bgStyle = sectionBackground === "gradient" 
+  ? "background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.10) 0%, transparent 65%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.09) 0%, transparent 65%), radial-gradient(ellipse at 80% 10%, rgba(0,107,114,0.06) 0%, transparent 50%);"
+  : "";
 ---
 
-<section class="py-16 md:py-24 relative overflow-hidden" style="background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.07) 0%, transparent 50%), radial-gradient(ellipse at 80% 10%, rgba(0,107,114,0.05) 0%, transparent 40%);">
+<section class={`py-16 md:py-24 relative overflow-hidden ${bgClass}`} style={bgStyle}>
   <!-- Decorative Glow Blobs -->
   <div class="glow-orb glow-orb-green w-[600px] h-[600px] -top-[10%] -left-[10%] opacity-15"></div>
   <div class="glow-orb glow-orb-mint w-[500px] h-[500px] -bottom-[10%] -right-[10%] opacity-15"></div>

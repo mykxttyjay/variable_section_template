@@ -49,7 +49,12 @@ const breadcrumbData = {
   <StructuredData type="AboutPage" data={aboutPageData} />
   <StructuredData type="BreadcrumbList" data={breadcrumbData} />
   {
-    sortedSections.map((section: any) => {
+    sortedSections.map((section: any, index: number) => {
+      // Calculate alternating background (skip Hero which is index 0)
+      const sectionIndex = index;
+      const isEven = sectionIndex % 2 === 0;
+      const sectionBackground = isEven ? "white" : "gradient";
+      
       // Hero Section
       if (section.section === "Hero") {
         return (
@@ -86,6 +91,7 @@ const breadcrumbData = {
             image={section.image}
             imagePosition={section.imagePosition}
             background={section.background}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -100,6 +106,7 @@ const breadcrumbData = {
             features={section.features}
             ctaText={section.ctaText}
             ctaLink={section.ctaLink}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -118,6 +125,7 @@ const breadcrumbData = {
             itemsPerSlide={section.itemsPerSlide}
             carouselAutoplay={section.carouselAutoplay}
             carouselAutoplayDelay={section.carouselAutoplayDelay}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -149,6 +157,7 @@ const breadcrumbData = {
             image={section.image}
             ctaText={section.ctaText}
             ctaLink={section.ctaLink}
+            sectionBackground={sectionBackground}
           />
         );
       }

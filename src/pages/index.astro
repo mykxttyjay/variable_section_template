@@ -36,7 +36,12 @@ const breadcrumbData = {
   <StructuredData type="BreadcrumbList" data={breadcrumbData} />
   {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
   {
-    sortedSections.map((section: any) => {
+    sortedSections.map((section: any, index: number) => {
+      // Calculate alternating background (skip Hero which is index 0)
+      const sectionIndex = index;
+      const isEven = sectionIndex % 2 === 0;
+      const sectionBackground = isEven ? "white" : "gradient";
+      
       // Hero Section
       if (section.section === "Hero") {
         return (
@@ -70,6 +75,7 @@ const breadcrumbData = {
             ctaText={section.ctaText}
             ctaLink={section.ctaLink}
             cards={section.cards}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -85,6 +91,7 @@ const breadcrumbData = {
             ctaLink={section.ctaLink}
             keyPoints={section.keyPoints}
             image={section.image}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -112,7 +119,7 @@ const breadcrumbData = {
 
       // FAQs Section
       if (section.section === "FAQs" && section.faqs) {
-        return <FAQs title={section.title} faqs={section.faqs} />;
+        return <FAQs title={section.title} faqs={section.faqs} sectionBackground={sectionBackground} />;
       }
 
       // Map Section - Now handled globally in BaseLayout

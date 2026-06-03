@@ -74,7 +74,12 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
   <StructuredData type="BreadcrumbList" data={breadcrumbData} />
   {faqSection?.faqs && <StructuredData type="FAQPage" data={{ faqs: faqSection.faqs }} />}
   {
-    sections.map((section: any) => {
+    sections.map((section: any, index: number) => {
+      // Calculate alternating background (skip Hero which is index 0)
+      const sectionIndex = index;
+      const isEven = sectionIndex % 2 === 0;
+      const sectionBackground = isEven ? "white" : "gradient";
+      
       // Hero Section
       if (section.section === "Hero") {
         return (
@@ -101,7 +106,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
 
       // FAQs Section
       if (section.section === "FAQs" && section.faqs) {
-        return <FAQs title={section.title} faqs={section.faqs} />;
+        return <FAQs title={section.title} faqs={section.faqs} sectionBackground={sectionBackground} />;
       }
 
       // Map Section
@@ -128,6 +133,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
             ctaLink={section.ctaLink}
             image={section.image}
             keyPoints={section.keyPoints}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -144,6 +150,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
             image={section.image}
             imagePosition={section.imagePosition}
             background={section.background}
+            sectionBackground={sectionBackground}
           />
         );
       }
@@ -200,6 +207,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
               cards={section.features}
               ctaText={section.ctaText}
               ctaLink={section.ctaLink}
+              sectionBackground={sectionBackground}
             />
           );
         }
@@ -211,6 +219,7 @@ const faqSection = sections.find((s: any) => s.section === "FAQs");
             features={section.features}
             ctaText={section.ctaText}
             ctaLink={section.ctaLink}
+            sectionBackground={sectionBackground}
           />
         );
       }

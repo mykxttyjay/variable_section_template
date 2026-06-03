@@ -8,6 +8,7 @@ interface Props {
   features?: any[];
   ctaText?: string;
   ctaLink?: string;
+  sectionBackground?: "gradient" | "white";
 }
 
 const {
@@ -17,10 +18,16 @@ const {
   features = [],
   ctaText,
   ctaLink,
+  sectionBackground = "white",
 } = Astro.props;
+
+const bgClass = sectionBackground === "white" ? "bg-white" : "";
+const bgStyle = sectionBackground === "gradient" 
+  ? "background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.10) 0%, transparent 65%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.09) 0%, transparent 65%);"
+  : "";
 ---
 
-<section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+<section class={`py-12 sm:py-16 md:py-24 ${bgClass}`} style={bgStyle}>
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
     {(eyebrow || title || description) && (
       <div class="text-center mb-8 sm:mb-12" data-animate="fade-up">

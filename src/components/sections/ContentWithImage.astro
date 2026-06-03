@@ -8,6 +8,7 @@ interface Props {
   image?: string;
   imagePosition?: "left" | "right";
   background?: string;
+  sectionBackground?: "gradient" | "white";
 }
 
 const {
@@ -19,13 +20,21 @@ const {
   image,
   imagePosition = "right",
   background,
+  sectionBackground,
 } = Astro.props;
 // Handle background - can be a color name or custom color
 let bgClass = "";
 let bgStyle = "";
 let isDarkBg = false;
 
-if (background) {
+// Check if sectionBackground overrides background
+if (sectionBackground === "gradient") {
+  bgStyle = "background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.10) 0%, transparent 65%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.09) 0%, transparent 65%);";
+  isDarkBg = false;
+} else if (sectionBackground === "white") {
+  bgClass = "bg-white";
+  isDarkBg = false;
+} else if (background) {
   if (background === "gray") {
     bgClass = "bg-gray-50";
     isDarkBg = false;
@@ -70,15 +79,15 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
 
 <section
   class={`py-16 sm:py-20 md:py-24 ${bgClass}`}
-  {...bgStyle && { style: bgStyle }}
+  style={bgStyle}
 >
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
     <div
-      class={`flex flex-col ${imagePosition === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-0 items-stretch`}
+      class={`flex flex-col ${imagePosition === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-8 lg:gap-12 items-stretch`}
     >
       <!-- Content Column -->
       <div
-        class="w-full lg:w-1/2 flex items-center p-8 lg:p-12"
+        class="w-full lg:w-1/2 flex items-center py-8 lg:py-12"
         data-animate={imagePosition === "left" ? "fade-left" : "fade-right"}
       >
         <div>
