@@ -4,6 +4,14 @@ dist/
 # generated types
 .astro/
 
+# EmDash CMS — local database, uploads, and generated types
+*.db
+*.db-shm
+*.db-wal
+.emdash/uploads/
+.emdash/types.ts
+emdash-env.d.ts
+
 # dependencies
 node_modules/
 
@@ -23,3 +31,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+DEMO_GUIDE.md
+EMDASH_INTEGRATION.md
+PROJECT_DOCUMENTATION.md
