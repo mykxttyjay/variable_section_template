@@ -3,7 +3,7 @@
 
 /// <reference types="emdash/locals" />
 
-import type { ContentBylineCredit, PortableTextBlock } from "emdash";
+import type { ContentBylineCredit } from "emdash";
 
 export interface IndoorBillboardPage {
   id: string;
@@ -46,24 +46,9 @@ export interface Page {
   slug: string | null;
   status: string;
   title: string;
-  content?: PortableTextBlock[];
   description: string;
   sections?: unknown;
   metadata?: unknown;
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date | null;
-  bylines?: ContentBylineCredit[];
-}
-
-export interface Post {
-  id: string;
-  slug: string | null;
-  status: string;
-  title: string;
-  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> };
-  content?: PortableTextBlock[];
-  excerpt?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -95,7 +80,6 @@ declare module "emdash" {
     indoor_billboards: IndoorBillboardPage;
     locations: LocationPage;
     pages: Page;
-    posts: Post;
     solutions: Solution;
   }
 }

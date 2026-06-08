@@ -1,4 +1,4 @@
----
+﻿---
 interface Props {
   title?: string;
   subtitle?: string;
@@ -71,13 +71,13 @@ const {
           </div>
         )}
 
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-dark mb-6 leading-[1.1]">
+        <h1 class="font-bold text-primary-dark mb-6 leading-[1.1]" style="font-size: 72px; max-width: 650px;">
           {title}
         </h1>
 
         <div class="h-1 w-20 bg-primary-light mb-8"></div>
 
-        <p class="text-base md:text-lg text-gray-600 mb-10 leading-relaxed" set:html={subtitle}></p>
+        <p class="text-gray-600 mb-10 leading-relaxed" style="font-size: 20px;" set:html={subtitle}></p>
 
         {actions.length > 0 && (
           <div class="flex flex-wrap gap-4">
