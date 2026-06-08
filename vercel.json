@@ -19,7 +19,7 @@
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/((?!_emdash).*)",
       "headers": [
         {
           "key": "X-Content-Type-Options",
@@ -40,6 +40,27 @@
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://link.msgsndr.com https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://api.leadconnectorhq.com https://vercel.live; frame-src 'self' https://www.google.com https://api.leadconnectorhq.com https://vercel.live; object-src 'none'; base-uri 'self'"
+        }
+      ]
+    },
+    {
+      "source": "/_emdash/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; frame-src 'self'; object-src 'none'; base-uri 'self'"
         }
       ]
     },

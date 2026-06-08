@@ -2,7 +2,6 @@
 import { Icon } from "astro-icon/components";
 import { navItems, ctaButton } from "~/config/navigation";
 import { siteConfig } from "~/config/site";
-import ToggleMenu from "../ui/ToggleMenu.astro";
 
 interface NavLink {
   text: string;
@@ -122,7 +121,7 @@ const actions = ctaButton ? [ctaButton] : [];
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex md:items-center md:space-x-4">
+      <div class="desktop-nav">
         <nav
           class="flex items-center space-x-1 relative"
           aria-label="Main navigation"
@@ -404,8 +403,25 @@ const actions = ctaButton ? [ctaButton] : [];
       </div>
 
       <!-- Mobile menu button -->
-      <div class="flex md:hidden">
-        <ToggleMenu />
+      <div class="mobile-menu-toggle">
+        <button
+          type="button"
+          id="mobile-menu-toggle"
+          class="ml-1.5 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 text-sm p-2.5 inline-flex items-center transition"
+          aria-label="Toggle Menu"
+          aria-expanded="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -541,11 +557,15 @@ const actions = ctaButton ? [ctaButton] : [];
 
 <script>
   function initMobileMenu() {
-    const toggleButton = document.querySelector(".ml-1\\.5");
+    const toggleButton = document.getElementById("mobile-menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
 
-    toggleButton?.addEventListener("click", () => {
-      mobileMenu?.classList.toggle("hidden");
+    if (!toggleButton || !mobileMenu) return;
+
+    toggleButton.addEventListener("click", () => {
+      const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+      toggleButton.setAttribute("aria-expanded", (!isExpanded).toString());
+      mobileMenu.classList.toggle("hidden");
     });
 
     document.querySelectorAll(".mobile-dropdown-btn").forEach((button) => {
@@ -715,3 +735,29 @@ const actions = ctaButton ? [ctaButton] : [];
     initShrinkHeader();
   });
 </script>
+
+<style>
+  /* Desktop navigation - hidden on mobile, visible on desktop */
+  .desktop-nav {
+    display: none;
+  }
+  
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+  
+  /* Mobile menu button - visible on mobile, hidden on desktop */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-menu-toggle {
+      display: none;
+    }
+  }
+</style>
