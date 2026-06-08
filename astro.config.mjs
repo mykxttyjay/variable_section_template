@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -8,6 +8,9 @@ import configIntegration from "./vendor/integration/index";
 import icon from "astro-icon";
 import { EnumChangefreq } from "sitemap";
 import vercel from "@astrojs/vercel";
+import emdash from "emdash/astro";
+import react from "@astrojs/react";
+import { emdashDatabase, emdashStorage } from "./src/lib/emdash.config.mjs";
 import { readFileSync, writeFileSync, readdirSync, statSync } from "fs";
 import { resolve, join } from "path";
 import { fileURLToPath } from "url";
@@ -112,7 +115,7 @@ function applyThemeColors(/** @type {string} */ code) {
 /**
  * Vite plugin: syncs site.json brand colors into @theme at build + dev time.
  * Watches site.json and invalidates all CSS modules so Tailwind re-processes
- * the @theme block with fresh colors on every save — no restart needed.
+ * the @theme block with fresh colors on every save ΓÇö no restart needed.
  */
 function themeColorsPlugin() {
   return {
@@ -123,7 +126,7 @@ function themeColorsPlugin() {
       server.watcher.on("change", /** @param {string} changedPath */ (changedPath) => {
         const norm = changedPath.replace(/\\/g, "/");
         if (!norm.endsWith("data/settings/site.json")) return;
-        // Invalidate ALL modules — site.json, site.ts, config.ts,
+        // Invalidate ALL modules ΓÇö site.json, site.ts, config.ts,
         // every .astro component, and all CSS so everything re-reads fresh data
         for (const [, mods] of server.moduleGraph.fileToModulesMap) {
           for (const mod of mods) {
@@ -171,7 +174,7 @@ export default defineConfig({
       lastmod: new Date(),
       filter: (page) => !page.includes("/404"),
       serialize(item) {
-        // Homepage — highest priority, crawled daily
+        // Homepage ΓÇö highest priority, crawled daily
         if (/\/$/.test(item.url) && !item.url.replace(/https?:\/\/[^/]+/, "").replace(/\/$/, "")) {
           return { ...item, changefreq: EnumChangefreq.DAILY, priority: 1.0 };
         }
@@ -191,7 +194,7 @@ export default defineConfig({
         if (item.url.includes("/about-us") || item.url.includes("/contact-us")) {
           return { ...item, changefreq: EnumChangefreq.MONTHLY, priority: 0.7 };
         }
-        // Privacy, Terms — low priority
+        // Privacy, Terms ΓÇö low priority
         if (item.url.includes("/privacy") || item.url.includes("/terms")) {
           return { ...item, changefreq: EnumChangefreq.YEARLY, priority: 0.3 };
         }
@@ -199,6 +202,12 @@ export default defineConfig({
       },
     }),
     configIntegration(),
+    // React renderer required by EmDash's admin panel (TipTap, react-query, etc.)
+    react(),
+    emdash({
+      database: emdashDatabase(),
+      storage: emdashStorage(),
+    }),
     stripCspStyleHashes(),
   ],
   image: {
@@ -215,7 +224,20 @@ export default defineConfig({
   },
   scopedStyleStrategy: "where",
   compressHTML: true,
-  output: "static",
+  // EmDash (admin panel, REST API, live content) requires on-demand rendering.
+  // Individual marketing pages can still opt back into prerendering with
+  // `export const prerender = true` once their content is sourced statically.
+  output: "server",
+  // EmDash auth uses Astro sessions. The Vercel adapter does not provide a
+  // default session driver, so we store sessions in the same Turso/libSQL DB.
+  // Object form (Astro v6+): entrypoint is an absolute path to our custom driver.
+  session: {
+    driver: {
+      entrypoint: fileURLToPath(
+        new URL("./src/lib/session-driver.mjs", import.meta.url)
+      ),
+    },
+  },
   vite: {
     plugins: [themeColorsPlugin(), tailwindcss()],
     resolve: {
