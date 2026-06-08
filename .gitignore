@@ -31,3 +31,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+DEMO_GUIDE.md
+EMDASH_INTEGRATION.md
+PROJECT_DOCUMENTATION.md
