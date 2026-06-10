@@ -120,7 +120,6 @@ h4 {
   color: #102b32;
   font-weight: bold;
   font-size: 15px;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
