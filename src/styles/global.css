@@ -116,7 +116,7 @@ h4 {
   justify-content: space-between;
   gap: 12px;
   padding: 8px 12px;
-  background: #E8F08D;
+  background: #dff39e;
   color: #102b32;
   font-weight: bold;
   font-size: 15px;
@@ -175,11 +175,11 @@ h4 {
 }
 
 .btn-modern:hover .btn-modern-content {
-  color: #E8F08D;
+  color: #dff39e;
 }
 
 .btn-modern:hover .btn-modern-icon {
-  background: #E8F08D;
+  background: #dff39e;
   color: #102b32;
 }
 

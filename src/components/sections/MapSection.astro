@@ -78,14 +78,14 @@ const isExternalLocationHref = (href: string) =>
                       <a
                         href={href}
                         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        class="group inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 bg-white border-2 border-gray-300 rounded hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter shadow-sm hover:shadow-md"
+                        class="group inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 bg-[#102b32] border-2 border-[#102b32] rounded-xl hover:border-[#dff39e] hover:bg-[#dff39e] hover:text-[#102b32] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-lighter shadow-sm hover:shadow-md"
                       >
-                        <span class="flex h-5 w-5 flex-shrink-0 items-center justify-center bg-primary-light text-white group-hover:bg-white group-hover:text-primary transition-colors duration-200">
+                        <span class="flex h-5 w-5 flex-shrink-0 items-center justify-center bg-white text-[#102b32] group-hover:bg-[#102b32] group-hover:text-white transition-colors duration-200">
                           <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                           </svg>
                         </span>
-                        <span class="text-sm font-semibold text-primary-dark group-hover:text-white transition-colors duration-200">{location.name}</span>
+                        <span class="text-sm font-semibold text-white group-hover:text-[#102b32] transition-colors duration-200">{location.name}</span>
                       </a>
                     </li>
                   );
@@ -94,7 +94,7 @@ const isExternalLocationHref = (href: string) =>
             </div>
           )}
           <div
-            class="relative w-full overflow-hidden border border-gray-200 bg-white shadow-lg sm:h-[450px] lg:h-[550px]"
+            class="relative w-full overflow-hidden border border-gray-200 bg-white shadow-lg sm:h-[450px] lg:h-[550px] rounded-3xl"
             data-map-shell
             data-map-src={mapUrl}
             data-map-mode="full"
@@ -109,7 +109,7 @@ const isExternalLocationHref = (href: string) =>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
           {/* Deferred Map Embed */}
           <div
-            class="flex w-full min-h-[14rem] overflow-hidden border border-gray-200 bg-white shadow-lg sm:min-h-[18rem] lg:min-h-[24rem]"
+            class="flex w-full min-h-[14rem] overflow-hidden border border-gray-200 bg-white shadow-lg sm:min-h-[18rem] lg:min-h-[24rem] rounded-3xl"
             data-map-shell
             data-map-src={mapUrl}
             data-map-mode="half"
@@ -124,7 +124,7 @@ const isExternalLocationHref = (href: string) =>
 
           {/* Locations List */}
           {normalizedLocations && normalizedLocations.length > 0 && (
-            <div class="bg-white text-primary-dark p-6 sm:p-8 shadow-lg border-l-4 border-primary-light h-full flex flex-col">
+            <div class="bg-white text-primary-dark p-6 sm:p-8 shadow-lg border-l-4 border-primary-light h-full flex flex-col rounded-3xl">
               <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary-dark">
                 {listTitle}
               </h3>

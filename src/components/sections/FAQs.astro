@@ -53,7 +53,7 @@ const faqSchema = {
     <div class="space-y-3" data-animate-stagger>
       {
         faqs.map((faq) => (
-          <details class="group bg-white border border-slate-100 shadow-[0_4px_25px_-5px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_30px_-5px_rgba(0,107,114,0.08)] hover:border-primary-light/35 transition-all duration-300 overflow-hidden">
+          <details class="group bg-white border border-slate-100 shadow-[0_4px_25px_-5px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_30px_-5px_rgba(0,107,114,0.08)] hover:border-primary-light/35 transition-all duration-300 overflow-hidden rounded-lg">
             <summary
               class="flex justify-between items-center cursor-pointer p-6 hover:bg-slate-50/50 transition-colors duration-300"
               aria-label={`Toggle answer for: ${faq.question}`}
