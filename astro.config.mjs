@@ -150,7 +150,7 @@ export default defineConfig({
   site: siteData.seo?.siteUrl || "https://www.linktothrive.com",
   adapter: vercel({
     webAnalytics: {
-      enabled: process.env.NODE_ENV === "production",
+      enabled: false,
     },
   }),
   // CSP is set via vercel.json headers to avoid Astro auto-hashing
