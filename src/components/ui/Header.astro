@@ -390,12 +390,14 @@ const actions = ctaButton ? [ctaButton] : [];
               {actions.map((action) => (
                 <a
                   href={action.href}
-                  class="btn-clipped px-6 py-2.5 text-xs font-bold uppercase tracking-wider bg-primary-light text-white transition-all duration-300 hover:bg-primary-lighter inline-flex items-center gap-2"
+                  class="btn-modern"
                 >
-                  {action.text}
-                  <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
+                  <span class="btn-modern-content">{action.text}</span>
+                  <span class="btn-modern-icon">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                  </span>
                 </a>
               ))}
             </div>

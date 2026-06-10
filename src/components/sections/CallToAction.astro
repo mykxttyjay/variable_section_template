@@ -48,14 +48,16 @@ const {
                 href={action.href}
                 class={
                     action.variant === "secondary"
-                      ? "btn-clipped inline-flex items-center gap-2 px-8 py-3.5 text-xs font-bold uppercase tracking-wider border border-slate-700 bg-white/5 backdrop-blur-sm text-white hover:bg-white hover:text-slate-900 transition-all duration-300"
-                      : "btn-clipped inline-flex items-center gap-2 px-8 py-3.5 text-xs font-bold uppercase tracking-wider bg-primary-light text-white hover:bg-primary-lighter transition-all duration-300"
+                      ? "btn-modern opacity-90"
+                      : "btn-modern"
                 }
               >
-                {action.text}
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
+                <span class="btn-modern-content">{action.text}</span>
+                <span class="btn-modern-icon">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </span>
               </a>
             ))}
           </div>

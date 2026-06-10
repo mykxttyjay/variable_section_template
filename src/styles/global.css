@@ -107,6 +107,58 @@ h4 {
   left: 125%;
 }
 
+/* ============================================
+   NEW BUTTON STYLE — Light background with dark text and icon box
+   ============================================ */
+.btn-modern {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #E8F08D;
+  color: #102b32;
+  font-weight: bold;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: visible;
+}
+
+.btn-modern-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.btn-modern-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #102b32;
+  color: #E8F08D;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-modern:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 43, 50, 0.2);
+  background: #F0F8A0;
+}
+
+.btn-modern:hover .btn-modern-icon {
+  transform: scale(1.1);
+  background: #0d1f23;
+}
+
 /* Custom Scrollbar Styles for Dropdown */
 .scrollbar-thin {
   scrollbar-width: thin;
