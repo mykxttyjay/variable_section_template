@@ -9,7 +9,7 @@ const { text = "Free Consultation" } = Astro.props;
 <button
   id="floating-cta-button"
   type="button"
-  class="fixed bottom-6 right-6 z-40 px-8 py-3 bg-primary-light text-white font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-3 group shadow-2xl shadow-primary-light/60 border border-primary-lighter/20 hover:border-primary-lighter/50"
+  class="fixed bottom-6 right-6 z-40 px-8 py-4 bg-gradient-to-r from-[#dff39e] to-[#e8f5a8] text-[#102b32] font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-3 group shadow-lg rounded-lg border-0 hover:shadow-xl hover:scale-105"
   style="font-size: 15px;"
   aria-label="Open free consultation popup"
 >
@@ -74,17 +74,16 @@ const { text = "Free Consultation" } = Astro.props;
   @keyframes pulse-glow {
     0%,
     100% {
-      box-shadow: 0 10px 30px rgba(16, 43, 50, 0.3), 0 0 20px rgba(16, 43, 50, 0.2);
+      box-shadow: 0 10px 30px rgba(223, 243, 158, 0.3), 0 0 20px rgba(223, 243, 158, 0.2);
     }
     50% {
-      box-shadow: 0 20px 50px rgba(16, 43, 50, 0.5), 0 0 40px rgba(16, 43, 50, 0.4), inset 0 0 20px rgba(16, 43, 50, 0.1);
+      box-shadow: 0 20px 50px rgba(223, 243, 158, 0.5), 0 0 40px rgba(223, 243, 158, 0.4);
     }
   }
 
   /* Hover state with dramatic lift and glow */
   #floating-cta-button:hover {
     animation: float-in 0s, hover-lift 0.3s ease-out forwards, pulse-glow-hover 0.6s ease-in-out infinite !important;
-    background: linear-gradient(135deg, #102b32 0%, #102b32 100%);
   }
 
   @keyframes hover-lift {
@@ -92,7 +91,7 @@ const { text = "Free Consultation" } = Astro.props;
       transform: translateY(0px);
     }
     to {
-      transform: translateY(-20px) scale(1.08);
+      transform: translateY(-10px) scale(1.08);
     }
   }
 
@@ -100,10 +99,10 @@ const { text = "Free Consultation" } = Astro.props;
   @keyframes pulse-glow-hover {
     0%,
     100% {
-      box-shadow: 0 25px 60px rgba(16, 43, 50, 0.6), 0 0 50px rgba(16, 43, 50, 0.4);
+      box-shadow: 0 15px 50px rgba(223, 243, 158, 0.6), 0 0 40px rgba(223, 243, 158, 0.4);
     }
     50% {
-      box-shadow: 0 30px 80px rgba(16, 43, 50, 0.8), 0 0 70px rgba(16, 43, 50, 0.6), inset 0 0 30px rgba(16, 43, 50, 0.2);
+      box-shadow: 0 20px 70px rgba(223, 243, 158, 0.8), 0 0 60px rgba(223, 243, 158, 0.6);
     }
   }
 

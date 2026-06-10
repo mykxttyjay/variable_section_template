@@ -10,16 +10,16 @@ interface Props {
 const { title, description, ctaText, ctaLink, keyPoints = [] } = Astro.props;
 ---
 
-<section class="py-12 sm:py-16 md:py-24 bg-neutral-light">
+<section style="background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.10) 0%, transparent 65%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.09) 0%, transparent 65%), radial-gradient(ellipse at 80% 10%, rgba(0,107,114,0.06) 0%, transparent 50%);" class="py-12 sm:py-16 md:py-24">
   <div class="max-w-6xl mx-auto px-2 sm:px-3 lg:px-4">
     <div
-      class="bg-white p-8 md:p-12 border-t-4 border-primary-light shadow-lg"
+      class="max-w-3xl mx-auto"
       data-animate="zoom-in"
     >
-      <div class="max-w-3xl mx-auto text-center mb-8 sm:mb-12">
+      <div class="mb-8 sm:mb-12">
         {
           title && (
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark mb-4 sm:mb-6">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark mb-4 sm:mb-6 text-center">
               {title}
             </h2>
           )
@@ -27,7 +27,7 @@ const { title, description, ctaText, ctaLink, keyPoints = [] } = Astro.props;
         {
           description && (
             <p
-              class="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8"
+              class="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto text-center"
               set:html={description}
             />
           )
