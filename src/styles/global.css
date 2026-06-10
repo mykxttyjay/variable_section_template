@@ -671,3 +671,15 @@ section.bg-gray-50 {
     animation: none;
   }
 }
+
+/* ============================================
+   HERO TITLE HOVER EFFECT
+   ============================================ */
+#hero-title {
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+#hero-title:hover {
+  color: #ff6b35 !important;
+}

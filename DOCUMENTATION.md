@@ -43,34 +43,50 @@
 
 ## EmDash Integration Process
 
-### Setup
+### Setup Process
 ```bash
 npm run cms:secret       # Generate encryption key → add to .env
 npm run cms:init        # Initialize EmDash database
 npm run cms:seed        # Optional: seed initial content
 npm run dev             # Start dev server
-# Access admin: http://localhost:3000/_emdash/admin
 ```
 
-### Collections
+### Admin Panel
+Access the EmDash admin interface at: `http://localhost:3000/_emdash/admin`
+
+### Collections Used
 - **Pages**: Homepage, about, contact with title, description, sections, metadata
 - **Solutions**: Services with category (foundational, lead-gen, branding-awareness), icon, thumbnail, CTA
-- **Indoor Billboards**: Similar to Solutions
+- **Indoor Billboards**: Product pages similar to Solutions structure
 - **Locations**: Location-specific pages with `{city}`, `{state}`, `{business}` token replacement
 
-### Content Access
+### Content Management
+
+Content is stored in EmDash and rendered dynamically through reusable section components:
+
+- **Hero** — Banner sections with title, description, CTA, and optional hero image
+- **Features** — Feature grids, cards, and feature-with-image layouts
+- **Services** — Service offerings and solutions grid
+- **FAQs** — Frequently asked questions sections
+- **Contact Forms** — Contact form sections with validation and submission handling
+- **Call-to-Action Sections** — CTAs, CTALight, CTABanner for promotional content
+
+#### Content Access
 ```typescript
 const entry = await getEntry('_emdash', 'slug');
 const entries = await getEntries('_emdash');
 const localized = localizeData(entry.data); // Replaces {city}, {state}, {business}
 ```
 
-### Section Rendering
+#### Section Rendering
 Sections are JSON objects: `{ "section": "Hero", "order": 1, ...properties }`
-- Each section type maps to a component: Hero → `<Hero />`, FAQs → `<FAQs />`, etc.
+- Each section type maps to a component: `Hero` → `<Hero />`, `FAQs` → `<FAQs />`, etc.
+- Sections are sorted by `order` property and rendered sequentially
 
-### Publishing Workflow
-Draft → Preview → (Optional) Schedule → Publish → Live (no rebuild needed)
+#### Publishing Workflow
+Draft → Preview → (Optional) Schedule → Publish → Live
+
+**Content updates become available immediately after publishing without rebuilding the website.**
 
 ### Media Management
 - Dev: Local filesystem (`.emdash/uploads/`)
