@@ -1,6 +1,26 @@
 @import "tailwindcss";
 
 /* ============================================
+   MARQUEE ANIMATION
+   ============================================ */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.hover\:pause-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ============================================
    GLOBAL COLOR SCHEME - TAILWIND V4
    Change these 4 colors to update the entire site
    ============================================ */

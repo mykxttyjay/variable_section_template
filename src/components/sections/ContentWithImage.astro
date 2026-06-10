@@ -78,7 +78,7 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
 ---
 
 <section
-  class={`py-16 sm:py-20 md:py-24 ${bgClass}`}
+  class={`pt-8 sm:pt-12 md:pt-16 pb-4 sm:pb-6 md:pb-8 ${bgClass}`}
   style={bgStyle}
 >
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
@@ -148,13 +148,13 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
       {
         image && (
           <div
-            class="w-full lg:w-1/2 relative overflow-hidden self-stretch rounded-3xl"
+            class="w-full lg:w-1/2 relative overflow-hidden self-start rounded-3xl max-h-[650px] mt-12"
             data-animate={imagePosition === "left" ? "fade-right" : "fade-left"}
           >
             <img
               src={image}
               alt={title || "Section image"}
-              class="w-full h-full object-cover absolute inset-0"
+              class="w-full h-full object-cover"
               loading="lazy"
               width={665}
               height={457}

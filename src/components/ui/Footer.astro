@@ -21,7 +21,7 @@ const currentYear = new Date().getFullYear();
           <img
             src="/images/logo/dealer-logo.svg"
             alt={siteConfig.logo.alt}
-            class="h-16 w-auto brightness-0 invert"
+            class="h-16 w-auto"
             width="182"
             height="64"
             loading="lazy"
@@ -118,14 +118,14 @@ const currentYear = new Date().getFullYear();
                       rel="noopener noreferrer"
                       class="flex items-start gap-3 text-sm text-white hover:text-accent transition"
                     >
-                      <Icon name="tabler:map-pin" class="w-5 h-5 text-primary-light flex-shrink-0 mt-0.5" />
+                      <Icon name="tabler:map-pin" class="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
                       <span>{siteConfig.location.fullAddress || siteConfig.location.address || `${siteConfig.location.city}, ${siteConfig.location.state}`}</span>
                     </a>
                   </li>
                   {siteConfig.contact.phoneFormatted && (
                     <li>
                       <a href={`tel:${siteConfig.contact.phone}`} class="flex items-center gap-3 text-sm text-white hover:text-accent transition">
-                        <Icon name="tabler:phone" class="w-5 h-5 text-primary-light flex-shrink-0" />
+                        <Icon name="tabler:phone" class="w-5 h-5 text-white flex-shrink-0" />
                         <span>{siteConfig.contact.phoneFormatted}</span>
                       </a>
                     </li>
@@ -133,7 +133,7 @@ const currentYear = new Date().getFullYear();
                   {siteConfig.contact.email && (
                     <li>
                       <a href={`mailto:${siteConfig.contact.email}`} class="flex items-center gap-3 text-sm text-white hover:text-accent transition">
-                        <Icon name="tabler:mail" class="w-5 h-5 text-primary-light flex-shrink-0" />
+                        <Icon name="tabler:mail" class="w-5 h-5 text-white flex-shrink-0" />
                         <span>{siteConfig.contact.email}</span>
                       </a>
                     </li>
