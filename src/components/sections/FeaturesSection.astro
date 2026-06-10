@@ -55,7 +55,7 @@ const bgStyle = sectionBackground === "gradient"
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {features.map((feature: any) => (
-        <div class="group relative p-8 bg-gray-50 hover:bg-white transition-all duration-300 flex flex-col items-start gap-5 border-2 border-gray-300 hover:border-primary-light shadow-lg hover:shadow-xl hover:-translate-y-1 rounded-lg overflow-hidden">
+        <div class="group relative p-8 bg-gray-50 hover:bg-white transition-all duration-300 flex flex-col items-start gap-5 border-2 border-gray-300 hover:border-primary-light shadow-lg hover:shadow-xl hover:-translate-y-1 rounded-3xl overflow-hidden">
           {feature.icon && (
             <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary-light to-primary text-white flex items-center justify-center group-hover:scale-125 transition-transform duration-300 rounded-lg shadow-lg">
               <Icon name={feature.icon} class="w-8 h-8" />
