@@ -26,6 +26,15 @@
    ============================================ */
 @theme {
   /* ============================================
+     RESPONSIVE BREAKPOINTS
+     ============================================ */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* ============================================
      Brand colors — synced from site.json at build time
      by the themeColorsPlugin() Vite plugin.
      DO NOT edit these manually; change site.json instead.
