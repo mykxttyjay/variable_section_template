@@ -1,76 +1,38 @@
-# Variable Section Template - Astro Dealer Website
+# Variable Section Template - Modern Marketing Website
 
-A modern, production-ready Astro website with server-side rendering (SSR) and integrated EmDash CMS for real-time content management. Built for performance, SEO, and seamless content updates.
+A production-ready Astro website with **server-side rendering (SSR)**, **real-time CMS**, and **high-performance optimizations**. Built for marketing agencies and dealerships managing multiple locations and dynamic content.
 
-## 🚀 Features
+## ✨ Key Features
 
-- ✅ **Server-Side Rendering (SSR)** - On-demand rendering via Vercel Edge Functions
-- ✅ **EmDash CMS Integration** - Real-time content management with Turso/libSQL database (no rebuild required)
-- ✅ **Modern UI Design** - Clip-path styling, gradient backgrounds, glassmorphism effects
-- ✅ **Dynamic Content Management** - Manage solutions, locations, billboards, and pages via CMS
-- ✅ **Real-Time Theming** - Dynamic color updates from site.json with CSS variables
-- ✅ **SEO Optimized** - Structured data, meta tags, Open Graph, XML sitemap, breadcrumbs
-- ✅ **View Transitions** - SPA-like navigation without full page reloads
-- ✅ **Responsive Design** - Mobile-first approach with full accessibility
-- ✅ **Tailwind CSS 4** - Dynamic theming with real-time color sync
-- ✅ **TypeScript** - Full type safety across the project
-- ✅ **Performance Optimized** - Lighthouse 90+, Core Web Vitals targets (LCP < 2.5s, FID < 100ms, CLS < 0.1)
-- ✅ **Admin Dashboard** - EmDash admin at `/_emdash/admin`
-- ✅ **Vercel Deployment** - Optimized for serverless with Edge caching
-
-## 📁 Project Structure
-
-```
-/
-├── src/
-│   ├── components/
-│   │   ├── ui/                  # UI components (Header, Footer, PopupModal, etc.)
-│   │   ├── sections/            # Page section components (Hero, Features, Services, etc.)
-│   │   └── seo/                 # SEO components (StructuredData, Meta tags)
-│   ├── pages/                   # Dynamic routes (solutions, locations, billboards)
-│   ├── layouts/                 # Page layouts (PageLayout, BaseLayout)
-│   ├── lib/
-│   │   ├── emdash.config.mjs    # EmDash CMS configuration
-│   │   ├── content.ts           # Content utility functions
-│   │   └── session-driver.mjs   # Astro session management
-│   ├── data/
-│   │   ├── pages/               # Static page data (JSON)
-│   │   ├── settings/            # Site configuration and theme colors
-│   │   └── media/               # Media assets
-│   ├── config/                  # Site configuration
-│   ├── styles/                  # Global CSS with theme variables
-│   └── middleware.ts            # EmDash authentication middleware
-├── .emdash/
-│   └── seed.json                # EmDash database seed data
-├── scripts/                     # Utility scripts for EmDash
-│   ├── apply-seed.mjs
-│   ├── generate-seed.mjs
-│   └── check-state.mjs
-├── public/                      # Static assets
-├── astro.config.mjs             # Astro configuration with EmDash setup
-├── tailwind.config.cjs          # Tailwind CSS configuration
-└── vercel.json                  # Vercel deployment configuration
-```
+- ✅ **Server-Side Rendering (SSR)** - On-demand rendering via Vercel Edge Functions (no static generation)
+- ✅ **EmDash CMS** - Real-time content management (no rebuilds, live updates)
+- ✅ **Turso Database** - Edge-accessible libSQL with Vercel integration
+- ✅ **20+ Section Components** - Pre-built: Hero, Features, FAQs, Forms, Services, CTAs, etc.
+- ✅ **Performance Optimized** - Lighthouse 90+, LCP < 2.5s, CLS < 0.1 (Core Web Vitals)
+- ✅ **Image Optimization** - Sharp + AVIF, lazy loading, 1-year caching
+- ✅ **Dynamic Theming** - Real-time brand color updates from site.json
+- ✅ **SEO Ready** - Structured data, meta tags, XML sitemap, Open Graph
+- ✅ **Modern Design** - Glassmorphism, clip-path elements, smooth animations
+- ✅ **Mobile-First** - Fully responsive with accessibility compliance
+- ✅ **View Transitions** - SPA-like navigation between pages
+- ✅ **TypeScript** - Full type safety throughout
 
 ## 🛠️ Quick Start
 
 ### Prerequisites
-
 - Node.js 22.12.0 - 24.x
-- npm or yarn
-- Turso account (for production)
 - Vercel account (for deployment)
+- Turso account (for production database)
 
-### Installation
-
+### Installation & Setup
 ```bash
+# Install dependencies
 npm install
 
-# Generate EmDash encryption key
+# Generate EmDash encryption key (add to .env)
 npm run cms:secret
-# Copy output to .env as EMDASH_ENCRYPTION_KEY
 
-# Initialize EmDash database
+# Initialize database
 npm run cms:init
 
 # Start development server
@@ -79,81 +41,53 @@ npm run dev
 
 **Access:**
 - Website: `http://localhost:3000`
-- EmDash Admin: `http://localhost:3000/_emdash/admin`
+- Admin Panel: `http://localhost:3000/_emdash/admin`
 
 ### Build & Deploy
-
 ```bash
-npm run build    # Local build → .vercel/output/
-git push         # Auto-deploys to Vercel
+npm run build              # Local production build
+git push origin main       # Auto-deploys to Vercel
 ```
 
-## 📝 Content Management
+## 📝 Content Management (EmDash CMS)
 
-### EmDash CMS - No Rebuilds Required
+### No Rebuilds Required
+Content updates are **live immediately** without rebuilding the site.
 
-Content updates are **live immediately** without rebuild:
-
-1. Navigate to `http://localhost:3000/_emdash/admin` (dev) or `https://yourdomain.com/_emdash/admin` (prod)
-2. Edit content in collections
-3. Publish → Changes appear instantly on live site
+**Workflow:** Edit in Admin → Publish → Live
 
 ### Collections
+| Collection | Purpose | Key Fields |
+|-----------|---------|-----------|
+| **Pages** | Homepage, about, contact | Title, description, sections, SEO |
+| **Solutions** | Services (3 categories) | Category, icon, thumbnail, CTA |
+| **Locations** | Location-specific pages | `{city}`, `{state}` token replacement |
+| **Indoor Billboards** | Product pages | Icon, thumbnail, CTA, order |
 
-| Collection | Purpose | Features |
-|-----------|---------|----------|
-| **Pages** | Homepage, about, contact | Title, description, sections, SEO metadata |
-| **Solutions** | Services with 3 categories | Category, icon, thumbnail, CTA, order |
-| **Locations** | Location-specific pages | `{city}`, `{state}`, `{business}` token replacement |
-| **Indoor Billboards** | Billboard products | Icon, thumbnail, CTA, order |
+### Admin Access
+Navigate to `http://yoursite.com/_emdash/admin` to manage all content.
 
-### Dynamic Token Replacement
+## 🎨 Customization
 
-All content supports auto-replacement:
-- `{city}` → Denver
-- `{state}` → Colorado  
-- `{business}` → LinktoThrive
-
-Perfect for location-based landing pages.
-
-### Publishing Workflow
-
-Draft → Preview → (Optional) Schedule → Publish → **Live**
-
-## 🎨 Design & Customization
-
-### Real-Time Theme Colors
-
-Edit `src/data/settings/site.json` to update colors instantly (no rebuild):
-
+### Dynamic Theme Colors
+Edit `src/data/settings/site.json` to instantly update brand colors (no rebuild):
 ```json
 {
   "colors": {
-    "primary": "#4A8D2A",
-    "primaryLight": "#7CB342",
-    "primaryDark": "#2D5016",
-    "secondary": "#FFB81C",
-    "neutral": "#F9F9F7"
+    "primary": "#0D2A63",
+    "primaryLight": "#F5BF3A",
+    "secondary": "#00adb5"
   }
 }
 ```
 
-CSS variables auto-sync via Vite plugin.
+### Section Components
+20+ pre-built components: Hero, Features, FAQs, Forms, Services, CTAs, Maps, and more.
 
-### Section Components (20+)
-
-Flexible, reusable components for content:
-- **Hero**, **ServicesGrid**, **Features**, **FeaturesWithImage**
-- **ContentWithImage**, **ContentWithKeypoints**, **FAQs**, **MapSection**
-- **CallToAction**, **TeamSection**, **FormSection**, **ClientShowcase**
-- And more...
-
-### Key Design Features
-
-- **Angled/Clipped Elements** - Modern geometric styling
-- **Gradient Backgrounds** - Visual hierarchy with brand colors
-- **Glassmorphism** - Backdrop filters for premium feel
-- **Animations** - Scroll-triggered on desktop, disabled on mobile (accessibility)
+### Design Features
+- Modern clip-path elements & gradient backgrounds
+- Glassmorphism effects with backdrop blur
+- Scroll animations (desktop only, respects accessibility)
 
 ## 🌍 Routes
 
@@ -163,107 +97,64 @@ Flexible, reusable components for content:
 
 ## 📚 Tech Stack
 
-- **Framework:** Astro 6.0.8 (SSR via Vercel)
-- **CMS:** EmDash 0.16.1 (real-time content management)
-- **Database:** Turso (libSQL) + SQLite (dev)
-- **Styling:** Tailwind CSS 4.3.0 with dynamic theming
-- **Hosting:** Vercel (serverless Edge Functions)
+- **Framework:** Astro 6 (SSR via Vercel)
+- **CMS:** EmDash 0.16.1
+- **Database:** Turso (libSQL)
+- **Styling:** Tailwind CSS 4
+- **Hosting:** Vercel Edge Functions
 - **Language:** TypeScript 5.9.3
-- **Image Optimization:** Sharp 0.34.5
-- **UI:** React 19 (EmDash admin only)
-- **Icons:** Astro Icon
-- **Sitemap:** @astrojs/sitemap
 - **Node:** 22.12.0 - 24.x
 
-## 📄 Available Commands
+## 📋 Available Commands
 
 ```bash
-npm run dev              # Start dev server
+npm run dev              # Development server
 npm run build            # Production build
-npm run preview          # Preview build locally
+npm run preview          # Preview build
 npm run cms:secret       # Generate encryption key
-npm run cms:init         # Initialize EmDash
+npm run cms:init         # Initialize CMS
 npm run cms:seed         # Seed initial data
-npm run cms:export       # Export content
 ```
 
-## 📖 Learn More
+## 🚀 Deployment
 
-See [DOCUMENTATION.md](./DOCUMENTATION.md) for complete technical details on design approach, major changes, EmDash integration, performance optimization, and deployment.
-
-- [Astro Docs](https://docs.astro.build)
-- [EmDash Docs](https://emdash.dev)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Turso](https://turso.tech)
-- [Vercel](https://vercel.com/docs)
-
-## 🚀 Deployment on Vercel
-
-### Environment Variables
-
-**Required** (set in Vercel):
+### Set Environment Variables (Vercel)
 ```
 TURSO_DATABASE_URL=libsql://your-db.turso.io
 TURSO_AUTH_TOKEN=your-auth-token
-EMDASH_ENCRYPTION_KEY=your-encryption-key
-```
-
-**Optional** (S3 media storage):
-```
-S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY
-```
-
-### Setup Turso Database
-
-```bash
-turso db create linktothrive
-turso db tokens create linktothrive
-turso db show linktothrive --http  # Get connection string
-npm run cms:init                   # Create schema in Turso
+EMDASH_ENCRYPTION_KEY=your-key
 ```
 
 ### Deploy
-
 ```bash
-git push origin main  # Vercel webhook auto-deploys
-# Or manual: vercel deploy
+git push origin main    # Auto-deploys to Vercel
 ```
 
-### URLs
+**URLs:**
+- Production: `https://www.linktothrive.com`
+- Admin: `https://www.linktothrive.com/_emdash/admin`
 
-- **Production**: `https://www.linktothrive.com`
-- **Admin**: `https://www.linktothrive.com/_emdash/admin`
-- **Preview**: `https://[branch]---[project].vercel.app`
+## 🔗 Learn More
 
-### Security Headers
-
-Configured in `vercel.json`:
-- X-Frame-Options, X-Content-Type-Options, Referrer-Policy
-- CSP for public pages, relaxed CSP for admin
-- Admin routes: noindex, nofollow
+- [Full Documentation](./DOCUMENTATION.md)
+- [Astro Docs](https://docs.astro.build)
+- [EmDash CMS](https://emdash.dev)
+- [Turso Database](https://turso.tech)
+- [Vercel Docs](https://vercel.com/docs)
 
 ## ⚡ Performance Optimizations
 
-### Core Targets
+**Core Web Vitals Targets:** LCP < 2.5s | FID < 100ms | CLS < 0.1 | Lighthouse 90+
 
-- **Lighthouse**: 90+ (Performance, Accessibility, Best Practices, SEO)
-- **LCP**: < 2.5s | **FID**: < 100ms | **CLS**: < 0.1
+**Key Techniques:**
+- Image optimization (Sharp + AVIF, lazy loading, 1-year cache)
+- Single CSS bundle (no code splitting, inlined styles)
+- HTML compression & minification
+- Browser/CDN caching (Vercel Edge)
+- View Transitions (SPA-like navigation)
+- Font strategy (`display: swap` prevents layout shift)
+- Server-side rendering (on-demand)
+- Mobile-first design (animations disabled on mobile)
+- Security headers configured in vercel.json
 
-### Key Techniques
-
-1. **Single CSS Bundle** - No code splitting for better compression
-2. **Image Optimization** - Sharp service with AVIF conversion and lazy loading
-3. **Dynamic Imports** - Heavy components loaded on-demand
-4. **Font Strategy** - Preloading with `display: swap`
-5. **View Transitions** - SPA-like navigation without full reloads
-6. **Request/Response Streaming** - Progressive HTML rendering
-7. **1-Year Caching** - Static assets cached with hash-based filenames
-8. **Mobile-First Animations** - No animations on mobile, scroll-triggered on desktop
-
-### Monitoring
-
-Use [Google PageSpeed Insights](https://pagespeed.web.dev) for real-world Core Web Vitals.
-
-## 📄 License & Support
-
-MIT License. For issues or detailed documentation, see [DOCUMENTATION.md](./DOCUMENTATION.md).
+**Monitor:** [Google PageSpeed Insights](https://pagespeed.web.dev)

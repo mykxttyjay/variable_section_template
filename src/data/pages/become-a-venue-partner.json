@@ -31,6 +31,8 @@
       "title": "Why Do Venues Want to Join Our Network",
       "description": "",
       "order": 3,
+      "carousel": true,
+      "cardsPerBatch": 3,
       "features": [
         {
           "title": "Network Advertising",
