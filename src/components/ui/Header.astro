@@ -183,7 +183,7 @@ const actions = ctaButton ? [ctaButton] : [];
                     {/* Mega Menu for Solutions */}
                     {link.text === "Solutions" ? (
                       <div class="dropdown-menu absolute left-1/2 -translate-x-1/2 mt-2 2xl:w-[1000px] xl:w-[550px] lg:w-[450px] w-[400px] max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
-                        <div class="shadow-xl bg-white border border-gray-200 overflow-hidden">
+                        <div class="shadow-xl bg-white border-2 border-gray-300 overflow-hidden rounded-2xl ring-1 ring-gray-400">
                           <div class="grid 2xl:grid-cols-[1fr_280px] grid-cols-1 2xl:divide-x divide-gray-100">
                             {/* Categories Column - Full visibility, no scroll */}
                             <div class="relative">
@@ -238,10 +238,10 @@ const actions = ctaButton ? [ctaButton] : [];
                                             {sublink.links.map((nestedLink) => (
                                               <a
                                                 href={nestedLink.href}
-                                                class="group/item flex items-start gap-3 px-3 py-3 hover:bg-neutral transition-all border-l-2 border-transparent hover:border-primary-light"
+                                                class="group/item flex items-start gap-3 px-3 py-3 hover:bg-neutral transition-all border-l-2 border-transparent hover:border-primary-light rounded-lg"
                                               >
                                                 {nestedLink.icon && (
-                                                  <div class="flex-shrink-0 w-8 h-8 bg-neutral flex items-center justify-center group-hover/item:bg-primary-light transition-colors">
+                                                  <div class="flex-shrink-0 w-8 h-8 bg-neutral flex items-center justify-center group-hover/item:bg-primary-light transition-colors rounded-md">
                                                     <Icon
                                                       name={nestedLink.icon}
                                                       class="w-4 h-4 text-primary group-hover/item:text-white transition-colors"
@@ -253,7 +253,7 @@ const actions = ctaButton ? [ctaButton] : [];
                                                     {nestedLink.text}
                                                   </div>
                                                   {nestedLink.description && (
-                                                    <div class="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                                                    <div class="text-xs text-gray-500 mt-0.5">
                                                       {nestedLink.description}
                                                     </div>
                                                   )}
@@ -322,8 +322,8 @@ const actions = ctaButton ? [ctaButton] : [];
                       </div>
                     ) : (
                       /* Redesigned dropdown — sharp corners, accent left bar, clean layout */
-                      <div class="dropdown-menu absolute left-0 lg:left-auto lg:right-0 mt-3 w-72 max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
-                        <div class="bg-white border border-gray-200 shadow-xl overflow-hidden">                          <div class="py-3">
+                      <div class="dropdown-menu absolute left-0 lg:left-auto lg:right-0 mt-3 w-96 max-w-[calc(100vw-2rem)] opacity-0 invisible pointer-events-none transition-all duration-200 z-50">
+                        <div class="bg-white border-2 border-gray-300 shadow-xl overflow-hidden rounded-2xl ring-1 ring-gray-400">                          <div class="py-3">
                             {link.href && (
                               <a
                                 href={link.href}
@@ -335,14 +335,14 @@ const actions = ctaButton ? [ctaButton] : [];
                                 </svg>
                               </a>
                             )}
-                            <div class="space-y-0.5">
+                            <div class="space-y-2 p-2">
                               {link.links.map((sublink) => (
                                 <a
                                   href={sublink.href}
-                                  class="group/item flex items-center gap-3 px-4 py-3 hover:bg-neutral transition-all border-l-2 border-transparent hover:border-primary-light"
+                                  class="group/item flex items-center gap-3 px-4 py-3 hover:bg-neutral transition-all border-l-2 border-transparent hover:border-primary-light rounded-lg hover:rounded-lg"
                                 >
                                   {sublink.icon && (
-                                    <div class="flex-shrink-0 w-8 h-8 bg-neutral flex items-center justify-center group-hover/item:bg-primary-light transition-colors">
+                                    <div class="flex-shrink-0 w-8 h-8 bg-neutral flex items-center justify-center group-hover/item:bg-primary-light transition-colors rounded-md">
                                       <Icon
                                         name={sublink.icon}
                                         class="w-4 h-4 text-primary group-hover/item:text-white transition-colors"
@@ -354,7 +354,7 @@ const actions = ctaButton ? [ctaButton] : [];
                                       {sublink.text}
                                     </div>
                                     {sublink.description && (
-                                      <div class="text-xs text-gray-500 mt-0.5 line-clamp-1">
+                                      <div class="text-xs text-gray-500 mt-0.5">
                                         {sublink.description}
                                       </div>
                                     )}

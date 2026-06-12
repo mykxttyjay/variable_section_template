@@ -170,11 +170,6 @@
           "icon": "tabler:map-pin"
         },
         {
-          "title": "Become a Venue Partner",
-          "description": "Own a high-traffic venue? <strong><a href='/indoor-billboards/become-a-venue-partner' style='text-decoration: none; color: inherit;'>Join our network and monetize your space</a></strong> while promoting your business across other locations.",
-          "icon": "tabler:building-store"
-        },
-        {
           "title": "Get Started Today",
           "description": "Ready to launch your campaign? <strong><a href='/contact-us' style='text-decoration: none; color: inherit;'>Contact our team for a free consultation</a></strong> and discover how screen advertising can transform your business.",
           "icon": "tabler:rocket"
