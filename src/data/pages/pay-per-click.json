@@ -21,7 +21,7 @@
     {
       "section": "ContentWithImage",
       "title": "Pay-Per-Click (PPC)",
-      "background": "primary-dark",
+      "sectionBackground": "gradient-green",
       "description": "Google Pay-Per-Click (PPC) Advertising is key to remaining top-of-mind and at the top of search channels. With PPC, you're not just casting a wide net; you're strategically targeting individuals who are actively seeking products or services like yours. This focused approach maximizes the chances of engaging with high-intent users, leading to more efficient spending and greater exposure for your advertising budget.",
       "image": "/images/ppc-content.avif",
       "order": 2

@@ -21,7 +21,7 @@
     {
       "section": "ContentWithImage",
       "title": "Google Business Profile Management",
-      "background": "primary-dark",
+      "sectionBackground": "gradient-green",
       "imagePosition": "left",
       "description": "Our Google Business Profile Management service offers a dedicated account specialists who expertly optimize your profile. They will handle everything from weekly posts to photo uploads. With us, your Google presence will be professionally managed, leaving you to focus on what you do best - running your business. <strong>Looking to maximize your online visibility?</strong> Pair GBP management with a professional <strong><a href='/solutions/foundational/website-design' style='text-decoration: underline; color: inherit;'>website</a></strong> for the ultimate digital presence.",
       "image": "/images/google-business-profile-content.jpg",

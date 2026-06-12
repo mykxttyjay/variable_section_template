@@ -8,7 +8,7 @@ interface Props {
   image?: string;
   imagePosition?: "left" | "right";
   background?: string;
-  sectionBackground?: "gradient" | "white";
+  sectionBackground?: "gradient" | "gradient-green" | "white";
 }
 
 const {
@@ -30,6 +30,9 @@ let isDarkBg = false;
 // Check if sectionBackground overrides background
 if (sectionBackground === "gradient") {
   bgStyle = "background-color: #f9f9f7; background-image: radial-gradient(ellipse at 0% 0%, rgba(0,107,114,0.10) 0%, transparent 65%), radial-gradient(ellipse at 100% 100%, rgba(0,173,181,0.09) 0%, transparent 65%);";
+  isDarkBg = false;
+} else if (sectionBackground === "gradient-green") {
+  bgStyle = "background-color: #f9f9f7; background-image: radial-gradient(ellipse at 100% 0%, rgba(0,107,114,0.10) 0%, transparent 65%), radial-gradient(ellipse at 0% 100%, rgba(0,173,181,0.09) 0%, transparent 65%), radial-gradient(ellipse at 50% 50%, rgba(0,107,114,0.05) 0%, transparent 70%);";
   isDarkBg = false;
 } else if (sectionBackground === "white") {
   bgClass = "bg-white";
@@ -78,7 +81,7 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
 ---
 
 <section
-  class={`pt-8 sm:pt-12 md:pt-16 pb-4 sm:pb-6 md:pb-8 ${bgClass}`}
+  class={`pt-8 sm:pt-12 md:pt-16 pb-8 sm:pb-12 md:pb-16 ${bgClass || ""}`}
   style={bgStyle}
 >
   <div class="max-w-7xl mx-auto px-2 sm:px-3 lg:px-4">
@@ -134,10 +137,6 @@ const eyebrowColorClass = isDarkBg ? "text-primary-lighter" : "text-primary";
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
                   </svg>
                 </span>
-              </a>
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
               </a>
             )
           }

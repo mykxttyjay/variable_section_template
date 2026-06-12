@@ -21,7 +21,7 @@
     {
       "section": "ContentWithImage",
       "title": "Graphic Design",
-      "background": "primary-dark",
+      "sectionBackground": "gradient-green",
       "description": "Graphic design holds a pivotal role in shaping your company's identity and marketing strategy, so it's crucial not to entrust it to just anyone. Whether it's a dazzling new logo, a complete rebrand, or captivating flyers, our experienced in-house designers are prepared to transform your vision into reality with exceptional services.",
       "image": "/images/graphic-design.avif",
       "order": 2

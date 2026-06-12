@@ -21,7 +21,7 @@
     {
       "section": "ContentWithImage",
       "title": "Custom Websites",
-      "background": "primary-dark",
+      "sectionBackground": "gradient-green",
       "imagePosition": "left",
       "description": "Every business is unique, and your website should be too. We don't use cookie-cutter templates, we build custom websites tailored to your brand, your goals, and your customers. From sleek designs to powerful functionality, we create websites that stand out and deliver results.",
       "image": "/images/website-design-content.avif",

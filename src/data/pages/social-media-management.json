@@ -21,7 +21,7 @@
     {
       "section": "ContentWithImage",
       "title": "Social Media Management",
-      "background": "primary-dark",
+      "sectionBackground": "gradient-green",
       "description": "Connect with your target audience on social media to boost engagement and social credibility. We'll help amplify your brand story with engaging graphics and on-trend content. Social Media Management (SMM) serves as a catalyst for cultivating brand loyalty and establishing your business's competitive position as a trusted leader in your industry.",
       "image": "/images/reach-more-people.avif",
       "order": 2
